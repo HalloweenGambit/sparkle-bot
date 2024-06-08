@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
-dotenv.config();
+const envFile =
+  process.env.NODE_ENV === "production" ? ".env" : ".env.development";
+dotenv.config({ path: envFile });
 
 import { Client, GatewayIntentBits } from "discord.js";
 
@@ -9,11 +11,15 @@ const client = new Client({
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.MessageContent,
   ],
 });
 
+console.log(`running in ${process.env.NODE_ENV}`);
 client.login(process.env.DISCORD_TOKEN);
 
-client.on("messageCreate", async (message) => {
-  console.log(message);
+client.once("ready", () => {
+  console.log("Ready!");
 });
+
+export default client;
