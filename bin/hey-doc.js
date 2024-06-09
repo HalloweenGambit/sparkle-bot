@@ -7,6 +7,8 @@ export default {
     .setDescription("doc brown responds!"),
   async execute(interaction) {
     // const response = await askDoc(interaction.data);
-    await interaction.reply(response);
+    await interaction.reply(
+      `f*ck you marty! I'm stuck in the past now you bitch!!`
+    );
   },
 };

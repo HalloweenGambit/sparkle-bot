@@ -1,10 +1,14 @@
 {
   "dependencies": {
     "@google/generative-ai": "^0.2.1",
+    "@neondatabase/serverless": "^0.9.3",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.31.2",
     "fs": "^0.0.1-security",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "postgres": "^3.4.4",
+    "supabase": "^1.172.2"
   },
   "name": "node-js-gemini",
   "type": "module",
@@ -20,6 +24,7 @@
   "license": "ISC",
   "description": "A discord bot that uses natural language processing to answer user questions",
   "devDependencies": {
+    "drizzle-kit": "^0.22.6",
     "nodemon": "^3.1.3"
   }
 }
