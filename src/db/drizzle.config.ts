@@ -3,10 +3,9 @@ import dotenvFlow from "dotenv-flow";
 
 // Load environment variables
 dotenvFlow.config();
+const DB_URL = process.env.DB_URL;
 
-export const DEV_URL = process.env.DEV_URL;
-
-if (!DEV_URL) {
+if (!DB_URL) {
   throw new Error("DEV_URL is not defined in the environment variables.");
 }
 
@@ -20,6 +19,6 @@ export default defineConfig({
     schema: "public", // used in PostgreSQL only and defaults to `drizzle`
   },
   dbCredentials: {
-    url: DEV_URL,
+    url: DB_URL,
   },
 });

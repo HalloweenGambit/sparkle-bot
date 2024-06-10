@@ -1,19 +1,15 @@
-import dotenv from "dotenv";
+import dotenv from "dotenv-flow";
 import fs from "fs/promises";
 import { readdirSync } from "fs";
+import path, { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import path, { dirname, join } from "path";
 import { Client, GatewayIntentBits, Collection } from "discord.js";
-import { registerCommands } from "./src/commands/utils/registerCommands.js";
+import { registerCommands } from "./src/bot/commands/utils/registerCommands.js";
 
-// Define __filename and __dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+dotenv.config();
 
-// Load environment variables
-const envFile =
-  process.env.NODE_ENV === "production" ? ".env" : ".env.development";
-dotenv.config({ path: envFile });
+// Get the directory name of the current module
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Initialize the Discord client
 const client = new Client({
@@ -29,13 +25,13 @@ const client = new Client({
 // Function to load all event listeners
 const loadEventListeners = async () => {
   const eventListenerFiles = await fs.readdir(
-    path.resolve(__dirname, "src/eventListeners")
+    path.resolve(__dirname, "src/bot/eventListeners")
   );
 
   for (const file of eventListenerFiles) {
     if (file.endsWith(".js")) {
       const { default: eventListener } = await import(
-        path.resolve(__dirname, "src/eventListeners", file)
+        path.resolve(__dirname, "src/bot/eventListeners", file)
       );
       eventListener(client);
       console.log(`Event listener ${file} loaded.`);
@@ -47,7 +43,7 @@ const loadEventListeners = async () => {
 const loadCommands = async () => {
   client.commands = new Collection();
 
-  const commandsPath = join(__dirname, "src/commands");
+  const commandsPath = join(__dirname, "src/bot/commands");
   const commandFiles = readdirSync(commandsPath).filter((file) =>
     file.endsWith(".js")
   );

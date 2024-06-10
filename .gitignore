@@ -7,6 +7,7 @@ build/
 node_modules/
 .env
 .env.development
+.env.production
 .serverless
 secrets.json
 *.scss.d.ts

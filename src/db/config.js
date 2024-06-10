@@ -1,14 +1,8 @@
-import dotenv from "dotenv";
-import path from "path";
+import dotenv from "dotenv-flow";
 import { drizzle } from "drizzle-orm/node-postgres";
 import postgres from "postgres";
 
-// Load environment variables
-const envFile =
-  process.env.NODE_ENV === "production" ? ".env" : ".env.development";
-const absolutePath = path.resolve(process.cwd(), envFile);
-
-dotenv.config({ path: absolutePath });
+dotenv.config();
 
 const connectionString = process.env.DB_URL;
 
