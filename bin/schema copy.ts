@@ -25,23 +25,6 @@ export const Servers = pgTable("servers", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-// UserServers Table (Join Table)
-export const UserServers = pgTable(
-  "user_servers",
-  {
-    userId: serial("user_id")
-      .references(() => Users.userId)
-      .notNull(),
-    serverId: serial("server_id")
-      .references(() => Servers.serverId)
-      .notNull(),
-    addedAt: timestamp("added_at").defaultNow().notNull(),
-  },
-  (table) => ({
-    pk: primaryKey(table.userId, table.serverId),
-  })
-);
-
 // Channels Table
 export const Channels = pgTable("channels", {
   channelId: serial("channel_id").primaryKey(),
@@ -68,86 +51,40 @@ export const Questions = pgTable("questions", {
   timestamp: timestamp("timestamp").defaultNow().notNull(),
 });
 
-// Server Settings Table
-export const ServerSettings = pgTable("server_settings", {
-  settingId: serial("setting_id").primaryKey(),
-  serverId: serial("server_id")
-    .references(() => Servers.serverId)
-    .notNull(),
-  settingName: varchar("setting_name", { length: 256 }).notNull(),
-  settingValue: text("setting_value").notNull(),
+// QA Table (for storing question and answer pairs)
+export const QA = pgTable("qa", {
+  qaId: serial("qa_id").primaryKey(),
+  questionText: text("question_text").notNull(),
+  answerText: text("answer_text").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-// Prompts Table
-export const Prompts = pgTable("prompts", {
-  promptId: serial("prompt_id").primaryKey(),
-  serverId: serial("server_id")
-    .references(() => Servers.serverId)
-    .notNull(),
-  promptText: text("prompt_text").notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
+// Relationships
+export const UserRelations = relations(Users, ({ many }) => ({
+  questions: many(Questions),
+}));
 
-// Interactions Table
-export const Interactions = pgTable("interactions", {
-  interactionId: serial("interaction_id").primaryKey(),
-  userId: serial("user_id")
-    .references(() => Users.userId)
-    .notNull(),
-  serverId: serial("server_id")
-    .references(() => Servers.serverId)
-    .notNull(),
-  interactionType: varchar("interaction_type", { length: 256 }).notNull(),
-  content: text("content").notNull(),
-  timestamp: timestamp("timestamp").defaultNow().notNull(),
-});
+export const ServerRelations = relations(Servers, ({ many }) => ({
+  channels: many(Channels),
+  questions: many(Questions),
+}));
 
-// Commands Table
-export const Commands = pgTable("commands", {
-  usageId: serial("usage_id").primaryKey(),
-  commandName: varchar("command_name", { length: 256 }).notNull(),
-  userId: serial("user_id")
-    .references(() => Users.userId)
-    .notNull(),
-  serverId: serial("server_id")
-    .references(() => Servers.serverId)
-    .notNull(),
-  timestamp: timestamp("timestamp").defaultNow().notNull(),
-});
+export const ChannelRelations = relations(Channels, ({ one, many }) => ({
+  server: one(Servers, {
+    fields: [Channels.serverId],
+    references: [Servers.serverId],
+  }),
+  questions: many(Questions),
+}));
 
-// Roles Table
-export const Roles = pgTable("roles", {
-  roleId: serial("role_id").primaryKey(),
-  serverId: serial("server_id")
-    .references(() => Servers.serverId)
-    .notNull(),
-  roleName: varchar("role_name", { length: 256 }).notNull(),
-  assignedBy: varchar("assigned_by", { length: 256 }).notNull(),
-  assignedAt: timestamp("assigned_at").defaultNow().notNull(),
-});
-
-// Banned Users Table
-export const BannedUsers = pgTable("banned_users", {
-  banId: serial("ban_id").primaryKey(),
-  userId: serial("user_id")
-    .references(() => Users.userId)
-    .notNull(),
-  serverId: serial("server_id")
-    .references(() => Servers.serverId)
-    .notNull(),
-  reason: text("reason").notNull(),
-  bannedAt: timestamp("banned_at").defaultNow().notNull(),
-});
-
-// Audit Log Table
-export const AuditLog = pgTable("audit_log", {
-  logId: serial("log_id").primaryKey(),
-  action: text("action").notNull(),
-  performedBy: serial("performed_by")
-    .references(() => Users.userId)
-    .notNull(),
-  serverId: serial("server_id")
-    .references(() => Servers.serverId)
-    .notNull(),
-  timestamp: timestamp("timestamp").defaultNow().notNull(),
-});
+export const QuestionRelations = relations(Questions, ({ one }) => ({
+  user: one(Users, { fields: [Questions.userId], references: [Users.userId] }),
+  server: one(Servers, {
+    fields: [Questions.serverId],
+    references: [Servers.serverId],
+  }),
+  channel: one(Channels, {
+    fields: [Questions.channelId],
+    references: [Channels.channelId],
+  }),
+}));
