@@ -38,7 +38,6 @@ CREATE TABLE IF NOT EXISTS "users" (
 	CONSTRAINT "users_discord_id_unique" UNIQUE("discord_id")
 );
 --> statement-breakpoint
-DROP TABLE "user";--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "channels" ADD CONSTRAINT "channels_server_id_servers_server_id_fk" FOREIGN KEY ("server_id") REFERENCES "public"."servers"("server_id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
