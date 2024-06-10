@@ -4,7 +4,7 @@ import { readdirSync } from "fs";
 import { fileURLToPath } from "url";
 import path, { dirname, join } from "path";
 import { Client, GatewayIntentBits, Collection } from "discord.js";
-import { registerCommands } from "./commands/utils/registerCommands.js";
+import { registerCommands } from "./src/commands/utils/registerCommands.js";
 
 // Define __filename and __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -29,13 +29,13 @@ const client = new Client({
 // Function to load all event listeners
 const loadEventListeners = async () => {
   const eventListenerFiles = await fs.readdir(
-    path.resolve(__dirname, "eventListeners")
+    path.resolve(__dirname, "src/eventListeners")
   );
 
   for (const file of eventListenerFiles) {
     if (file.endsWith(".js")) {
       const { default: eventListener } = await import(
-        path.resolve(__dirname, "eventListeners", file)
+        path.resolve(__dirname, "src/eventListeners", file)
       );
       eventListener(client);
       console.log(`Event listener ${file} loaded.`);
@@ -47,7 +47,7 @@ const loadEventListeners = async () => {
 const loadCommands = async () => {
   client.commands = new Collection();
 
-  const commandsPath = join(__dirname, "commands");
+  const commandsPath = join(__dirname, "src/commands");
   const commandFiles = readdirSync(commandsPath).filter((file) =>
     file.endsWith(".js")
   );

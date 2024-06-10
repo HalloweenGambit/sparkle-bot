@@ -1,12 +1,14 @@
 import { defineConfig } from "drizzle-kit";
-import dotenv from "dotenv";
-// Load environment variables
-const envFile =
-  process.env.NODE_ENV === "production" ? ".env" : ".env.development";
-console.log(envFile);
+import dotenvFlow from "dotenv-flow";
 
-dotenv.config({ path: envFile });
-export const DB_URL = process.env.DB_URL;
+// Load environment variables
+dotenvFlow.config();
+
+export const DEV_URL = process.env.DEV_URL;
+
+if (!DEV_URL) {
+  throw new Error("DEV_URL is not defined in the environment variables.");
+}
 
 // Create configuration
 export default defineConfig({
@@ -14,8 +16,10 @@ export default defineConfig({
   schema: "./src/db/schema.ts",
   out: "./src/db/drizzle",
   migrations: {
-    table: "migrations_custom", // default `__drizzle_migrations`,
-    schema: "public", // used in PostgreSQL only and default to `drizzle`
+    table: "migrations_custom", // default `__drizzle_migrations`
+    schema: "public", // used in PostgreSQL only and defaults to `drizzle`
   },
-  dbCredentials: { url: `${process.env.DEV_URL}` },
+  dbCredentials: {
+    url: DEV_URL,
+  },
 });
