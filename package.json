@@ -2,6 +2,7 @@
   "dependencies": {
     "@google/generative-ai": "^0.2.1",
     "@neondatabase/serverless": "^0.9.3",
+    "@supabase/supabase-js": "^2.43.4",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.31.2",
@@ -17,7 +18,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development nodemon index.js"
+    "dev": "NODE_ENV=development nodemon index.js",
+    "generate": "drizzle-kit generate --config ./src/db/drizzle.config.ts",
+    "migrate": "drizzle-kit migrate --config ./src/db/drizzle.config.ts"
   },
   "keywords": [],
   "author": "gamb1t",
