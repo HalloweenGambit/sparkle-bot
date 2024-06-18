@@ -1,35 +1,27 @@
-import dotenvFlow from "dotenv-flow";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import dotenvFlow from "dotenv-flow";
 
 dotenvFlow.config();
 
-let genAI;
+const geminiPro = (input) => {
+  const apiKey = process.env.API_KEY;
 
-if (process.env.API_KEY) {
-  genAI = new GoogleGenerativeAI(process.env.API_KEY);
+  if (!apiKey) {
+    console.error("API_KEY is not defined");
+    return null;
+  }
+
+  const gpt = new GoogleGenerativeAI(apiKey);
 
   // Listen for the ready event
-  if (genAI.apiKey) {
-    console.log("Doc Brown has Loaded");
-  }
-} else {
-  console.error("API_KEY is not defined");
-}
-
-async function geminiPro(user_input) {
-  if (!genAI) {
-    console.error("Google Generative AI is not initialized");
-    return;
+  if (gpt) {
+    console.log("Doc Brown has Loaded on geminiPro");
+  } else {
+    console.error("geminiPro Failed to Load");
+    return null;
   }
 
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  return gpt(input);
+};
 
-  const prompt = `You are Doc Brown from Back To The Future. You can make references to the movie. You are whitty and quirky. You only respond in chunks that are 500 characters or less. Here is your prompt: ${user_input}`;
-
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = response.text();
-  console.log(text);
-}
-
-export { geminiPro };
+export default geminiPro;

@@ -26,13 +26,6 @@ const discordClient = new Client({
 
 await discordClient.login(process.env.DISCORD_TOKEN);
 
-// Array to hold objects for inspection
-const objectsToInspect = [
-  discordClient,
-  discordClient.guilds,
-  discordClient.channels,
-];
-
 // Function to inspect and output a JSON file for each object
 const inspectAndOutput = async (obj) => {
   let objInfo;
@@ -49,6 +42,7 @@ const inspectAndOutput = async (obj) => {
       showHidden: false,
       depth: 1, // Set depth to null to include circular references
       compact: true, // Output will not be compacted for better formatting
+      getters: true, // Include getters in the output
     });
   } else {
     // For primitive types and undefined, handle accordingly
