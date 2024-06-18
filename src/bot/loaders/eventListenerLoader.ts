@@ -8,12 +8,12 @@ export const loadEventListeners = async (
 ) => {
   const eventListenerPath = path.resolve(
     new URL(".", import.meta.url).pathname,
-    "../bot/eventListeners"
+    "../eventListeners"
   );
   const eventListenerFiles = await fs.readdir(eventListenerPath);
 
   for (const file of eventListenerFiles) {
-    if (file.endsWith(".js") && !file.endsWith(".test.js")) {
+    if (file.endsWith(".ts") && !file.endsWith(".test.ts")) {
       const { default: eventListener } = await import(
         path.resolve(eventListenerPath, file)
       );

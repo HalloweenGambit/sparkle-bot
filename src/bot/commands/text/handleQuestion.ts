@@ -10,7 +10,7 @@ export default {
 };
 
 // src/bot/eventListeners/handlers.js
-export async function handleMessageCreate(message, dbClient, gptClient) {
+export async function handleQuestion(message, dbClient, gptClient) {
   const content = message.content;
   const guildId = message.guildId;
   const channelId = message.channelId;

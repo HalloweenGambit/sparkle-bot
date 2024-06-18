@@ -1,8 +1,8 @@
 // src/bot/eventListeners/questionListener.js
-import { handleMessageCreate } from "../commands/question.js";
+import { handleQuestion } from "../commands/text/handleQuestion.ts";
 
 export default function questionListener(discordClient, dbClient, gptClient) {
   discordClient.on("messageCreate", (message) =>
-    handleMessageCreate(message, dbClient, gptClient)
+    handleQuestion(message, dbClient, gptClient)
   );
 }

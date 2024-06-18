@@ -1,5 +1,5 @@
 import { handleMessageCreate } from "../eventListeners/handlers/handlers.js";
-import dbClient from "../../../config/dbConfig.js";
+import dbClient from "../../config/dbConfig.js";
 import gptClient from "../../../loaders/geminiProLoader.js";
 import { describe, vi, test, expect } from "vitest";
 

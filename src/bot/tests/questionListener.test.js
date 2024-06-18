@@ -1,7 +1,7 @@
 import { describe, vi, test, expect } from "vitest";
-import discordClient from "../../../config/discordConfig.js";
-import dbClient from "../../../config/dbConfig.js";
-import gptClient from "../../loaders/geminiProLoader.js";
+import discordClient from "../../config/discordConfig.js";
+import dbClient from "../../config/dbConfig.js";
+import gptClient from "../loaders/geminiProLoader.js";
 import questionListener from "./questionListener.js";
 import { handleMessageCreate } from "./handlers/handlers.js";
 

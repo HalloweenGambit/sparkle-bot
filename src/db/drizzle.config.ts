@@ -12,8 +12,8 @@ if (!DB_URL) {
 // Create configuration
 export default defineConfig({
   dialect: "postgresql",
-  schema: "./data/db/schema.ts",
-  out: "./data/db/drizzle",
+  schema: "./src/db/schema.ts",
+  out: "./src/db/drizzle",
   migrations: {
     table: "migrations_custom", // default `__drizzle_migrations`
     schema: "public", // used in PostgreSQL only and defaults to `drizzle`
