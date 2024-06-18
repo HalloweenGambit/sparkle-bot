@@ -7,6 +7,8 @@ const discordClient = new Client({
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.MessageContent,
+    // GatewayIntentBits.MessageReactions,
+    // GatewayIntentBits.GuildVoiceStates,
   ],
 });
 

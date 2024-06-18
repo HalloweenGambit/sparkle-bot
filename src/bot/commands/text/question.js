@@ -14,7 +14,6 @@ export async function handleMessageCreate(message, dbClient, gptClient) {
     return false;
   }
 
-  console.log(guildId);
-
+  console.log(content);
   return;
 }

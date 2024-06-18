@@ -1,5 +1,5 @@
-import { handleMessageCreate } from "../bot/eventListeners/handlers/handlers.js";
-import dbClient from "../../config/dbConfig.js";
+import { handleMessageCreate } from "../eventListeners/handlers/handlers.js";
+import dbClient from "../../../config/dbConfig.js";
 import gptClient from "../../../loaders/geminiProLoader.js";
 import { describe, vi, test, expect } from "vitest";
 
@@ -13,7 +13,7 @@ const mockDiscordMessage = vi.fn(
       // returns Snowflake
       id: Math.floor(Math.random() * 10000),
       // Returns text
-      content: vi.fn(() => content),
+      content: content,
       // returns Snowflake
       guildId: Math.floor(Math.random() * 10000),
       // returns Snowflake
@@ -32,10 +32,9 @@ const mockDiscordMessage = vi.fn(
   }
 );
 
-vi.mock("../../config/dbConfig.js", async () => {
+vi.mock("../../../config/dbConfig.js", async () => {
   return {
     default: { myDefaultKey: vi.fn() },
-    namedExport: vi.fn(),
     // etc...
   };
 });
@@ -54,16 +53,19 @@ describe("Process a question", () => {
   test("Recieve a question", async () => {
     const msg = await mockDiscordMessage();
     const res = await handleMessageCreate(msg, dbClient, gptClient);
-    expect(msg.content()).toBe("Is this project open source?");
+    expect(msg.content).toBe("Is this project open source?");
   });
 
   test("get the useful info from the message received", async () => {
-    // extract and return discordId, userId, and channelId, msg content,
+    // write discordId, userId, and channelId, msg content, in database
     const msg = await mockDiscordMessage("Question?");
     const res = await handleMessageCreate(msg, dbClient, gptClient);
     // check message
     expect(msg.content).toBe("Question?");
-    expect(msg.guildId).toBe();
+    expect(msg.guildId).toBeTypeOf("number");
+    expect(msg.channelId).toBeTypeOf("number");
+    // expect(dbClient).toHaveBeenCalledWith(msg.content);
+    expect(res).toBe();
   });
 
   test.todo("Record the discordID and message", async () => {

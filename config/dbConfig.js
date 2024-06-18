@@ -17,5 +17,3 @@ try {
 }
 
 export default dbClient;
-
-dbClient.query("orders");

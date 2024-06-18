@@ -2,12 +2,12 @@ import { readdirSync } from "fs";
 import { Collection } from "discord.js";
 import { join } from "path";
 
-export const loadCommands = async (discordClient, dbClient, heyDoc) => {
+export const loadSlashCommands = async (discordClient, dbClient, heyDoc) => {
   discordClient.commands = new Collection();
 
   const __dirname = new URL(".", import.meta.url).pathname;
 
-  const commandsPath = join(__dirname, "../bot/commands"); // Adjust the path here
+  const commandsPath = join(__dirname, "../bot/commands/slash"); // Adjust the path here
   const commandFiles = readdirSync(commandsPath).filter((file) =>
     file.endsWith(".js")
   );
