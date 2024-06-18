@@ -12,7 +12,7 @@
     "postgres": "^3.4.4",
     "supabase": "^1.172.2"
   },
-  "name": "node-js-gemini",
+  "name": "discord-bot",
   "type": "module",
   "version": "1.0.0",
   "main": "index.js",
@@ -28,7 +28,6 @@
   "license": "ISC",
   "description": "A discord bot that uses natural language processing to answer user questions",
   "devDependencies": {
-    "@types/jest": "^29.5.12",
     "drizzle-kit": "^0.22.6",
     "esm": "^3.2.25",
     "nodemon": "^3.1.3",
