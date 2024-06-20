@@ -1,12 +1,12 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import postgres from "postgres";
+import * as schema from "../db/schema";
 
 const connectionString = process.env.DB_URL;
 
 // Disable prefetch as it is not supported for "Transaction" pool mode
-const db = postgres(connectionString, { prepare: false });
-
-const dbClient = drizzle(db);
+const db = await postgres(connectionString, { prepare: false });
+const dbClient = await drizzle(db, { schema });
 
 try {
   // No need to explicitly connect, as the connection is established automatically
