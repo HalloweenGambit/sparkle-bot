@@ -7,7 +7,7 @@ import discordClient from "./config/discordConfig";
 
 const startBot = async () => {
   await loadEventListeners(discordClient, dbClient, gpt);
-  await loadSlashCommands(discordClient, dbClient, gpt);
+  await loadSlashCommands(discordClient);
 
   await discordClient.login(process.env.DISCORD_TOKEN);
 

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 
 // src/bot/eventListeners/handlers.js
-export async function handleQuestion(message, dbClient, gptClient) {
+export async function handleQuestion(message) {
   const content = message.content;
   const guildId = message.guildId;
   const channelId = message.channelId;

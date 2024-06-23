@@ -1,34 +1,21 @@
 import { afterEach, beforeEach, describe, expect, vi, test, it } from "vitest";
-import discordClient from "../config/discordConfig.ts";
 import dbClient from "../config/dbConfig.ts";
-import { saveDiscordServers } from "../bot/services/saveDiscordServers.ts";
-import { updateDiscordServers } from "../bot/services/updateDiscordServers.ts";
-import { getDiscordServersFromAPI } from "../bot/services/getDiscordServers.ts";
+import { updateServerDetails } from "../bot/services/updateServerDetails.ts";
 import { mockGuildsFetch } from "../utils/discordMockData.js";
 import { Guild, GuildFeature } from "discord.js";
+import { Servers } from "../db/schema.ts";
 
 // Mocking the Drizzle client
 vi.mock("../config/dbConfig", () => ({
   default: {
     query: {
       Servers: {
-        findFirst: vi.fn(async () => {
-          const first = await mockGuildsFetch();
-          return first[0];
+        findFirst: vi.fn(async (id) => {
+          id;
         }),
       },
     },
-    insert: vi.fn(() => ({
-      values: vi.fn(),
-    })),
-    update: vi.fn(() => ({
-      set: vi.fn().mockReturnThis(),
-      where: vi.fn().mockReturnThis(),
-      returning: vi
-        .fn()
-        .mockResolvedValue([{ res: "Server updated item promise" }]),
-    })),
-    find: vi.fn(),
+    update: vi.fn(() => {}),
   },
 }));
 
@@ -41,22 +28,8 @@ vi.mock("../config/discordConfig", () => ({
 }));
 
 describe("Update operations for Discord servers", async () => {
-  const update: Partial<Guild> = {
-    id: "234567890123456789",
-    name: "Server Update",
-    description: "An updated server",
-  };
-  await updateDiscordServers(update);
-
-  it("queries the db to see if the server exists", async () => {
-    // check that the id property is the property bing
-    expect(dbClient.query.Servers.findFirst).toHaveBeenCalledTimes(1);
-    expect(dbClient.update).toHaveBeenCalled();
+  it("calls the update function with the update", () => {
+    updateServerDetails({ id: "123456789012345678" });
+    expect(dbClient.query.Servers.findFirst).toHaveBeenCalled();
   });
-
-  it.todo("updates");
-
-  it.todo("should save server channels to the database");
-  it.todo("should update server channels in the database");
-  it.todo("should delete server channels from the database");
 });

@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, vi, test, it } from "vitest";
 import discordClient from "../config/discordConfig.ts";
 import dbClient from "../config/dbConfig.ts";
 import { saveDiscordServers } from "../bot/services/saveDiscordServers.ts";
-import { updateDiscordServers } from "../bot/services/updateDiscordServers.ts";
+import { updateServerDetails } from "../bot/services/updateServerDetails.ts";
 import { getDiscordServersFromAPI } from "../bot/services/getDiscordServers.ts";
 import { mockGuildsFetch } from "../utils/discordMockData.js";
 import { Guild, GuildFeature } from "discord.js";
@@ -70,7 +70,7 @@ describe("CRUD operations for Discord servers", () => {
     };
 
     // check that the id property is the property bing
-    await updateDiscordServers(update);
+    await updateServerDetails(update);
     expect(dbClient.query.Servers.findFirst).toHaveBeenCalledTimes(1);
     expect(dbClient.update).toHaveBeenCalled();
   });
