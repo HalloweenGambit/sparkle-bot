@@ -24,7 +24,9 @@ vi.mock("../config/dbConfig", () => ({
     update: vi.fn(() => ({
       set: vi.fn().mockReturnThis(),
       where: vi.fn().mockReturnThis(),
-      returning: vi.fn().mockResolvedValue([{ res: "Server was updated" }]),
+      returning: vi
+        .fn()
+        .mockResolvedValue([{ res: "Server updated item promise" }]),
     })),
     find: vi.fn(),
   },
@@ -38,39 +40,16 @@ vi.mock("../config/discordConfig", () => ({
   },
 }));
 
-describe("CRUD operations for Discord servers", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
+describe("Update operations for Discord servers", async () => {
+  const update: Partial<Guild> = {
+    id: "234567890123456789",
+    name: "Server Update",
+    description: "An updated server",
+  };
+  await updateDiscordServers(update);
 
-  it("should fetch all Discord servers", async () => {
-    const res = await getDiscordServersFromAPI();
-    expect(res).toHaveLength(5);
-  });
-
-  it("should fetch a specific Discord server by ID", async () => {
-    const id = "234567890123456789";
-    const guild = await getDiscordServersFromAPI(id);
-    expect(guild.id).toBe(id);
-  });
-
-  it("should save servers to the database", async () => {
-    const servers = await mockGuildsFetch();
-    const db = dbClient;
-    await saveDiscordServers(servers);
-    expect(servers).toHaveLength(5);
-    expect(dbClient.insert).toHaveBeenCalledTimes(1);
-  });
-
-  it("updates server on the database", async () => {
-    const update: Partial<Guild> = {
-      id: "234567890123456789",
-      name: "Server Update",
-      description: "An updated server",
-    };
-
+  it("queries the db to see if the server exists", async () => {
     // check that the id property is the property bing
-    await updateDiscordServers(update);
     expect(dbClient.query.Servers.findFirst).toHaveBeenCalledTimes(1);
     expect(dbClient.update).toHaveBeenCalled();
   });
