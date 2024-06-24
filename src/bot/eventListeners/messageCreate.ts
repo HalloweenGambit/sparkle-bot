@@ -1,4 +1,8 @@
 import { handleQuestion } from "../commands/text/handleQuestion";
+<<<<<<< HEAD
+=======
+
+>>>>>>> f7f077b
 const regex = /^hey doc/i;
 
 export default (client) => {
@@ -9,6 +13,10 @@ export default (client) => {
       message.reply("hello");
     }
 
+<<<<<<< HEAD
     handleQuestion(message, dbClient, gptClient);
+=======
+    handleQuestion(message);
+>>>>>>> f7f077b
   });
 };

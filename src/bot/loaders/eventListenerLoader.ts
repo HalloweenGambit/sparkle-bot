@@ -1,11 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 
-export const loadEventListeners = async (
-  discordClient,
-  dbClient,
-  gptClient
-) => {
+export const loadEventListeners = async (discordClient) => {
   const eventListenerPath = path.resolve(
     new URL(".", import.meta.url).pathname,
     "../eventListeners"
@@ -17,7 +13,7 @@ export const loadEventListeners = async (
       const { default: eventListener } = await import(
         path.resolve(eventListenerPath, file)
       );
-      eventListener(discordClient, dbClient, gptClient);
+      eventListener(discordClient);
       console.log(`Event listener ${file} loaded.`);
     }
   }

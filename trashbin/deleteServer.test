@@ -1,0 +1,48 @@
+import { describe, it, expect, vi } from "vitest";
+import { deleteServer } from "../src/bot/services/deleteServer";
+import dbClient from "../../config/dbConfig";
+
+// Mocking the console to verify logs
+vi.spyOn(console, "warn").mockImplementation(() => {});
+vi.spyOn(console, "log").mockImplementation(() => {});
+
+// Mocking dbClient
+vi.mock("../../config/dbConfig", () => ({
+  default: {
+    dbClient: {
+      query: {
+        Servers: {
+          findFirst: vi.fn(),
+        },
+      },
+    },
+  },
+}));
+
+describe("deleteServer", () => {
+  it("logs success when server is found", async () => {
+    dbClient.query.Servers.findFirst.mockResolvedValue({ id: "123" });
+    await deleteServer({ id: "123" });
+    expect(console.log).toHaveBeenCalledWith(
+      "Server with ID: 123 found in the database."
+    );
+  });
+
+  it("warns when server is not found", async () => {
+    dbClient.query.Servers.findFirst.mockResolvedValue(null);
+    await deleteServer({ id: "not-found" });
+    expect(console.warn).toHaveBeenCalledWith(
+      "Server with discordId not-found not found in the database."
+    );
+  });
+
+  it("handles errors gracefully", async () => {
+    dbClient.query.Servers.findFirst.mockRejectedValue(
+      new Error("Failed to connect to database")
+    );
+    await deleteServer({ id: "error" });
+    expect(console.log).toHaveBeenCalledWith(
+      "Failed to delete server with id: error"
+    );
+  });
+});
