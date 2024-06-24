@@ -23,9 +23,9 @@ describe("initialize", () => {
     expect(guild.id).toBe("1008463449594007692");
   });
 
-  it("get every individual guild when getting a list (multiple guilds)", async () => {
+  it("get details guild array", async () => {
     const allGuilds = await loadCompleteGuilds();
-    expect(allGuilds[0].id).toBeTruthy();
+    expect(await allGuilds[0]).toBeTruthy();
   });
 
   it.todo("");

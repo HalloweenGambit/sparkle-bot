@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-=======
 import { SlashCommandBuilder } from "@discordjs/builders";
 
->>>>>>> f7f077b
-// src/bot/eventListeners/handlers.js
 export async function handleQuestion(message) {
   const content = message.content;
   const guildId = message.guildId;

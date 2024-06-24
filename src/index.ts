@@ -11,6 +11,8 @@ const startBot = async () => {
   await loadSlashCommands(discordClient);
 
   discordClient.once("ready", async () => {
+    await discordClient.login(process.env.DISCORD_TOKEN);
+
     if (discordClient.user) {
       console.log(`Logged in as ${discordClient.user.tag}`);
     }
