@@ -10,6 +10,7 @@ import {
   boolean,
   integer,
 } from "drizzle-orm/pg-core";
+import { features } from "process";
 
 export const mySchema = pgSchema("my_schema");
 
@@ -17,7 +18,7 @@ export const mySchema = pgSchema("my_schema");
 export const Servers = mySchema.table("servers", {
   serverId: serial("server_id").primaryKey(),
   discordId: varchar("discord_id", { length: 256 }).notNull().unique(),
-  // guild name (2-100 characters, excluding trailing and leading whitespace)
+  //! missing features: some kind of []
   serverName: varchar("server_name", { length: 256 }).notNull(),
   serverDescription: varchar("server_name", { length: 256 }),
   serverOwnerId: varchar("server_owner_id", { length: 256 }).notNull(),

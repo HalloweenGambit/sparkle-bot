@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, vi, test, it } from "vitest";
-import discordClient from "../config/discordConfig.ts";
-import dbClient from "../config/dbConfig.ts";
+import discordClient from "../src/config/discordConfig.ts";
+import dbClient from "../src/config/dbConfig.ts";
 import { saveDiscordServers } from "../bot/services/saveDiscordServers.ts";
 import { updateServerDetails } from "../bot/services/updateServerDetails.ts";
 import { getDiscordServersFromAPI } from "../bot/services/getDiscordServers.ts";
-import { mockGuildsFetch } from "../utils/discordMockData.js";
+import { mockGuildsFetch } from "../src/utils/discordMockData.js";
 import { Guild, GuildFeature } from "discord.js";
 
 // Mocking the Drizzle client

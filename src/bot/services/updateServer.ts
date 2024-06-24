@@ -2,16 +2,18 @@ import dbClient from "../../config/dbConfig";
 import { Servers } from "../../db/schema";
 import { Guild } from "discord.js";
 import { eq } from "drizzle-orm";
+import { formatGuild } from "../../utils/formatServer";
 
 // Define Server type based on schema
 type Server = typeof Servers.$inferInsert;
 
 export const updateServerDetails = async (
+  id: Guild["id"],
   updatedGuild: Partial<Guild>
 ): Promise<Server[] | null> => {
   try {
     console.log(`Processing server with ID: ${updatedGuild.id}`);
-    // Find the server in the database by discordId
+
     const found = await dbClient.query.Servers.findFirst({
       where: eq(Servers.discordId, updatedGuild.id as string),
     });
@@ -24,16 +26,6 @@ export const updateServerDetails = async (
     }
 
     console.log(`Server with ID: ${updatedGuild.id} found in the database.`);
-
-    // Prepare the update object with defined values only
-    const updateObject: Partial<Server> = {
-      serverName: updatedGuild.name,
-      serverDescription: updatedGuild.description,
-      serverOwnerId: updatedGuild.ownerId,
-      verificationLevel: updatedGuild.verificationLevel,
-      serverNsfwLevel: updatedGuild.nsfwLevel,
-      approxMemberCount: updatedGuild.approximateMemberCount,
-    };
 
     // Filter out undefined values
     const definedUpdateObject: Partial<Server> = {};

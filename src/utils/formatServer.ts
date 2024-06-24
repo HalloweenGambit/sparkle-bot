@@ -4,6 +4,8 @@ import { Guild } from "discord.js";
 export function formatGuild(guild: Guild) {
   return {
     discordId: guild.id,
+    serverDescription: guild.description,
+    features: guild.features,
     serverName: guild.name,
     serverOwnerId: guild.ownerId,
     verificationLevel: guild.verificationLevel,

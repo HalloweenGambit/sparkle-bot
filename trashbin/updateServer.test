@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, vi, test, it } from "vitest";
-import dbClient from "../config/dbConfig.ts";
+import dbClient from "../src/config/dbConfig.ts";
 import { updateServerDetails } from "../bot/services/updateServerDetails.ts";
-import { mockGuildsFetch } from "../utils/discordMockData.js";
+import { mockGuildsFetch } from "../src/utils/discordMockData.js";
 import { Guild, GuildFeature } from "discord.js";
-import { Servers } from "../db/schema.ts";
+import { Servers } from "../src/db/schema.ts";
 
 // Mocking the Drizzle client
 vi.mock("../config/dbConfig", () => ({
