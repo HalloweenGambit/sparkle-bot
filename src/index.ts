@@ -7,17 +7,23 @@ import discordClient from "./config/discordConfig";
 DotenvFlow.config();
 
 const startBot = async () => {
-  await loadEventListeners(discordClient);
-  await loadSlashCommands(discordClient);
+  try {
+    await loadEventListeners(discordClient);
+    await loadSlashCommands(discordClient);
 
-  discordClient.once("ready", async () => {
-    await discordClient.login(process.env.DISCORD_TOKEN);
+    await discordClient.login(process.env.DISCORD_TOKEN); // Log in to Discord
 
-    if (discordClient.user) {
-      console.log(`Logged in as ${discordClient.user.tag}`);
-    }
-    await registerCommands(discordClient);
-  });
+    discordClient.once("ready", async () => {
+      if (discordClient.user) {
+        console.log(`Logged in as ${discordClient.user.tag}`);
+      } else {
+        console.log("Discord client user is not available.");
+      }
+      await registerCommands(discordClient); // Register commands after login
+    });
+  } catch (error) {
+    console.error("Error starting the bot:", error);
+  }
 };
 
 await startBot();

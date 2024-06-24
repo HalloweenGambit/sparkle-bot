@@ -1,8 +1,6 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import DotenvFlow from "dotenv-flow";
 
-DotenvFlow.config();
-
 let discordClient = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -14,7 +12,8 @@ let discordClient = new Client({
     // GatewayIntentBits.GuildVoiceStates,
   ],
 });
-
-await discordClient.login(process.env.DISCORD_TOKEN);
+discordClient.once("ready", async () => {
+  await discordClient.login(process.env.DISCORD_TOKEN);
+});
 
 export default discordClient;
