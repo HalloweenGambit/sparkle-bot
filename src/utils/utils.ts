@@ -1,7 +1,8 @@
-import { Collection } from "discord.js";
+import { Guild } from "discord.js";
 import discordClient from "../config/discordConfig";
-import DotenvFlow from "dotenv-flow";
-// return formatted Server[]
+import dbClient from "../config/dbConfig";
+import { eq } from "drizzle-orm";
+import { Servers } from "../db/schema";
 
 export const loadGuilds = async () => {
   try {
@@ -34,5 +35,36 @@ export const loadCompleteGuilds = async () => {
   } catch (error) {
     console.error("Error loading complete guilds:", error);
     return []; // Handle error gracefully, return empty array or rethrow
+  }
+};
+
+export const formatGuild = (guild: Guild) => {
+  return {
+    discordId: guild.id,
+    guildDescription: guild.description,
+    features: guild.features,
+    guildName: guild.name,
+    guildOwnerId: guild.ownerId,
+    verificationLevel: guild.verificationLevel,
+    guildNsfwLevel: guild.nsfwLevel,
+    approxMemberCount: guild.memberCount,
+  };
+};
+
+export const findGuild = async (id: string) => {
+  try {
+    await dbClient;
+    console.log(id);
+    const found = await dbClient.query.Servers.findFirst({
+      where: eq(Servers.discordId, id),
+    });
+
+    if (!found) {
+      return null;
+    }
+
+    return found;
+  } catch (error) {
+    console.error("Error fetching row:", error);
   }
 };
