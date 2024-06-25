@@ -2,7 +2,6 @@ import dbClient from "../../config/dbConfig";
 import { Servers } from "../../db/schema";
 import { Guild } from "discord.js";
 import { eq } from "drizzle-orm";
-import { formatGuild } from "../../utils/formatServer";
 
 // Define Server type based on schema
 type Server = typeof Servers.$inferInsert;

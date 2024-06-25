@@ -14,11 +14,11 @@ import { features } from "process";
 export const Servers = pgTable("servers", {
   serverId: serial("server_id").primaryKey(),
   discordId: varchar("discord_id", { length: 256 }).notNull().unique(),
-  serverName: varchar("server_name", { length: 256 }).notNull(),
-  serverDescription: varchar("server_description", { length: 256 }),
-  serverOwnerId: varchar("server_owner_id", { length: 256 }),
+  guildName: varchar("server_name", { length: 256 }).notNull(),
+  guildDescription: varchar("server_description", { length: 256 }),
+  guildOwnerId: varchar("server_owner_id", { length: 256 }),
   verificationLevel: integer("verification_level"),
-  serverNsfwLevel: integer("nsfw_level"),
+  guildNsfwLevel: integer("nsfw_level"),
   approxMemberCount: integer("approximate_member_count"),
   createdAt: timestamp("created_at").defaultNow(),
 });
