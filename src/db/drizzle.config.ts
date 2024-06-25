@@ -1,24 +1,16 @@
+import { config } from "dotenv";
 import { defineConfig } from "drizzle-kit";
-import dotenvFlow from "dotenv-flow";
+import DotenvFlow from "dotenv-flow";
 
-// Load environment variables
-dotenvFlow.config();
+DotenvFlow.config();
+
 const DB_URL = process.env.DB_URL;
 
-if (!DB_URL) {
-  throw new Error("DB_URL is not defined in the environment variables.");
-}
-
-// Create configuration
 export default defineConfig({
-  dialect: "postgresql",
   schema: "./src/db/schema.ts",
-  out: "./src/db/drizzle",
-  migrations: {
-    table: "migrations_custom", // default `__drizzle_migrations`
-    schema: "public", // used in PostgreSQL only and defaults to `drizzle`
-  },
+  out: "./src/db/supabase/migrations",
+  dialect: "postgresql",
   dbCredentials: {
-    url: DB_URL,
+    url: DB_URL!,
   },
 });

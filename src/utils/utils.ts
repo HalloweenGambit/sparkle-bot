@@ -1,35 +1,39 @@
-import { Guild } from "discord.js";
+import { Guild, Collection, OAuth2Guild } from "discord.js";
 import discordClient from "../config/discordConfig";
 import dbClient from "../config/dbConfig";
-import { eq } from "drizzle-orm";
 import { Servers } from "../db/schema";
+import { eq } from "drizzle-orm";
 
-export const loadGuilds = async () => {
+// Load all guilds
+export const loadGuilds = async (): Promise<
+  Collection<string, OAuth2Guild>
+> => {
   try {
     return discordClient.guilds.fetch();
   } catch (error) {
-    console.error("Error fetching Discord servers:", error);
+    console.error("Error fetching all Discord servers:", error);
     throw error;
   }
 };
 
-export const loadGuild = async (id: string) => {
+// Load a specific guild by ID
+export const loadGuild = async (id: string): Promise<Guild> => {
   try {
-    const guildDetails = discordClient.guilds.fetch(id);
+    const guildDetails = await discordClient.guilds.fetch(id);
     return guildDetails;
   } catch (error) {
-    console.error("Error fetching Discord servers:", error);
+    console.error(`Error fetching Discord server with ID ${id}:`, error);
     throw error;
   }
 };
 
-export const loadCompleteGuilds = async () => {
+// Load detailed information for all guilds
+export const loadCompleteGuilds = async (): Promise<Guild[]> => {
   try {
     const guilds = await loadGuilds();
-    // Collections are mapped with value, key parameters
-    const detailedGuildsPromises = guilds.map(async (guild, key) => {
-      return loadGuild(key);
-    });
+    const detailedGuildsPromises = await guilds.map((guild) =>
+      loadGuild(guild.id)
+    );
     const detailedGuilds = await Promise.all(detailedGuildsPromises);
     return detailedGuilds;
   } catch (error) {
@@ -38,11 +42,22 @@ export const loadCompleteGuilds = async () => {
   }
 };
 
+export interface FormattedGuild {
+  discordId: string;
+  guildDescription: string;
+  guildName: string;
+  guildOwnerId: string;
+  verificationLevel: number;
+  guildNsfwLevel: number;
+  approxMemberCount: number;
+}
+
+// Format guild details
+// TODO: type: my schema server table
 export const formatGuild = (guild: Guild) => {
   return {
-    discordId: guild.id,
-    guildDescription: guild.description,
-    features: guild.features,
+    discordId: guild.id as string,
+    guildDescription: guild.description ?? null,
     guildName: guild.name,
     guildOwnerId: guild.ownerId,
     verificationLevel: guild.verificationLevel,
@@ -51,20 +66,60 @@ export const formatGuild = (guild: Guild) => {
   };
 };
 
-export const findGuild = async (id: string) => {
+// Find the guild
+// TODO: type: my schema server table or empty object
+export const findGuild = async (discordId: string) => {
   try {
-    await dbClient;
-    console.log(id);
-    const found = await dbClient.query.Servers.findFirst({
-      where: eq(Servers.discordId, id),
+    let db = await dbClient;
+    const foundGuild = await db.query.Servers.findFirst({
+      where: eq(Servers.discordId, discordId),
     });
-
-    if (!found) {
-      return null;
+    if (!foundGuild) {
+      return {};
     }
 
-    return found;
+    return await foundGuild;
   } catch (error) {
-    console.error("Error fetching row:", error);
+    console.error("Error finding guild:", error);
+    return { error: "Failed to find guild. Please try again later." };
   }
 };
+
+// Create new guild
+// TODO: make this the promise you get from drizzle
+export const createGuild = async (formattedGuild) => {
+  try {
+    let db = await dbClient;
+    const res = await db.insert(Servers).values(formattedGuild).returning();
+
+    // Check if res is falsy (null, undefined, empty, etc.)
+    if (!res) {
+      return []; // Return an empty array if res is falsy
+    }
+
+    return res;
+  } catch (error) {
+    console.error("Error creating guild:", error);
+    return { error: "Failed to create guild. Please try again later." };
+  }
+};
+
+// compare to see if guild and stored guild is the same
+// TODO: type: boolean
+export const compareGuilds = (guild, storedGuild) => {
+  const keys = Object.keys(storedGuild);
+  // Iterate through each key
+  for (let key of keys) {
+    // Compare values of the same key
+    if (guild[key] !== storedGuild[key]) {
+      return false; // If any value differs, return false
+    }
+  }
+
+  // Ensure both objects have the same number of keys
+  return keys.length === Object.keys(guild).length;
+};
+
+export const updateGuild = () => {};
+
+export const handleMemberCountChange = () => {};

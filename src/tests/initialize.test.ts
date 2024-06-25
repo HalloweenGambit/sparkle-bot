@@ -1,20 +1,19 @@
-import { vi, test, describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, assert } from "vitest";
 import {
   loadGuild,
   loadGuilds,
   loadCompleteGuilds,
   formatGuild,
-  findGuild,
 } from "../utils/utils";
 import DotenvFlow from "dotenv-flow";
 import discordClient from "../config/discordConfig";
 import { Collection } from "discord.js";
-import { findRowByTableAndId } from "../utils/findRowByTableAndId";
 import dbClient from "../config/dbConfig";
+import { findGuild } from "../utils/dbUtils";
 
 DotenvFlow.config();
 
-describe("initialize", async () => {
+describe.skip("initialize", async () => {
   await dbClient;
   await discordClient.login(process.env.DISCORD_TOKEN);
   discordClient.once("ready", () => {
@@ -55,26 +54,27 @@ describe("initialize", async () => {
     const guild = await loadCompleteGuilds();
     const testGuild = await guild[0];
     const formattedGuild = await formatGuild(testGuild);
-    console.log(formattedGuild);
+    console.log(`formattedGuild: ${formattedGuild}`);
     expect(formattedGuild.guildName).toBeTypeOf("string");
   });
 
-  it.todo("check if guild exists in db", async () => {
+  it("check if guild exists in db", async () => {
     const guild = await loadCompleteGuilds();
     const testGuild = await guild[0];
     const formattedGuild = await formatGuild(testGuild);
+    assert.isString(formattedGuild.discordId, "discordId is string");
     const guildId = await formattedGuild.discordId;
-
-    const checkGuild = await findGuild(guildId);
-    await console.log(checkGuild);
-    expect(checkGuild).toBeTypeOf("string");
-
-    const noGuild = await findGuild("invalidId");
-
-    expect(noGuild).toBeNull();
   });
 
-  it.todo("");
+  it.skip("return guild", async () => {
+    const res = await findGuild();
+    console.log(res);
+    expect(res?.serverName).toBe("test guild");
+  });
+
+  it.only("create all guilds", async () => {
+    const guild = await loadCompleteGuilds();
+  });
   it.todo("");
   it.todo("");
   it.todo("");

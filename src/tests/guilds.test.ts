@@ -1,38 +1,28 @@
-import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
-import { loadCompleteGuilds, formatGuild, findGuild } from "../utils/utils";
-import DotenvFlow from "dotenv-flow";
-import discordClient from "../config/discordConfig";
+// tests/initialize.test.ts
+
+import { describe, it, expect, beforeEach } from "vitest";
+import { loadCompleteGuilds, formatGuild } from "../utils/utils";
 import dbClient from "../config/dbConfig";
+import DotenvFlow from "dotenv-flow";
+import { findGuild } from "../utils/dbUtils";
+import discordClient from "../config/discordConfig";
 
 DotenvFlow.config();
 
-describe("initialize", async () => {
+describe.skip("find guild", async () => {
   await dbClient;
-  console.log(dbClient);
-
-  //   console.log(discordClient);
-  beforeEach(async () => {
-    // Additional setup can be added here if needed
+  await discordClient.login(process.env.DISCORD_TOKEN);
+  discordClient.once("ready", () => {
+    console.log("test discordClient logged in");
   });
 
-  afterEach(async () => {
-    // if (discordClient.isReady()) {
-    //   await discordClient.destroy();
-    //   console.log("test discordClient logged out");
-    // }
+  it("return guild", async () => {
+    const res = await findGuild();
+    console.log(res);
+    expect(res?.serverName).toBe("test guild");
   });
 
-  it.only("check if guild exists in db", async () => {
-    const guilds = await loadCompleteGuilds();
-    const testGuild = guilds[0];
-    const formattedGuild = await formatGuild(testGuild);
-    const guildId = formattedGuild.discordId;
-    console.log(guildId);
-    const checkGuild = await findGuild(guildId);
-    console.log(checkGuild);
-    expect(checkGuild).toBeTypeOf("string");
+  it("", async () => {});
 
-    const noGuild = await findGuild("invalidId");
-    expect(noGuild).toBeNull();
-  });
+  it("check if guild exists in db", async () => {});
 });

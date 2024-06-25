@@ -1,6 +1,11 @@
-import { drizzle } from "drizzle-orm/node-postgres";
+// dbConfig.ts
+
+import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "../db/schema";
+import DotenvFlow from "dotenv-flow";
+
+DotenvFlow.config();
 
 const connectionString = process.env.DB_URL || "";
 
@@ -19,7 +24,7 @@ const initializeDbClient = async () => {
   }
 };
 
-// Immediately initialize the database client
+// Export the promise that resolves to dbClient
 const dbClient = initializeDbClient();
 
 export default dbClient;
