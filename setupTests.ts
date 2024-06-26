@@ -1,5 +1,5 @@
-import dbClient from "../config/dbConfig";
-import discordClient from "../config/discordConfig";
+import dbClient from "./src/config/dbConfig";
+import discordClient from "./src/config/discordConfig";
 import { beforeAll } from "vitest";
 
 // Todo: disconnect from dbClient after every test.

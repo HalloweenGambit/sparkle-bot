@@ -95,7 +95,7 @@ export const findGuild = async (
     return await storedGuild;
   } catch (error) {
     console.error("Error finding guild:", error);
-    return error;
+    throw { error: "Failed finding guild. Please try again later." };
   }
 };
 
@@ -132,7 +132,8 @@ export const compareGuilds = (
   guild: FormattedGuild,
   storedGuild: FormattedGuild
 ): boolean => {
-  const keys = Object.keys(storedGuild);
+  const keys = Object.keys(storedGuild) as (keyof FormattedGuild)[];
+
   // Iterate through each key
   for (let key of keys) {
     // Compare values of the same key
@@ -215,7 +216,7 @@ export const syncGuilds = async (newData: FormattedGuild[]) => {
   }
 
   // Wait for all new guilds and updates to complete
-  await Promise.all([newGuilds, modifiedGuilds]);
+  await Promise.all([...newGuilds, ...modifiedGuilds]);
 
   console.log(
     `newGuilds: ${newGuilds.length}, modifiedGuilds: ${modifiedGuilds.length}, unchangedGuilds: ${unchangedGuilds.length}`
