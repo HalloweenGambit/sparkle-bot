@@ -1,5 +1,7 @@
 import { REST } from "@discordjs/rest";
-import { Routes } from "discord-api-types/v9";
+import { Routes } from "discord-api-types/v10";
+
+// ! restructure reconsider using rest api
 
 export const registerCommands = async (client) => {
   const commands = [];

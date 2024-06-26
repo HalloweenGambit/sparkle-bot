@@ -1,5 +1,3 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-
 export async function handleQuestion(message) {
   const content = message.content;
   const guildId = message.guildId;

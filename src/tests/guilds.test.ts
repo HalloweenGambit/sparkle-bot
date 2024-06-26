@@ -1,28 +1,41 @@
 // tests/initialize.test.ts
 
-import { describe, it, expect, beforeEach } from "vitest";
-import { loadCompleteGuilds, formatGuild } from "../utils/utils";
-import dbClient from "../config/dbConfig";
+import { describe, it, expect, beforeEach, beforeAll } from "vitest";
+import { loadCompleteGuilds, loadGuilds, formatGuilds } from "../utils/utils";
+import { syncGuilds } from "../utils/utils";
 import DotenvFlow from "dotenv-flow";
-import { findGuild } from "../utils/dbUtils";
-import discordClient from "../config/discordConfig";
 
 DotenvFlow.config();
-
-describe.skip("find guild", async () => {
-  await dbClient;
-  await discordClient.login(process.env.DISCORD_TOKEN);
-  discordClient.once("ready", () => {
-    console.log("test discordClient logged in");
+//! enforce type checking with new variables
+beforeAll(() => {});
+describe("Guild Crud application tests", async () => {
+  it("load guilds", async () => {
+    const guilds = await loadGuilds();
+    expect(guilds.size).toBeGreaterThan(1);
+    // const formattedNewGuild = formatGuild(newGuild);
+    // createGuild(formattedNewGuild);
   });
 
-  it("return guild", async () => {
-    const res = await findGuild();
-    console.log(res);
-    expect(res?.serverName).toBe("test guild");
+  it("load guilds with full data", async () => {
+    const completeGuilds = await loadCompleteGuilds();
+    expect(completeGuilds[0].id).toBeTypeOf("string");
   });
 
-  it("", async () => {});
+  it("format all guilds", async () => {
+    const completeGuilds = await loadCompleteGuilds();
+    const formattedGuilds = await formatGuilds(completeGuilds);
+    // my custom unique identifier using discords snowflake id system
+    expect(formattedGuilds[0].discordId).toBeTruthy();
+  });
 
-  it("check if guild exists in db", async () => {});
+  it.only("checks all guilds against database", async () => {
+    // newFormattedGuilds oldGuild
+    const completeGuilds = await loadCompleteGuilds();
+    const newGuilds = await formatGuilds(completeGuilds);
+    const synced = await syncGuilds(newGuilds);
+    expect(synced).toBeTruthy();
+  });
+
+  it.todo("format guild", async () => {});
+  it.todo("format guild", async () => {});
 });

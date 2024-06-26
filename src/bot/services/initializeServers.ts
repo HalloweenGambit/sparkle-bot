@@ -5,6 +5,7 @@ import {
   compareGuilds,
   formatGuild,
   loadCompleteGuilds,
+  updateGuild,
 } from "../../utils/utils";
 import { findGuild, createGuild } from "../../utils/utils";
 
@@ -12,39 +13,43 @@ import { findGuild, createGuild } from "../../utils/utils";
 type Server = typeof Servers.$inferInsert;
 
 export const initializeServers = async () => {
+  await dbClient;
   try {
-    // get all guilds from discord api
+    // get a list of detailed guilds from discord api
     const allCompleteGuilds = await loadCompleteGuilds();
+    console.log(allCompleteGuilds);
+
     console.log("Comparing current database against discords API");
+    // for (const completeGuild of allCompleteGuilds) {
+    //   // see if its in the database
+    //   const storedGuild = await findGuild(completeGuild.id);
+    //   const guild = formatGuild(completeGuild);
 
-    for (const completeGuild of allCompleteGuilds) {
-      // see if its in the database
-      const storedGuild = await findGuild(completeGuild.id);
-      const guild = formatGuild(completeGuild);
+    //   // if not create it
+    //   if (!storedGuild) {
+    //     console.log(`Guild ${guild.guildName} (${guild.discordId}) created.`);
+    //     return await createGuild(guild);
+    //   }
+    //   // check if
+    //   if (compareGuilds(guild, storedGuild)) {
+    //     console.log(
+    //       `Guild ${guild.guildName} (${guild.discordId} was found and is upto date`
+    //     );
+    //     return {};
+    //   }
 
-      // if not create it
-      if (!storedGuild) {
-        console.log(`Guild ${guild.guildName} (${guild.discordId}) created.`);
-        return await createGuild(guild);
-      }
-      // check if
-      if (compareGuilds(guild, storedGuild)) {
-        console.log(
-          `Guild ${guild.guildName} (${guild.discordId} was found and is upto date`
-        );
-        return {};
-      }
-
-      // ! currently updating everything and not logging what is changing
-      // TODO: handle memberCount changes > track changes
-      console.log(
-        `Guild ${guild.guildName} (${guild.discordId}) found, comparing essential fields for updates`
-      );
-      const res = update(guild);
-    }
-    return allCompleteGuilds;
+    //   // ! currently updating everything and not logging what is changing
+    //   // TODO: handle memberCount changes > track changes
+    //   console.log(
+    //     `Guild ${guild.guildName} (${guild.discordId}) found, comparing essential fields for updates`
+    //   );
+    //   const res = updateGuild(guild, storedGuild);
+    // }
+    // return allCompleteGuilds;
   } catch (error) {
     console.error("Error initializing servers:", error);
     throw error;
   }
 };
+
+initializeServers();

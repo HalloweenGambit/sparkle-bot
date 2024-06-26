@@ -9,11 +9,11 @@ import DotenvFlow from "dotenv-flow";
 import discordClient from "../config/discordConfig";
 import { Collection } from "discord.js";
 import dbClient from "../config/dbConfig";
-import { findGuild } from "../utils/dbUtils";
+import { findGuild } from "../utils/utils";
 
 DotenvFlow.config();
 
-describe.skip("initialize", async () => {
+describe("initialize", async () => {
   await dbClient;
   await discordClient.login(process.env.DISCORD_TOKEN);
   discordClient.once("ready", () => {
@@ -66,13 +66,12 @@ describe.skip("initialize", async () => {
     const guildId = await formattedGuild.discordId;
   });
 
-  it.skip("return guild", async () => {
-    const res = await findGuild();
-    console.log(res);
-    expect(res?.serverName).toBe("test guild");
+  it("return guild", async () => {
+    const res = await findGuild("098765489987");
+    expect(res?.discordId).toBe("098765489987");
   });
 
-  it.only("create all guilds", async () => {
+  it("create all guilds", async () => {
     const guild = await loadCompleteGuilds();
   });
   it.todo("");

@@ -2,6 +2,8 @@ import dbClient from "../config/dbConfig";
 import discordClient from "../config/discordConfig";
 import { beforeAll } from "vitest";
 
+// Todo: disconnect from dbClient after every test.
+
 // Code you want to run before every describe block
 beforeAll(async () => {
   // Your setup code here

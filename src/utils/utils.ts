@@ -28,7 +28,9 @@ export const loadGuild = async (id: string): Promise<Guild> => {
 };
 
 // Load detailed information for all guilds
-export const loadCompleteGuilds = async (): Promise<Guild[]> => {
+// ! may need to handle 1 guild differently
+// TODO: define type
+export const loadCompleteGuilds = async () => {
   try {
     const guilds = await loadGuilds();
     const detailedGuildsPromises = await guilds.map((guild) =>
@@ -43,35 +45,43 @@ export const loadCompleteGuilds = async (): Promise<Guild[]> => {
 };
 
 // Format guild to a subset of the schema defining 'guild'
-export interface FormattedGuild {
+interface FormattedGuild {
   discordId: string;
-  guildDescription: string;
-  guildName: string;
-  guildOwnerId: string;
-  verificationLevel: number;
-  guildNsfwLevel: number;
-  approxMemberCount: number;
+  guildName: string | null;
+  guildDescription: string | null;
+  guildOwnerId: string | null;
+  verificationLevel: number | null;
+  guildNsfwLevel: number | null;
+  approxMemberCount: number | null;
 }
 
 type queryServer = typeof Servers.$inferSelect;
 
 // Format guild details
-export const formatGuild = (guild: Guild): Partial<queryServer> => {
+export const formatGuild = (guild: Partial<Guild>): FormattedGuild => {
   return {
-    discordId: guild.id,
-    guildName: guild.name,
-    guildDescription: guild.description,
-    guildOwnerId: guild.ownerId,
-    verificationLevel: guild.verificationLevel,
-    guildNsfwLevel: guild.nsfwLevel,
-    approxMemberCount: guild.memberCount,
+    discordId: guild.id as string,
+    guildName: guild.name ?? null,
+    guildDescription: guild.description ?? null,
+    guildOwnerId: guild.ownerId ?? null,
+    verificationLevel: guild.verificationLevel ?? null,
+    guildNsfwLevel: guild.nsfwLevel ?? null,
+    approxMemberCount: guild.memberCount ?? null,
   };
+};
+
+export const formatGuilds = (guilds: Partial<Guild>[]): FormattedGuild[] => {
+  const formattedGuilds = guilds.map((guild) => {
+    return formatGuild(guild);
+  });
+  return formattedGuilds;
+  // TODO: decide on error handling / gracefully
 };
 
 // Find the guild
 export const findGuild = async (
   discordId: string
-): Promise<queryServer | {}> => {
+): Promise<queryServer | null> => {
   try {
     let db = await dbClient;
     const storedGuild = await db.query.Servers.findFirst({
@@ -79,24 +89,22 @@ export const findGuild = async (
     });
     if (!storedGuild) {
       console.log(`No Stored guild with ${discordId} was found`);
-      return {};
+      // should i return an empty object if not found? how to handle
+      return null;
     }
-
     return await storedGuild;
   } catch (error) {
     console.error("Error finding guild:", error);
-    return { error: "Failed to find guild. Please try again later." };
+    return error;
   }
 };
-
-type insertServer = typeof Servers.$inferInsert;
 
 // Create new guild
 type InsertServer = typeof Servers.$inferInsert;
 type CreateGuildResponse = InsertServer | { error: string };
 
 export const createGuild = async (
-  formattedGuild: InsertServer
+  formattedGuild: FormattedGuild
 ): Promise<CreateGuildResponse> => {
   try {
     const db = await dbClient;
@@ -117,10 +125,12 @@ export const createGuild = async (
   }
 };
 
+// ! change references to newData, oldData
 // compare to see if guild and stored guild is the same
+// TODO: add types
 export const compareGuilds = (
   guild: FormattedGuild,
-  storedGuild: StoredGuild
+  storedGuild: FormattedGuild
 ): boolean => {
   const keys = Object.keys(storedGuild);
   // Iterate through each key
@@ -138,7 +148,7 @@ export const compareGuilds = (
 // Function to compare two objects and return a list of keys with different values
 const getChangedFields = (
   newData: FormattedGuild,
-  oldData: FormattedGuild
+  oldData: queryServer
 ): Partial<FormattedGuild> => {
   const changedFields: Partial<FormattedGuild> = {};
 
@@ -152,20 +162,19 @@ const getChangedFields = (
 };
 
 // Function to update guild in the database
+// * By only accepting formatted guilds I guarantee both have the same properties
+// * Expand later on to allow it to return the changedFields
+// * updating different fields
+// TODO: return the changed key:property and correct type
+
 export const updateGuild = async (
   guild: FormattedGuild,
-  storedGuild: FormattedGuild
+  storedGuild: queryServer
 ): Promise<void> => {
   try {
     let db = await dbClient;
     // Get the fields that have changed
     const changedFields = getChangedFields(guild, storedGuild);
-
-    // If there are no changes, exit early
-    if (Object.keys(changedFields).length === 0) {
-      console.log(`No changes detected for guild: ${storedGuild.guildName}`);
-      return;
-    }
 
     // Perform the update in the database
     await db
@@ -173,13 +182,50 @@ export const updateGuild = async (
       .set(changedFields)
       .where(eq(Servers.discordId, storedGuild.discordId));
 
-    console.log(`Updated guild: ${storedGuild.guildName}`);
+    console.log(`Updated guild: ${storedGuild.id}, ${storedGuild.guildName}`);
   } catch (error) {
     console.error(`Error updating guild ${storedGuild.discordId}:`, error);
   }
 };
 
-// Update the memberCount table
+// syncGuilds can sync one guild if in an array
+//! make sure to be able to differentiate between an error and null
+
+export const syncGuilds = async (newData: FormattedGuild[]) => {
+  const newGuilds: Promise<CreateGuildResponse>[] = [];
+  const modifiedGuilds: Promise<void>[] = [];
+  const unchangedGuilds: FormattedGuild[] = [];
+
+  console.log(newData);
+
+  for (const guild of newData) {
+    const id = guild.discordId;
+    const found = await findGuild(id);
+
+    if (found === null) {
+      const newGuild = createGuild(guild);
+      newGuilds.push(newGuild);
+    } else if (compareGuilds(guild, found)) {
+      const modifiedGuild = updateGuild(guild, found);
+      modifiedGuilds.push(modifiedGuild);
+    } else {
+      unchangedGuilds.push(guild);
+      console.log(`Unchanged guild: ${guild.discordId}`);
+    }
+  }
+
+  // Wait for all new guilds and updates to complete
+  await Promise.all([newGuilds, modifiedGuilds]);
+
+  console.log(
+    `newGuilds: ${newGuilds.length}, modifiedGuilds: ${modifiedGuilds.length}, unchangedGuilds: ${unchangedGuilds.length}`
+  );
+
+  return { newGuilds, modifiedGuilds, unchangedGuilds };
+};
+
+// TODO: define handleMemberCount
+//  Update the memberCount table
 // decide the data structure for storing changes in member memberCount
 // investigate if there are any more
 export const handleMemberCountChange = () => {};
