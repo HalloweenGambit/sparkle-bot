@@ -1,4 +1,17 @@
-import { Guild, Collection, OAuth2Guild } from "discord.js";
+import {
+  Guild,
+  Collection,
+  OAuth2Guild,
+  Channel,
+  ChannelManager,
+  GuildChannel,
+  TextChannel,
+  ThreadChannel,
+  NewsChannel,
+  GuildBasedChannel,
+  Snowflake,
+  NonThreadGuildBasedChannel,
+} from "discord.js";
 import discordClient from "../config/discordConfig";
 import dbClient from "../config/dbConfig";
 import { Servers } from "../db/schema";
@@ -27,10 +40,7 @@ export const loadGuild = async (id: string): Promise<Guild> => {
   }
 };
 
-// Load detailed information for all guilds
-// ! may need to handle 1 guild differently
-// TODO: define type
-export const loadCompleteGuilds = async () => {
+export const loadCompleteGuilds = async (): Promise<Guild[]> => {
   try {
     const guilds = await loadGuilds();
     const detailedGuildsPromises = await guilds.map((guild) =>
@@ -41,6 +51,14 @@ export const loadCompleteGuilds = async () => {
   } catch (error) {
     console.error("Error loading complete guilds:", error);
     return []; // Handle error gracefully, return empty array or rethrow
+  }
+};
+
+export const loadGuildsAndChannels = async () => {
+  try {
+    const guilds = loadGuilds();
+  } catch (error) {
+    console.error("Error loading complete guilds:", error);
   }
 };
 
@@ -127,7 +145,6 @@ export const createGuild = async (
 
 // ! change references to newData, oldData
 // compare to see if guild and stored guild is the same
-// TODO: add types
 export const compareGuilds = (
   guild: FormattedGuild,
   storedGuild: FormattedGuild
@@ -167,7 +184,6 @@ const getChangedFields = (
 // * Expand later on to allow it to return the changedFields
 // * updating different fields
 // TODO: return the changed key:property and correct type
-
 export const updateGuild = async (
   guild: FormattedGuild,
   storedGuild: queryServer
@@ -191,13 +207,10 @@ export const updateGuild = async (
 
 // syncGuilds can sync one guild if in an array
 //! make sure to be able to differentiate between an error and null
-
 export const syncGuilds = async (newData: FormattedGuild[]) => {
   const newGuilds: Promise<CreateGuildResponse>[] = [];
   const modifiedGuilds: Promise<void>[] = [];
   const unchangedGuilds: FormattedGuild[] = [];
-
-  console.log(newData);
 
   for (const guild of newData) {
     const id = guild.discordId;

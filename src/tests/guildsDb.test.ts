@@ -12,8 +12,8 @@ describe.skip("create all discord guilds", async () => {
   it("", async () => {
     const res = await createGuild({
       discordId: "098761929987",
-      serverName: "4 test guild",
-      serverOwnerId: "123454321",
+      guildDescription: "4 test guild",
+      guildOwnerId: "123454321",
     });
     await console.log(res);
     expect(res).toBe("?");

@@ -1,13 +1,6 @@
 import { relations } from "drizzle-orm";
-import {
-  serial,
-  varchar,
-  timestamp,
-  primaryKey,
-  pgSchema,
-  integer,
-  pgTable,
-} from "drizzle-orm/pg-core";
+import { serial, varchar, timestamp } from "drizzle-orm/pg-core";
+import { integer, pgTable, boolean } from "drizzle-orm/pg-core";
 import { features } from "process";
 
 // Servers Table (Guilds)
@@ -23,12 +16,19 @@ export const Servers = pgTable("servers", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Channels Table
 export const Channels = pgTable("channels", {
   id: serial("channel_id").primaryKey(),
-  discordId: serial("server_id")
-    .references(() => Servers.id)
-    .notNull(),
+  discordId: varchar("discord_id", { length: 20 }).notNull(),
+  guildId: varchar("guild_id", { length: 20 }).notNull(),
   channelName: varchar("channel_name", { length: 256 }).notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
+  channelType: integer("channel_type").notNull(),
+  memberCount: integer("member_count"),
+  messageCount: integer("message_count"),
+  totalMessageCount: integer("total_message_count"),
+  userLimit: integer("user_limit"),
+  userRateLimit: integer("user_rate_limit"),
+  nsfw: boolean("nsfw"),
+  permissions: varchar("permissions", { length: 256 }),
+  flags: integer("flags"),
+  createdAt: timestamp("created_at").defaultNow(),
 });

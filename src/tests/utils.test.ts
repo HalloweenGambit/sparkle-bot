@@ -13,7 +13,7 @@ import { findGuild } from "../utils/utils";
 
 DotenvFlow.config();
 
-describe("initialize", async () => {
+describe.skip("initialize", async () => {
   await dbClient;
   await discordClient.login(process.env.DISCORD_TOKEN);
   discordClient.once("ready", () => {

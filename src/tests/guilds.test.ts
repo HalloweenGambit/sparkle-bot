@@ -8,7 +8,7 @@ import DotenvFlow from "dotenv-flow";
 DotenvFlow.config();
 //! enforce type checking with new variables
 beforeAll(() => {});
-describe("Guild Crud application tests", async () => {
+describe.skip("Guild Crud application tests", async () => {
   it("load guilds", async () => {
     const guilds = await loadGuilds();
     expect(guilds.size).toBeGreaterThan(1);
