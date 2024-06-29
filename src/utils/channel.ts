@@ -1,10 +1,13 @@
 import discordClient from "../config/discordConfig";
-import { Guild, GuildBasedChannel, GuildChannel } from "discord.js";
+import { Channel, Guild, GuildBasedChannel, GuildChannel, Snowflake } from "discord.js";
 import { CategoryChannel, NewsChannel, StageChannel } from "discord.js";
 import { TextChannel, VoiceChannel, MediaChannel } from "discord.js";
 import { ForumChannel } from "discord.js";
 import dbClient from "../config/dbConfig";
 import { Channels, Servers } from "../db/schema";
+import { eq, QueryPromise } from "drizzle-orm";
+type queryServer = typeof Channels.$inferSelect;
+
 
 export const loadGuildChannels = async (
   guild: Guild
@@ -115,4 +118,66 @@ export const createChannels = async (
   }
 };
 
-export const updateChannels = async () => {};
+export const findChannel = async (
+  discordId: string
+): Promise<queryServer | null> => {
+  try {
+    let db = await dbClient;
+    const storedChannel = await db.query.Channels.findFirst({
+      where: eq(Channels.discordId, discordId),
+    });
+    if (!storedChannel) {
+      console.log(`No Stored guild with ${discordId} was found`);
+      // should i return an empty object if not found? how to handle
+      return null;
+    }
+    return await storedChannel;
+  } catch (error) {
+    console.error("Error finding guild:", error);
+    throw { error: "Failed finding guild. Please try again later." };
+  }
+};
+
+export const updateChannel = async (newChannel:FormattedChannel) => {
+  // recieve list of new channels
+  // get oldChannels
+  // compare channels
+  // get the changes and the id
+  // update the columns with changes for that id
+  const discordId = newChannel.discordId
+  try {
+      const found = findChannel(discordId)
+      
+
+  } catch (error) {
+    
+  }
+};
+
+
+export const compareChannels = async (newChannel: FormattedChannel, oldChannel: FormattedChannel): Promise<boolean> => {
+  const keys = Object.keys(newChannel) as (keyof FormattedChannel)[];
+  for (const key of keys) {
+    if (newChannel[key] !== oldChannel[key]) {
+      return false; 
+    }
+  }
+  return keys.length === Object.keys(oldChannel).length; 
+
+};
+
+// Function to compare two objects and return a list of keys with different values
+const getChangedFields = (
+  newData: FormattedChannel,
+  oldData: queryServer
+): Partial<FormattedChannel> => {
+  const changedFields: Partial<FormattedGuild> = {};
+
+  for (let key in newData) {
+    if (newData.hasOwnProperty(key) && newData[key] !== oldData[key]) {
+      changedFields[key] = newData[key];
+    }
+  }
+
+  return changedFields;
+};
