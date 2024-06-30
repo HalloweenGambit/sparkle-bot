@@ -1,5 +1,5 @@
 {
-  "id": "55a335cd-a723-4894-989b-a310fa11f973",
+  "id": "8093a765-bc4d-4924-b5da-214ab289bcb6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -76,7 +76,7 @@
         },
         "flags": {
           "name": "flags",
-          "type": "varchar(256)",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },

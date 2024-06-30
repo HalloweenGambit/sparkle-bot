@@ -4,7 +4,7 @@ export type queryServers = typeof Servers.$inferSelect
 export type queryChannel = typeof Channels.$inferSelect
 
 // Format guild to a subset of the schema defining 'guild'
-export interface FormattedGuild {
+export type FormattedGuild = {
   discordId: string
   guildName: string | null
   guildDescription: string | null
@@ -14,7 +14,7 @@ export interface FormattedGuild {
   approxMemberCount: number | null
 }
 
-export interface FormattedChannel {
+export type FormattedChannel = {
   discordId: string
   guildId: string
   channelName: string

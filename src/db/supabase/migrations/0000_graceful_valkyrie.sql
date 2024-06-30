@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS "channels" (
 	"user_rate_limit" integer,
 	"nsfw" boolean,
 	"permissions" varchar(256),
-	"flags" varchar(256),
+	"flags" integer,
 	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint

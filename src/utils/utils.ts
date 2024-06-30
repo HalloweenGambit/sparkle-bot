@@ -129,18 +129,21 @@ export const compareGuilds = (
   return keys.length === Object.keys(newData).length
 }
 
+// ! to review
 // Function to compare two objects and return a list of keys with different values
 const getChangedFields = (
   newData: FormattedGuild,
   oldData: queryServers
 ): Partial<FormattedGuild> => {
-  const changedFields: Partial<FormattedGuild> = {}
-
-  for (let key in newData) {
-    if (newData.hasOwnProperty(key) && newData[key] !== oldData[key]) {
-      changedFields[key] = newData[key]
-    }
-  }
+  const changedFields = Object.entries(newData).reduce(
+    (changedFields, [key, value]) => {
+      if (value !== oldData[key as keyof FormattedGuild]) {
+        return { ...changedFields, [key]: value }
+      }
+      return changedFields
+    },
+    {}
+  )
 
   return changedFields
 }
