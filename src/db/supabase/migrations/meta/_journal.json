@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1719281583746,
-      "tag": "0000_freezing_the_captain",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1719295967210,
-      "tag": "0001_black_obadiah_stane",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1719296263035,
-      "tag": "0002_lumpy_mandarin",
+      "when": 1719734186313,
+      "tag": "0000_military_vision",
       "breakpoints": true
     }
   ]

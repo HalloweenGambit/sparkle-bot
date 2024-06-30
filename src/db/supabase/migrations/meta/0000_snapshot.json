@@ -1,5 +1,5 @@
 {
-  "id": "272157b2-801c-4dec-a4e8-815bd720d48e",
+  "id": "55a335cd-a723-4894-989b-a310fa11f973",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -14,9 +14,15 @@
           "primaryKey": true,
           "notNull": true
         },
-        "server_id": {
-          "name": "server_id",
-          "type": "serial",
+        "discord_id": {
+          "name": "discord_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guild_id": {
+          "name": "guild_id",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
         },
@@ -26,30 +32,64 @@
           "primaryKey": false,
           "notNull": true
         },
+        "channel_type": {
+          "name": "channel_type",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "message_count": {
+          "name": "message_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_message_count": {
+          "name": "total_message_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_limit": {
+          "name": "user_limit",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_rate_limit": {
+          "name": "user_rate_limit",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nsfw": {
+          "name": "nsfw",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "permissions": {
+          "name": "permissions",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "flags": {
+          "name": "flags",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": "now()"
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "channels_server_id_servers_server_id_fk": {
-          "name": "channels_server_id_servers_server_id_fk",
-          "tableFrom": "channels",
-          "tableTo": "servers",
-          "columnsFrom": [
-            "server_id"
-          ],
-          "columnsTo": [
-            "server_id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -75,23 +115,29 @@
           "primaryKey": false,
           "notNull": false
         },
+        "server_description": {
+          "name": "server_description",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
         "server_owner_id": {
           "name": "server_owner_id",
           "type": "varchar(256)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "verification_level": {
           "name": "verification_level",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "nsfw_level": {
           "name": "nsfw_level",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "approximate_member_count": {
           "name": "approximate_member_count",
@@ -103,7 +149,7 @@
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": "now()"
         }
       },
