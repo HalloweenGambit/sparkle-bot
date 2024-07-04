@@ -3,7 +3,6 @@ import { registerCommands } from './utils/registerCommands'
 import { loadEventListeners } from './bot/loaders/eventListenerLoader'
 import { loadSlashCommands } from './bot/loaders/slashCommandLoader'
 import discordClient from './config/discordConfig'
-import { dbSync } from './utils/dbSync'
 import { syncGuilds } from './utils/utils'
 import { syncAllChannels } from './utils/channel'
 

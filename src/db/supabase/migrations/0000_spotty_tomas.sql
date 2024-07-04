@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS "channels" (
 	"nsfw" boolean,
 	"permissions" varchar(256),
 	"flags" integer,
+	"is_active" boolean DEFAULT true,
 	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
@@ -23,6 +24,7 @@ CREATE TABLE IF NOT EXISTS "servers" (
 	"verification_level" integer,
 	"nsfw_level" integer,
 	"approximate_member_count" integer,
+	"is_active" boolean DEFAULT true,
 	"created_at" timestamp DEFAULT now(),
 	CONSTRAINT "servers_discord_id_unique" UNIQUE("discord_id")
 );

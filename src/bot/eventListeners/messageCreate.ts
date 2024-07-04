@@ -1,14 +1,14 @@
-import { handleQuestion } from "../commands/text/handleQuestion";
-const regex = /^hey doc/i;
+import { handleQuestion } from '../commands/text/handleQuestion'
+const regex = /^hey doc/i
 
 export default (client) => {
-  client.on("messageCreate", async (message) => {
+  client.on('messageCreate', async (message) => {
     if (regex.test(message.content)) {
-      console.log("I was summoned");
-      console.log(message);
-      message.reply("hello");
+      console.log('I was summoned')
+      console.log(message)
+      message.reply('hello')
     }
 
-    handleQuestion(message);
-  });
-};
+    handleQuestion(message)
+  })
+}

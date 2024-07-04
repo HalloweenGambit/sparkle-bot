@@ -1,9 +1,9 @@
-import { Guild, GuildBasedChannel } from 'discord.js'
+import { Channel, Guild, GuildBasedChannel } from 'discord.js'
 import dbClient from '../config/dbConfig'
-import { Channels, Servers } from '../db/schema'
+import { Channels } from '../db/schema'
 import { eq } from 'drizzle-orm'
 import { FormattedChannel, FormattedGuild, queryChannel } from '../types'
-import { loadCompleteGuilds, loadGuilds } from './utils'
+import { loadCompleteGuilds } from './utils'
 
 export const loadGuildChannels = async (
   guild: Guild
@@ -87,63 +87,73 @@ export const findChannel = async (
   }
 }
 
-export const compareChannels = (
-  newChannel: FormattedChannel,
+export const compareChannels = async (
+  newChannel: GuildBasedChannel,
   oldChannel: queryChannel
-): boolean => {
-  const keys = Object.keys(newChannel) as (keyof FormattedChannel)[]
+): Promise<boolean> => {
+  const channel = await formatGuildChannel(newChannel)
+
+  const keys = Object.keys(channel) as (keyof FormattedChannel)[]
   for (const key of keys) {
-    if (newChannel[key] !== oldChannel[key]) {
+    if (channel[key] !== oldChannel[key]) {
       return false
     }
   }
   return true
 }
 
-export const getChangedFields = (
+const getChangedFields = (
   newData: FormattedChannel,
   oldData: queryChannel
-): Partial<FormattedChannel> => {
-  let changedFields: Partial<FormattedChannel> = {}
-
-  for (let key in newData) {
-    if (
-      newData[key as keyof FormattedChannel] !==
-      oldData[key as keyof FormattedChannel]
-    ) {
-      changedFields[key as keyof FormattedChannel] =
-        newData[key as keyof FormattedChannel]
-    }
-  }
+): Partial<FormattedGuild> => {
+  const changedFields = Object.entries(newData).reduce(
+    (changedFields, [key, value]) => {
+      if (value !== oldData[key as keyof FormattedChannel]) {
+        return { ...changedFields, [key]: value }
+      }
+      return changedFields
+    },
+    {}
+  )
 
   return changedFields
 }
 
-export const createChannel = async (channel: FormattedChannel) => {
+export const createChannel = async (channel: GuildBasedChannel) => {
   try {
+    let newChannel: FormattedChannel
+
+    // Format the channel
+    newChannel = await formatGuildChannel(channel)
+
+    // Insert the formatted channel into the database
     const db = await dbClient
-    await db.insert(Channels).values([channel])
+    await db.insert(Channels).values([newChannel])
+    console.log(
+      `Inserted channel ${newChannel.discordId}:${newChannel.channelName}`
+    )
   } catch (error) {
     console.error(
-      `Error inserting channel ${channel.discordId}:${channel.channelName}`,
+      `Error inserting channel ${channel.id}:${channel.name}`,
       error
     )
     throw error
   }
 }
 
-export const updateChannel = async (
-  newChannel: FormattedChannel
-): Promise<void> => {
+export const updateChannel = async (channel: GuildBasedChannel) => {
   try {
+    let updatedChannel: FormattedChannel
+    updatedChannel = await formatGuildChannel(channel)
+
     let db = await dbClient
-    const id = newChannel.discordId
+    const id = updatedChannel.discordId
     const found = await findChannel(id)
     if (!found) {
       return
     }
     // Get the fields that have changed
-    const changedFields = getChangedFields(newChannel, found)
+    const changedFields = getChangedFields(updatedChannel, found)
 
     // Perform the update in the database
     await db
@@ -156,7 +166,7 @@ export const updateChannel = async (
     )
   } catch (error) {
     console.error(
-      `Error updating channel ${newChannel.discordId}, ${newChannel.channelName}`,
+      `Error updating channel ${channel.id}, ${channel.name}`,
       error
     )
   }
@@ -191,51 +201,69 @@ export const createChannels = async (
   }
 }
 
+export const deleteChannel = async (channelId: string) => {
+  try {
+    const db = await dbClient
+    const found = findChannel(channelId)
+    if (!found) {
+      return
+    }
+    await db
+      .update(Channels)
+      .set({ isActive: false })
+      .where(eq(Channels.discordId, channelId))
+  } catch (error) {
+    console.error('Error deleting channel:', error)
+    throw error
+  }
+}
+
 // Function to compare two objects and return a list of keys with different values
 
 //! make sure to be able to differentiate between an error and null
 // Function to sync guild channels
-export const syncGuildChannels = async (guild: Guild) => {
-  const newChannels: Promise<void>[] = []
-  const modifiedChannels: Promise<void>[] = []
-  const unchangedChannels: FormattedChannel[] = []
+// export const syncGuildChannels = async (guild: Guild) => {
+//   const newChannels: Promise<void>[] = []
+//   const modifiedChannels: Promise<void>[] = []
+//   const unchangedChannels: FormattedChannel[] = []
 
-  const channels = await loadGuildChannels(guild)
-  const formattedChannels = await formatGuildChannels(channels)
+//   const channels = await loadGuildChannels(guild)
+//   const formattedChannels = await formatGuildChannels(channels)
 
-  for (const newChannel of formattedChannels) {
-    const found = await findChannel(newChannel.discordId)
-    if (found === null) {
-      const newChannelPromise = createChannel(newChannel)
-      newChannels.push(newChannelPromise)
-    } else if (!compareChannels(newChannel, found)) {
-      const modifiedChannel = updateChannel(newChannel)
-      modifiedChannels.push(modifiedChannel)
-    } else {
-      unchangedChannels.push(newChannel)
-      console.log(`Unchanged channel: ${newChannel.discordId}`)
-    }
-  }
+//   for (const newChannel of formattedChannels) {
+//     const found = await findChannel(newChannel.discordId)
+//     if (found === null) {
+//       const newChannelPromise = createChannel(newChannel)
+//       newChannels.push(newChannelPromise)
+//     } else if (!compareChannels(newChannel, found)) {
+//       const modifiedChannel = updateChannel(newChannel)
+//       modifiedChannels.push(modifiedChannel)
+//     } else {
+//       unchangedChannels.push(newChannel)
+//       console.log(`Unchanged channel: ${newChannel.discordId}`)
+//     }
+//   }
 
-  // await Promise.all(newChannels)
-  // await Promise.all(modifiedChannels)
-  return { newChannels, modifiedChannels, unchangedChannels }
-}
+//   // await Promise.all(newChannels)
+//   // await Promise.all(modifiedChannels)
+//   return { newChannels, modifiedChannels, unchangedChannels }
+// }
+
 export const syncAllChannels = async () => {
   console.log(`Started syncing channels`)
   const allChannels = await loadCompleteGuilds()
 
   const newChannels: Promise<void>[] = []
   const modifiedChannels: Promise<void>[] = []
-  const unchangedChannels: FormattedChannel[] = []
+  const unchangedChannels: Channel[] = []
 
   for (const guild of allChannels) {
     const channels = await loadGuildChannels(guild)
-    const formattedChannels = await formatGuildChannels(channels)
+    // const formattedChannels = await formatGuildChannels(channels)
     // console.log(`formatted ${channels.length} channels`)
 
-    for (const newChannel of formattedChannels) {
-      const found = await findChannel(newChannel.discordId)
+    for (const newChannel of channels) {
+      const found = await findChannel(newChannel.id)
       if (found === null) {
         const newChannelPromise = createChannel(newChannel)
         newChannels.push(newChannelPromise)

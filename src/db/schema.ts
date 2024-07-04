@@ -13,6 +13,7 @@ export const Servers = pgTable('servers', {
   verificationLevel: integer('verification_level'),
   guildNsfwLevel: integer('nsfw_level'),
   approxMemberCount: integer('approximate_member_count'),
+  isActive: boolean('is_active').default(true),
   createdAt: timestamp('created_at').defaultNow(),
 })
 
@@ -29,5 +30,6 @@ export const Channels = pgTable('channels', {
   nsfw: boolean('nsfw'),
   permissions: varchar('permissions', { length: 256 }),
   flags: integer('flags'),
+  isActive: boolean('is_active').default(true),
   createdAt: timestamp('created_at').defaultNow(),
 })
