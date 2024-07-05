@@ -9,6 +9,7 @@ export default (client) => {
       message.reply('hello')
     }
 
-    handleQuestion(message)
+    // console.log(message)
+    // handleQuestion(message)
   })
 }

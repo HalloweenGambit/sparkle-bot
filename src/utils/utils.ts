@@ -52,6 +52,7 @@ export const formatGuild = (guild: Guild): FormattedGuild => {
     verificationLevel: guild.verificationLevel ?? null,
     guildNsfwLevel: guild.nsfwLevel ?? null,
     approxMemberCount: guild.memberCount ?? null,
+    discordCreatedAt: guild.createdAt ?? null,
   }
 }
 
@@ -83,6 +84,48 @@ export const findGuild = async (
   }
 }
 
+// ! change references to newData, oldData
+// compare to see if guild and stored guild is the same
+export const compareGuilds = (
+  newData: Guild,
+  oldData: queryServers
+): boolean => {
+  const newGuild = formatGuild(newData)
+  const keys = Object.keys(newGuild) as (keyof FormattedGuild)[]
+
+  // Iterate through each key
+  for (let key of keys) {
+    // Compare values of the same key
+    // ! dates arent both being registered the same otherwise: no idea why
+    if (newGuild[key]?.toString() !== oldData[key]?.toString()) {
+      return false // If any value differs, return false
+    }
+  }
+
+  // Ensure both objects have the same number of keys
+  return true
+}
+
+// ! to review
+// Function to compare two objects and return a list of keys with different values
+const getChangedFields = (
+  newData: Guild,
+  oldData: queryServers
+): Partial<FormattedGuild> => {
+  const newGuild = formatGuild(newData)
+  const changedFields = Object.entries(newGuild).reduce(
+    (changedFields, [key, value]) => {
+      if (value !== oldData[key as keyof FormattedGuild]) {
+        return { ...changedFields, [key]: value }
+      }
+      return changedFields
+    },
+    {}
+  )
+
+  return changedFields
+}
+
 // Create new guild
 type InsertServer = typeof Servers.$inferInsert
 type CreateGuildResponse = InsertServer | { error: string }
@@ -110,51 +153,6 @@ export const createGuild = async (
   }
 }
 
-// ! change references to newData, oldData
-// compare to see if guild and stored guild is the same
-export const compareGuilds = (
-  newData: Guild,
-  oldData: queryServers
-): boolean => {
-  const newGuild = formatGuild(newData)
-  const keys = Object.keys(newGuild) as (keyof FormattedGuild)[]
-
-  // Iterate through each key
-  for (let key of keys) {
-    // Compare values of the same key
-    if (newGuild[key] !== oldData[key]) {
-      return false // If any value differs, return false
-    }
-  }
-
-  // Ensure both objects have the same number of keys
-  return keys.length === Object.keys(newGuild).length
-}
-
-// ! to review
-// Function to compare two objects and return a list of keys with different values
-const getChangedFields = (
-  newData: Guild,
-  oldData: queryServers
-): Partial<FormattedGuild> => {
-  const newGuild = formatGuild(newData)
-  const changedFields = Object.entries(newGuild).reduce(
-    (changedFields, [key, value]) => {
-      if (value !== oldData[key as keyof FormattedGuild]) {
-        return { ...changedFields, [key]: value }
-      }
-      return changedFields
-    },
-    {}
-  )
-
-  return changedFields
-}
-
-// Function to update guild in the database
-// * By only accepting formatted guilds I guarantee both have the same properties
-// * Expand later on to allow it to return the changedFields
-// * updating different fields
 // TODO: return the changed key:property and correct type
 export const updateGuild = async (guild: Guild): Promise<void> => {
   try {
@@ -178,6 +176,29 @@ export const updateGuild = async (guild: Guild): Promise<void> => {
     console.log(`Updated guild: ${foundGuild.id}, ${foundGuild.guildName}`)
   } catch (error) {
     console.error(`Error updating guild ${guild.id}:`, error)
+  }
+}
+
+export const deleteGuild = async (guildId: string) => {
+  try {
+    const foundGuild = await findGuild(guildId)
+
+    if (!foundGuild) {
+      return
+    }
+
+    let db = await dbClient
+
+    await db
+      .update(Servers)
+      .set({ isActive: false })
+      .where(eq(Servers.discordId, guildId))
+
+    console.log(
+      `guild: ${foundGuild.id}, ${foundGuild.guildName} has been marked as inactive :(`
+    )
+  } catch (error) {
+    console.error(`Error deleting guild ${guildId}:`, error)
   }
 }
 
@@ -221,32 +242,3 @@ export const syncGuilds = async (): Promise<void> => {
     throw error
   }
 }
-
-export const deleteGuild = async (guildId: string) => {
-  try {
-    const foundGuild = await findGuild(guildId)
-
-    if (!foundGuild) {
-      return
-    }
-
-    let db = await dbClient
-
-    await db
-      .update(Servers)
-      .set({ isActive: false })
-      .where(eq(Servers.discordId, guildId))
-
-    console.log(
-      `guild: ${foundGuild.id}, ${foundGuild.guildName} has been marked as inactive :(`
-    )
-  } catch (error) {
-    console.error(`Error deleting guild ${guildId}:`, error)
-  }
-}
-
-// TODO: define handleMemberCount
-//  Update the memberCount table
-// decide the data structure for storing changes in member memberCount
-// investigate if there are any more
-export const handleMemberCountChange = () => {}

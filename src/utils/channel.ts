@@ -43,6 +43,7 @@ export const formatGuildChannel = async (
       permissions: (channel as any).permissions?.bitfield.toString() ?? null,
       nsfw: (channel as any).nsfw ?? null,
       flags: (channel as any).flags?.bitfield ?? null,
+      discordCreatedAt: channel.createdAt ?? null,
     }
 
     return formattedChannel
@@ -141,36 +142,6 @@ export const createChannel = async (channel: GuildBasedChannel) => {
   }
 }
 
-export const updateChannel = async (channel: GuildBasedChannel) => {
-  try {
-    let updatedChannel: FormattedChannel
-    updatedChannel = await formatGuildChannel(channel)
-
-    let db = await dbClient
-    const id = updatedChannel.discordId
-    const found = await findChannel(id)
-    if (!found) {
-      return
-    }
-    // Get the fields that have changed
-    const changedFields = getChangedFields(updatedChannel, found)
-
-    // Perform the update in the database
-    await db
-      .update(Channels)
-      .set(changedFields)
-      .where(eq(Channels.discordId, found.discordId))
-
-    console.log(
-      `Updated channel: ${found.id}, changed fields: ${changedFields}`
-    )
-  } catch (error) {
-    console.error(
-      `Error updating channel ${channel.id}, ${channel.name}`,
-      error
-    )
-  }
-}
 // Function to create multiple channels in the database
 export const createChannels = async (
   channels: FormattedChannel[]
@@ -201,6 +172,37 @@ export const createChannels = async (
   }
 }
 
+export const updateChannel = async (channel: GuildBasedChannel) => {
+  try {
+    let updatedChannel: FormattedChannel
+    updatedChannel = await formatGuildChannel(channel)
+
+    let db = await dbClient
+    const id = updatedChannel.discordId
+    const found = await findChannel(id)
+    if (!found) {
+      return
+    }
+    // Get the fields that have changed
+    const changedFields = getChangedFields(updatedChannel, found)
+
+    // Perform the update in the database
+    await db
+      .update(Channels)
+      .set(changedFields)
+      .where(eq(Channels.discordId, found.discordId))
+
+    console.log(
+      `Updated channel: ${found.id}, changed fields: ${changedFields}`
+    )
+  } catch (error) {
+    console.error(
+      `Error updating channel ${channel.id}, ${channel.name}`,
+      error
+    )
+  }
+}
+
 export const deleteChannel = async (channelId: string) => {
   try {
     const db = await dbClient
@@ -220,7 +222,7 @@ export const deleteChannel = async (channelId: string) => {
 
 // Function to compare two objects and return a list of keys with different values
 
-//! make sure to be able to differentiate between an error and null
+//! make sure to be able to differentiate between an error and null and fix
 // Function to sync guild channels
 // export const syncGuildChannels = async (guild: Guild) => {
 //   const newChannels: Promise<void>[] = []
