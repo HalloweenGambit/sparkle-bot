@@ -34,16 +34,15 @@ export const loadMessage = async (
     const channel = await loadGuildChannel(guildId, channelId)
     if (!channel) {
       console.log(`channel not found`)
-      return
+      return null
     }
     if (!channel.isTextBased()) {
       console.log(`channel ${channelId} of guild ${guildId} is not textBased`)
-      return
+      return null
     }
 
     const message = await channel.messages.fetch(messageId)
-
-    return message
+    if (message) return message
   } catch (error) {}
 }
 
@@ -120,19 +119,20 @@ export const saveGuildMessage = (messageId: string) => {
   // fbreak out the message, embed, attachments
 }
 
-export const loadPinneGuildMessages = async (guildId: string) => {
-  try {
-    let db = await dbClient
-    if (channel.isTextBased()) {
-      const pinnedMessages = await channel.messages.fetchPinned()
-    }
-  } catch (error) {
-    console.error(
-      `Error fetching pinned messages for channel: ${channel.id}`,
-      error
-    )
-    throw {
-      error: 'Failed fetching pinned messages. Please try again later.',
-    }
-  }
-}
+// export const loadPinneGuildMessages = async (guildId: string) => {
+//   try {
+//     let db = await dbClient
+
+//     if (channel.isTextBased()) {
+//       const pinnedMessages = await channel.messages.fetchPinned()
+//     }
+//   } catch (error) {
+//     console.error(
+//       `Error fetching pinned messages for channel: ${channel.id}`,
+//       error
+//     )
+//     throw {
+//       error: 'Failed fetching pinned messages. Please try again later.',
+//     }
+//   }
+// }

@@ -7,6 +7,8 @@ export default (client) => {
       console.log('I was summoned')
       console.log(message)
       message.reply('hello')
+    } else {
+      console.log(message.content)
     }
 
     // console.log(message)

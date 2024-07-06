@@ -4,7 +4,7 @@ import { Client } from 'discord.js'
 
 // ! restructure reconsider using rest api
 
-export const registerCommands = async (client: Client) => {
+export const registerCommands = async (client) => {
   const commands = []
 
   // Extract commands from the collection

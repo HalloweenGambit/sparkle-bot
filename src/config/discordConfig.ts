@@ -1,5 +1,5 @@
-import { Client, GatewayIntentBits } from "discord.js";
-import DotenvFlow from "dotenv-flow";
+import { Client, GatewayIntentBits } from 'discord.js'
+import DotenvFlow from 'dotenv-flow'
 
 let discordClient = new Client({
   intents: [
@@ -8,12 +8,13 @@ let discordClient = new Client({
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.MessageContent,
-    // GatewayIntentBits.MessageReactions,
-    // GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.DirectMessageReactions,
+    GatewayIntentBits.GuildMessageTyping,
   ],
-});
-discordClient.once("ready", async () => {
-  await discordClient.login(process.env.DISCORD_TOKEN);
-});
+})
+discordClient.once('ready', async () => {
+  await discordClient.login(process.env.DISCORD_TOKEN)
+})
 
-export default discordClient;
+export default discordClient

@@ -11,12 +11,22 @@ import {
 import { Messages } from '../../db/schema'
 import { eq } from 'drizzle-orm'
 
-export const saveMessage = async (message: Message<true>) => {
+export const saveMessage = async (
+  guildId: Snowflake,
+  channelId: Snowflake,
+  messageId: Snowflake
+) => {
   try {
     let db = await dbClient
+    const message = await loadMessage(guildId, channelId, messageId)
+    if (!message) {
+      console.log(`Message not found`)
+      return
+    }
     const formattedMessage = await formatMessage(message)
-    await db.insert(Messages).values(formattedMessage)
+    const res = await db.insert(Messages).values(formattedMessage).returning()
     console.log(`Inserted message ${message.id}`)
+    return res
   } catch (error) {
     console.error('Error saving message:', error)
     throw { error: 'Failed saving message. Please try again later.' }

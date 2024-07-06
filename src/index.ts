@@ -1,11 +1,11 @@
 import DotenvFlow from 'dotenv-flow'
-import { registerCommands } from './utils/registerCommands'
 import { loadEventListeners } from './bot/loaders/eventListenerLoader'
 import { loadSlashCommands } from './bot/loaders/slashCommandLoader'
 import discordClient from './config/discordConfig'
 
 import { syncAllChannels } from './utils/channelUtils'
 import { syncGuilds } from './bot/services/guildService'
+import { registerCommands } from './utils/registerCommands'
 
 DotenvFlow.config()
 
@@ -23,9 +23,9 @@ const startBot = async () => {
         console.log('Discord client user is not available.')
       }
       await registerCommands(discordClient) // Register commands after login
-      await syncGuilds()
-      await syncAllChannels()
-      console.log('waiting on you now cApItAn!')
+      // await syncGuilds()
+      // await syncAllChannels()
+      console.log('you are the CaPiTaN now!')
     })
   } catch (error) {
     console.error('Error starting the bot:', error)
