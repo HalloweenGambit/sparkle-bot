@@ -3,7 +3,7 @@ import dbClient from '../config/dbConfig'
 import { Channels } from '../db/schema'
 import { eq } from 'drizzle-orm'
 import { FormattedChannel, FormattedGuild, queryChannel } from '../types'
-import { loadCompleteGuilds } from './utils'
+import { loadCompleteGuilds, loadGuild } from './utils'
 
 export const loadGuildChannels = async (
   guild: Guild
@@ -23,6 +23,18 @@ export const loadGuildChannels = async (
       error
     )
     throw error
+  }
+}
+
+export const loadGuildChannel = async (guildId: string, channelId: string) => {
+  const guild = await loadGuild(guildId)
+  try {
+    const channel = await guild.channels.fetch(channelId)
+    return channel
+  } catch (error) {
+    console.log(
+      `Channel ${channelId} not found in guild ${guild.name}, ${guildId}`
+    )
   }
 }
 

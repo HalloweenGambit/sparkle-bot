@@ -1,8 +1,9 @@
 import { Collection, Snowflake } from 'discord.js'
-import { Servers, Channels } from './db/schema'
+import { Servers, Channels, Messages } from './db/schema'
 // types.ts
 export type queryServers = typeof Servers.$inferSelect
 export type queryChannel = typeof Channels.$inferSelect
+export type queryMessage = typeof Messages.$inferSelect
 
 // Format guild to a subset of the schema defining 'guild'
 export type FormattedGuild = {
@@ -31,25 +32,18 @@ export type FormattedChannel = {
   discordCreatedAt: Date | null
 }
 
-export type FormattedPinnedMessage = {
+export type FormattedMessage = {
   discordId: string
   channelId: string
   guildId: string
   authorId: string
-  content: string
-  attachments: Array<{
-    url: string
-    proxyUrl: string
-    filename: string
-    size: number
-    contentType: string | null
-    // createdAt: Date
-  }>
-  embeds: Embed[]
-  pinnedAt: Date
-  stickers: Sticker
-  discordCreatedAt: Date
+  content: string | null
+  isPinned: boolean
+  pinnedAt: Date | null
+  // discordCreatedAt: Date | null
 }
+
+export type FormattedAttachement = {}
 
 // Define the Embed type based on Discord embed structure
 type Embed = {

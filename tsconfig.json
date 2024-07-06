@@ -10,6 +10,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "trashbin/switchButtons.ts",
+    "trashbin/pinnedSetup.ts",
+    "trashbin/switchListener.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }

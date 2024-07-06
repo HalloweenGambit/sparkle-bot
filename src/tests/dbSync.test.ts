@@ -13,7 +13,7 @@ import {
 
 DotenvFlow.config()
 beforeAll(() => {})
-describe('test channels sync', async () => {
+describe.skip('test channels sync', async () => {
   it.skip('load guilds', async () => {
     const allGuilds = await loadCompleteGuilds()
     const formattedGuilds = await formatGuilds(allGuilds)

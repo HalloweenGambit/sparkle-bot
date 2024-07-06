@@ -58,14 +58,14 @@ export const Messages = pgTable('messages', {
   content: text('content'),
   isPinned: boolean('is_pinned').notNull(),
   pinnedAt: timestamp('pinned_at'),
-  discordCreatedAt: timestamp('discord_created_at').notNull(),
+  discordCreatedAt: varchar('discord_created_at').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 })
 
 // Attachments Table
 export const Attachments = pgTable('attachments', {
   id: serial('attachment_id').primaryKey(),
-  messageId: varchar('message_id', { length: 20 })
+  discordId: varchar('discord_id', { length: 20 })
     .notNull()
     .references(() => Messages.discordId),
   url: text('url').notNull(),
@@ -73,13 +73,14 @@ export const Attachments = pgTable('attachments', {
   filename: varchar('filename', { length: 256 }),
   size: integer('size'),
   contentType: varchar('content_type', { length: 128 }),
+  discordCreatedAt: timestamp('discord_created_at').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 })
 
 // Embeds Table
 export const Embeds = pgTable('embeds', {
   id: serial('embed_id').primaryKey(),
-  messageId: varchar('message_id', { length: 20 })
+  discordId: varchar('discord_id', { length: 20 })
     .notNull()
     .references(() => Messages.discordId),
   title: text('title'),
@@ -94,27 +95,6 @@ export const Embeds = pgTable('embeds', {
   authorName: text('author_name'),
   authorUrl: text('author_url'),
   authorIconUrl: text('author_icon_url'),
+  discordCreatedAt: timestamp('discord_created_at').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
 })
-
-// Stickers Table
-export const Stickers = pgTable('stickers', {
-  id: serial('sticker_id').primaryKey(),
-  messageId: varchar('message_id', { length: 20 })
-    .notNull()
-    .references(() => Messages.discordId),
-  stickerId: varchar('sticker_id', { length: 20 }).notNull(),
-  name: text('name').notNull(),
-  description: text('description'),
-  formatType: integer('format_type').notNull(),
-})
-
-// EmbedFields Table
-// export const EmbedFields = pgTable('embed_fields', {
-//   id: serial('field_id').primaryKey(),
-//   embedId: integer('embed_id')
-//     .notNull()
-//     .references(() => Embeds.id),
-//   name: text('name').notNull(),
-//   value: text('value').notNull(),
-//   inline: boolean('inline').notNull(),
-// })
