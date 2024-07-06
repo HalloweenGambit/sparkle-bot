@@ -1,9 +1,6 @@
 import { Client, GatewayIntentBits, Collection } from 'discord.js'
 import { deleteMessage, saveMessage } from '../services/messageService'
 
-// TODO: check for user permissions before saving message
-//
-
 export default (client: Client) => {
   client.on('messageReactionAdd', async (reaction, user) => {
     try {
@@ -33,7 +30,9 @@ export default (client: Client) => {
 
   client.on('messageReactionRemove', async (reaction, user) => {
     try {
-      // Ensure the reaction is in a guild
+      // TODOLATER: check for user permissions before proceeding
+      // TODOLATER: decide if we want to delete the message or just remove the reaction
+
       if (!reaction.message.guild) {
         console.log('Reaction is not in a guild')
         return

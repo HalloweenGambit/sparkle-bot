@@ -39,7 +39,7 @@ export const createGuild = async (
   }
 }
 
-// TODO: return the changed key:property and correct type
+// TODO: return the changed {key:property} and correct type
 export const updateGuild = async (guild: Guild): Promise<void> => {
   try {
     const newGuild = await formatGuild(guild)
