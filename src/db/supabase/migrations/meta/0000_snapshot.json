@@ -1,5 +1,5 @@
 {
-  "id": "2f65e84a-beba-4578-a7fd-dd8093ebf172",
+  "id": "fb316dcf-427e-4a25-9e6a-a895d5987e36",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -14,8 +14,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "message_id": {
-          "name": "message_id",
+        "discord_id": {
+          "name": "discord_id",
           "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
@@ -50,6 +50,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "discord_created_at": {
+          "name": "discord_created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
@@ -60,12 +66,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "attachments_message_id_messages_discord_id_fk": {
-          "name": "attachments_message_id_messages_discord_id_fk",
+        "attachments_discord_id_messages_discord_id_fk": {
+          "name": "attachments_discord_id_messages_discord_id_fk",
           "tableFrom": "attachments",
           "tableTo": "messages",
           "columnsFrom": [
-            "message_id"
+            "discord_id"
           ],
           "columnsTo": [
             "discord_id"
@@ -189,8 +195,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "message_id": {
-          "name": "message_id",
+        "discord_id": {
+          "name": "discord_id",
           "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
@@ -266,16 +272,29 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "discord_created_at": {
+          "name": "discord_created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "embeds_message_id_messages_discord_id_fk": {
-          "name": "embeds_message_id_messages_discord_id_fk",
+        "embeds_discord_id_messages_discord_id_fk": {
+          "name": "embeds_discord_id_messages_discord_id_fk",
           "tableFrom": "embeds",
           "tableTo": "messages",
           "columnsFrom": [
-            "message_id"
+            "discord_id"
           ],
           "columnsTo": [
             "discord_id"
@@ -333,17 +352,11 @@
           "primaryKey": false,
           "notNull": true
         },
-        "pinned_at": {
-          "name": "pinned_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
         "discord_created_at": {
           "name": "discord_created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -451,60 +464,6 @@
           ]
         }
       }
-    },
-    "public.stickers": {
-      "name": "stickers",
-      "schema": "",
-      "columns": {
-        "sticker_id": {
-          "name": "sticker_id",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "message_id": {
-          "name": "message_id",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "format_type": {
-          "name": "format_type",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "stickers_message_id_messages_discord_id_fk": {
-          "name": "stickers_message_id_messages_discord_id_fk",
-          "tableFrom": "stickers",
-          "tableTo": "messages",
-          "columnsFrom": [
-            "message_id"
-          ],
-          "columnsTo": [
-            "discord_id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
     },
     "public.guild_configuration": {
       "name": "guild_configuration",

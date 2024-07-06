@@ -3,7 +3,7 @@ import {
   createChannel,
   deleteChannel,
   updateChannel,
-} from '../../utils/channel'
+} from '../services/channelService'
 
 export default (client: Client) => {
   client.on('channelCreate', async (channel) => {

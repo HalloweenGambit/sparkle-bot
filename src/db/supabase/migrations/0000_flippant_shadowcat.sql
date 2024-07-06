@@ -1,11 +1,12 @@
 CREATE TABLE IF NOT EXISTS "attachments" (
 	"attachment_id" serial PRIMARY KEY NOT NULL,
-	"message_id" varchar(20) NOT NULL,
+	"discord_id" varchar(20) NOT NULL,
 	"url" text NOT NULL,
 	"proxy_url" text,
 	"filename" varchar(256),
 	"size" integer,
 	"content_type" varchar(128),
+	"discord_created_at" timestamp NOT NULL,
 	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
@@ -29,7 +30,7 @@ CREATE TABLE IF NOT EXISTS "channels" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "embeds" (
 	"embed_id" serial PRIMARY KEY NOT NULL,
-	"message_id" varchar(20) NOT NULL,
+	"discord_id" varchar(20) NOT NULL,
 	"title" text,
 	"description" text,
 	"url" text,
@@ -41,7 +42,9 @@ CREATE TABLE IF NOT EXISTS "embeds" (
 	"thumbnail_url" text,
 	"author_name" text,
 	"author_url" text,
-	"author_icon_url" text
+	"author_icon_url" text,
+	"discord_created_at" timestamp NOT NULL,
+	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "messages" (
@@ -52,8 +55,7 @@ CREATE TABLE IF NOT EXISTS "messages" (
 	"author_id" varchar(256) NOT NULL,
 	"content" text,
 	"is_pinned" boolean NOT NULL,
-	"pinned_at" timestamp,
-	"discord_created_at" timestamp NOT NULL,
+	"discord_created_at" timestamp,
 	"created_at" timestamp DEFAULT now(),
 	CONSTRAINT "messages_discord_id_unique" UNIQUE("discord_id")
 );
@@ -73,14 +75,6 @@ CREATE TABLE IF NOT EXISTS "servers" (
 	CONSTRAINT "servers_discord_id_unique" UNIQUE("discord_id")
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "stickers" (
-	"sticker_id" varchar(20) NOT NULL,
-	"message_id" varchar(20) NOT NULL,
-	"name" text NOT NULL,
-	"description" text,
-	"format_type" integer NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "guild_configuration" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"guild_id" varchar(20) NOT NULL,
@@ -90,19 +84,13 @@ CREATE TABLE IF NOT EXISTS "guild_configuration" (
 );
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "attachments" ADD CONSTRAINT "attachments_message_id_messages_discord_id_fk" FOREIGN KEY ("message_id") REFERENCES "public"."messages"("discord_id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "attachments" ADD CONSTRAINT "attachments_discord_id_messages_discord_id_fk" FOREIGN KEY ("discord_id") REFERENCES "public"."messages"("discord_id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "embeds" ADD CONSTRAINT "embeds_message_id_messages_discord_id_fk" FOREIGN KEY ("message_id") REFERENCES "public"."messages"("discord_id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "stickers" ADD CONSTRAINT "stickers_message_id_messages_discord_id_fk" FOREIGN KEY ("message_id") REFERENCES "public"."messages"("discord_id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "embeds" ADD CONSTRAINT "embeds_discord_id_messages_discord_id_fk" FOREIGN KEY ("discord_id") REFERENCES "public"."messages"("discord_id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

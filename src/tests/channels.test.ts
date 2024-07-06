@@ -1,9 +1,9 @@
 // tests/initialize.test.ts
 
 import { describe, it, expect, beforeEach, beforeAll } from 'vitest'
-import { loadGuild, loadGuilds } from '../utils/utils'
+import { loadGuild, loadGuilds } from '../utils/guildUtils'
 import DotenvFlow from 'dotenv-flow'
-import { loadGuildChannels } from '../utils/channel'
+import { loadGuildChannels } from '../utils/channelUtils'
 
 DotenvFlow.config()
 

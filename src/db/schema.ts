@@ -57,8 +57,7 @@ export const Messages = pgTable('messages', {
   authorId: varchar('author_id', { length: 256 }).notNull(),
   content: text('content'),
   isPinned: boolean('is_pinned').notNull(),
-  pinnedAt: timestamp('pinned_at'),
-  discordCreatedAt: varchar('discord_created_at').notNull(),
+  discordCreatedAt: timestamp('discord_created_at'),
   createdAt: timestamp('created_at').defaultNow(),
 })
 

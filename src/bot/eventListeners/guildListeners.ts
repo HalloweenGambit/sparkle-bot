@@ -1,5 +1,5 @@
 import { Client } from 'discord.js'
-import { createGuild, updateGuild, deleteGuild } from '../../utils/utils'
+import { createGuild, updateGuild, deleteGuild } from '../services/guildService'
 
 export default (client: Client) => {
   client.on('guildCreate', async (guild) => {

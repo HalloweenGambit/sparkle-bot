@@ -1,5 +1,5 @@
 import { Guild, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js'
-import { loadGuildChannels } from '../../utils/channel'
+import { loadGuildChannels } from '../../utils/channelUtils'
 
 export const channelSelector = async (
   guild: Guild

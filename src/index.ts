@@ -4,6 +4,9 @@ import { loadEventListeners } from './bot/loaders/eventListenerLoader'
 import { loadSlashCommands } from './bot/loaders/slashCommandLoader'
 import discordClient from './config/discordConfig'
 
+import { syncAllChannels } from './utils/channelUtils'
+import { syncGuilds } from './bot/services/guildService'
+
 DotenvFlow.config()
 
 const startBot = async () => {
@@ -20,9 +23,9 @@ const startBot = async () => {
         console.log('Discord client user is not available.')
       }
       await registerCommands(discordClient) // Register commands after login
+      await syncGuilds()
+      await syncAllChannels()
       console.log('waiting on you now cApItAn!')
-      // await syncGuilds()
-      // await syncAllChannels()
     })
   } catch (error) {
     console.error('Error starting the bot:', error)

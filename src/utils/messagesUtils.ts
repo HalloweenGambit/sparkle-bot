@@ -1,9 +1,9 @@
 import dbClient from '../config/dbConfig'
 import { FormattedMessage, queryMessage } from '../types'
-import { loadGuildChannel } from './channel'
+import { loadGuildChannel } from './channelUtils'
 import { Messages } from '../db/schema'
 import { eq } from 'drizzle-orm'
-import { Message } from 'discord.js'
+import { Message, Snowflake } from 'discord.js'
 
 export const loadAllChannelMessages = async (
   guildId: string,
@@ -24,6 +24,7 @@ export const loadAllChannelMessages = async (
     return channelMessages
   } catch (error) {}
 }
+
 export const loadMessage = async (
   guildId: string,
   channelId: string,
@@ -46,32 +47,8 @@ export const loadMessage = async (
   } catch (error) {}
 }
 
-export const formatMessage = (message): FormattedMessage => {
-  return {
-    discordId: message.id,
-    channelId: message.channelId,
-    guildId: message.guildId,
-    authorId: message.authorId,
-    content: message.content,
-    isPinned: message.isPinned,
-    pinnedAt: message.pinnedAt ?? null,
-  }
-}
-
-export const saveMessage = async (message) => {
-  try {
-    let db = await dbClient
-    const formattedMessage = formatMessage(message)
-    await db.insert(Messages).values(formattedMessage)
-    console.log(`Inserted message ${message.discordId}`)
-  } catch (error) {
-    console.error('Error saving message:', error)
-    throw { error: 'Failed saving message. Please try again later.' }
-  }
-}
-
 export const findMessage = async (
-  discordId: string
+  discordId: Snowflake
 ): Promise<queryMessage | null> => {
   try {
     let db = await dbClient
@@ -90,22 +67,49 @@ export const findMessage = async (
   }
 }
 
-export const updateMessage = async (
-  discordId: string
-): Promise<queryMessage | null> => {
-  try {
-    let db = await dbClient
-
-    if (!storedMessage) {
-      console.log(`No Stored message with ${discordId} was found`)
-      // should i return an empty object if not found? how to handle
-      return null
-    }
-    return await storedMessage
-  } catch (error) {
-    console.error('Error finding message:', error)
-    throw { error: 'Failed finding message. Please try again later.' }
+export const formatMessage = (message: Message<true>): FormattedMessage => {
+  return {
+    discordId: message.id,
+    channelId: message.channelId,
+    guildId: message.guildId,
+    authorId: message.author.id,
+    content: message.content,
+    isPinned: message.pinned,
+    discordCreatedAt: message.createdAt ?? null,
   }
+}
+
+export const compareMessages = (
+  newMessage: Message<true>,
+  oldMessage: queryMessage
+): boolean => {
+  const channel = formatMessage(newMessage)
+
+  const keys = Object.keys(channel) as (keyof FormattedMessage)[]
+  for (const key of keys) {
+    if (channel[key] !== oldMessage[key]) {
+      return false
+    }
+  }
+  return true
+}
+
+export const getChangedFields = (
+  newData: Message<true>,
+  oldData: queryMessage
+): Partial<FormattedMessage> => {
+  const formattedMessage = formatMessage(newData)
+  const changedFields = Object.entries(formattedMessage).reduce(
+    (changedFields, [key, value]) => {
+      if (value !== oldData[key as keyof FormattedMessage]) {
+        return { ...changedFields, [key]: value }
+      }
+      return changedFields
+    },
+    {}
+  )
+
+  return changedFields
 }
 
 export const formatAttachments = () => {}

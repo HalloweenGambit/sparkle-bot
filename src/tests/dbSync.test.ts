@@ -1,15 +1,18 @@
 // tests/initialize.test.ts
 
 import { describe, it, expect, beforeEach, beforeAll } from 'vitest'
-import { loadCompleteGuilds, loadGuilds, formatGuilds } from '../utils/utils'
-import { syncGuilds } from '../utils/utils'
+import {
+  loadCompleteGuilds,
+  loadGuilds,
+  formatGuilds,
+} from '../utils/guildUtils'
 import DotenvFlow from 'dotenv-flow'
 import {
   formatGuildChannels,
   loadGuildChannels,
   syncAllChannels,
-  createChannel,
-} from '../utils/channel'
+} from '../utils/channelUtils'
+import { syncGuilds } from '../bot/services/guildService'
 
 DotenvFlow.config()
 beforeAll(() => {})
@@ -17,7 +20,7 @@ describe.skip('test channels sync', async () => {
   it.skip('load guilds', async () => {
     const allGuilds = await loadCompleteGuilds()
     const formattedGuilds = await formatGuilds(allGuilds)
-    await syncGuilds(formattedGuilds)
+    await syncGuilds()
   })
 
   it('load', async () => {

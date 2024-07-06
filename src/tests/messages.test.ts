@@ -2,7 +2,7 @@ import { describe, it, expect, assert } from 'vitest'
 import DotenvFlow from 'dotenv-flow'
 import discordClient from '../config/discordConfig'
 import dbClient from '../config/dbConfig'
-import { loadAllChannelMessages, loadMessage } from '../utils/messages'
+import { loadAllChannelMessages, loadMessage } from '../utils/messagesUtils'
 
 DotenvFlow.config()
 

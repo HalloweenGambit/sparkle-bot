@@ -1,30 +1,30 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import DotenvFlow from "dotenv-flow";
-import dbClient from "../config/dbConfig";
-import { findGuild, createGuild } from "../utils/utils";
+import { describe, it, expect, beforeEach } from 'vitest'
+import DotenvFlow from 'dotenv-flow'
+import dbClient from '../config/dbConfig'
+import { findGuild, createGuild } from '../utils/guildUtils'
 
-DotenvFlow.config();
+DotenvFlow.config()
 
-describe.skip("create all discord guilds", async () => {
+describe.skip('create all discord guilds', async () => {
   // get all guilds from discord api
   // format all of them and return them as a formatted list
   // use the formatted list to
-  it("", async () => {
+  it('', async () => {
     const res = await createGuild({
-      discordId: "098761929987",
-      guildDescription: "4 test guild",
-      guildOwnerId: "123454321",
-    });
-    await console.log(res);
-    expect(res).toBe("?");
-  });
+      discordId: '098761929987',
+      guildDescription: '4 test guild',
+      guildOwnerId: '123454321',
+    })
+    await console.log(res)
+    expect(res).toBe('?')
+  })
 
-  it("find Server record", async () => {
+  it('find Server record', async () => {
     // create fake guild
-    const res = await findGuild("1234567890");
-    console.log(res);
+    const res = await findGuild('1234567890')
+    console.log(res)
     // expect(res?.serverName).toBe("test guild");
-  });
+  })
 
-  it("check if guild exists in db", async () => {});
-});
+  it('check if guild exists in db', async () => {})
+})

@@ -37,10 +37,10 @@ export type FormattedMessage = {
   channelId: string
   guildId: string
   authorId: string
-  content: string | null
+  content: string
   isPinned: boolean
-  pinnedAt: Date | null
-  // discordCreatedAt: Date | null
+  // pinnedAt: Date | null
+  discordCreatedAt: Date | null
 }
 
 export type FormattedAttachement = {}
