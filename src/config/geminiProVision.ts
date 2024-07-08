@@ -1,15 +1,15 @@
-import * as fs from "fs";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import * as fs from 'fs'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.API_KEY)
 
 function fileToGenerativePart(path, mimeType) {
   return {
     inlineData: {
-      data: Buffer.from(fs.readFileSync(path)).toString("base64"),
+      data: Buffer.from(fs.readFileSync(path)).toString('base64'),
       mimeType,
     },
-  };
+  }
 }
 
 export async function geminiProVision() {
@@ -26,4 +26,4 @@ export async function geminiProVision() {
   //   console.log(text);
 }
 
-geminiProVision();
+geminiProVision()
