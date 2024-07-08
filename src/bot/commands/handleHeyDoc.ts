@@ -1,4 +1,5 @@
 import { Message } from 'discord.js'
+import geminiPro from '../../config/geminiPro'
 
 const heyDoc = async (message: Message) => {
   const regex = /^hey doc/i

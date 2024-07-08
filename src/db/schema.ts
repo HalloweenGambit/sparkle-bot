@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm'
-import { serial, varchar, timestamp } from 'drizzle-orm/pg-core'
+import { serial, varchar, timestamp, vector } from 'drizzle-orm/pg-core'
 import { integer, pgTable, boolean, text } from 'drizzle-orm/pg-core'
 
 // Servers Table (Guilds)
@@ -48,7 +48,8 @@ export const UserConfiguration = pgTable('guild_configuration', {
     .default(sql`ARRAY[]::text[]`),
 })
 
-// PinnedMessages Table
+// Recorded Messages Table - currently will include pinned & sparkled msgs
+// Knowledge Repository
 export const Messages = pgTable('messages', {
   id: serial('message_id').primaryKey(),
   discordId: varchar('discord_id', { length: 20 }).unique().notNull(),
@@ -61,27 +62,12 @@ export const Messages = pgTable('messages', {
   createdAt: timestamp('created_at').defaultNow(),
 })
 
-// Attachments Table
-export const Attachments = pgTable('attachments', {
-  id: serial('attachment_id').primaryKey(),
-  discordId: varchar('discord_id', { length: 20 })
-    .notNull()
-    .references(() => Messages.discordId),
-  url: text('url').notNull(),
-  proxyUrl: text('proxy_url'),
-  filename: varchar('filename', { length: 256 }),
-  size: integer('size'),
-  contentType: varchar('content_type', { length: 128 }),
-  discordCreatedAt: timestamp('discord_created_at').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-})
-
-// Embeds Table
-export const Embeds = pgTable('embeds', {
-  id: serial('embed_id').primaryKey(),
-  discordId: varchar('discord_id', { length: 20 })
-    .notNull()
-    .references(() => Messages.discordId),
+// Message Embeds Table (Discord Message Embeds)
+export const MessageEmbeds = pgTable('message_embeds', {
+  id: serial('message_embed_id').primaryKey(),
+  messageId: varchar('message_id', { length: 20 })
+    .references(() => Messages.discordId)
+    .notNull(),
   title: text('title'),
   description: text('description'),
   url: text('url'),
@@ -94,6 +80,60 @@ export const Embeds = pgTable('embeds', {
   authorName: text('author_name'),
   authorUrl: text('author_url'),
   authorIconUrl: text('author_icon_url'),
+  discordCreatedAt: timestamp('discord_created_at').defaultNow(),
+  createdAt: timestamp('created_at').defaultNow(),
+})
+
+// Attachments Table
+export const MessageAttachments = pgTable('attachments', {
+  id: serial('message_attachment_id').primaryKey(),
+  discordId: varchar('discord_id', { length: 20 })
+    .notNull()
+    .references(() => Messages.discordId),
+  url: text('url').notNull(),
+  proxyUrl: text('proxy_url'),
+  filename: varchar('filename', { length: 256 }),
+  size: integer('size'),
+  contentType: varchar('content_type', { length: 128 }),
   discordCreatedAt: timestamp('discord_created_at').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
+})
+
+// Embeddings Table for Messages (for Semantic Search or Analysis)
+export const MessageEmbeddings = pgTable('message_embeddings', {
+  id: serial('embedding_id').primaryKey(),
+  messageId: varchar('message_id', { length: 20 })
+    .references(() => Messages.discordId)
+    .notNull(),
+  embedding: vector('embedding', { dimensions: 512 }).notNull(), // Assuming 512 dimensions for embeddings
+  tokens: text('tokens').array().notNull(),
+  lemmas: text('lemmas').array().notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+})
+
+// Attachment Embeddings Table
+export const AttachmentEmbeddings = pgTable('attachment_embeddings', {
+  id: serial('attachment_embedding_id').primaryKey(),
+  attachmentId: varchar('attachment_id', { length: 20 })
+    .references(() => MessageAttachments.discordId)
+    .notNull(),
+  embedding: vector('embedding', { dimensions: 512 }).notNull(), // Assuming 512 dimensions for embeddings
+  createdAt: timestamp('created_at').defaultNow(),
+})
+
+// Questions Table
+export const Questions = pgTable('questions', {
+  id: serial('id').primaryKey(),
+  messageId: varchar('message_id', { length: 20 })
+    .references(() => Messages.discordId)
+    .notNull(),
+
+  tokens: text('tokens').array().notNull(),
+  lemmas: text('lemmas').array().notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+})
+
+// Questions embeddings
+export const QuestionEmbedding = pgTable('question_embedding', {
+  embedding: vector('embedding', { dimensions: 512 }).notNull(), // Assuming 512 dimensions for embeddings
 })
