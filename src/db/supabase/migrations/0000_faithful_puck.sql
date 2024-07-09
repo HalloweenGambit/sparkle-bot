@@ -41,8 +41,6 @@ CREATE TABLE IF NOT EXISTS "message_embeddings" (
 	"embedding_id" serial PRIMARY KEY NOT NULL,
 	"message_id" varchar(256),
 	"embedding" vector(512) NOT NULL,
-	"tokens" text[],
-	"lemmas" text[],
 	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
@@ -72,6 +70,8 @@ CREATE TABLE IF NOT EXISTS "messages" (
 	"guild_id" varchar(256) NOT NULL,
 	"author_id" varchar(256) NOT NULL,
 	"content" text,
+	"tokens" text[],
+	"lemmas" text[],
 	"is_pinned" boolean NOT NULL,
 	"discord_created_at" timestamp,
 	"created_at" timestamp DEFAULT now(),

@@ -1,5 +1,5 @@
 {
-  "id": "e3c83c16-ca0c-4a5f-ae4a-5f302f6eeeca",
+  "id": "055be4a6-f8fe-40c9-ae22-7446094987bd",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -270,18 +270,6 @@
           "primaryKey": false,
           "notNull": true
         },
-        "tokens": {
-          "name": "tokens",
-          "type": "text[]",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "lemmas": {
-          "name": "lemmas",
-          "type": "text[]",
-          "primaryKey": false,
-          "notNull": false
-        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
@@ -468,6 +456,18 @@
         "content": {
           "name": "content",
           "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tokens": {
+          "name": "tokens",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lemmas": {
+          "name": "lemmas",
+          "type": "text[]",
           "primaryKey": false,
           "notNull": false
         },

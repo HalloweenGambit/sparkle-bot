@@ -38,9 +38,18 @@ export type FormattedMessage = {
   guildId: string
   authorId: string
   content: string
+  lemmas: string[]
+  tokens: string[]
   isPinned: boolean
   // pinnedAt: Date | null
   discordCreatedAt: Date | null
+}
+
+export type FormattedMessageEmbedding = {
+  discordId: Snowflake
+  tokens: string[]
+  lemmas: string[]
+  embedding: number[]
 }
 
 export type FormattedQuestion = {

@@ -22,6 +22,7 @@ const startBot = async () => {
       } else {
         console.log('Discord client user is not available.')
       }
+      // TODO: create and register commands
       // await registerCommands(discordClient) // Register commands after login
       await syncGuilds()
       await syncAllChannels()

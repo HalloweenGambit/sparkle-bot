@@ -1,7 +1,12 @@
 import dbClient from '../config/dbConfig'
-import { FormattedMessage, FormattedQuestion, queryMessage } from '../types'
+import {
+  FormattedMessage,
+  FormattedMessageEmbedding,
+  FormattedQuestion,
+  queryMessage,
+} from '../types'
 import { loadGuildChannel } from './channelUtils'
-import { Messages } from '../db/schema'
+import { MessageEmbeddings, Messages } from '../db/schema'
 import { eq } from 'drizzle-orm'
 import { Message, Snowflake } from 'discord.js'
 import { preProcessQuestion } from '../bot/services/preProcessMessageContent'
@@ -68,23 +73,44 @@ export const findMessage = async (
   }
 }
 
-export const formatMessage = (message: Message<true>): FormattedMessage => {
+//! change to preProcessMessage > general
+export const formatMessage = async (
+  message: Message
+): Promise<FormattedMessage> => {
+  const { lemmas, tokens } = await preProcessQuestion(message.content)
   return {
     discordId: message.id,
     channelId: message.channelId,
-    guildId: message.guildId,
+    guildId: (message.guildId as string) ?? null,
     authorId: message.author.id,
     content: message.content,
+    lemmas: lemmas,
+    tokens: tokens,
     isPinned: message.pinned,
     discordCreatedAt: message.createdAt ?? null,
   }
 }
 
-export const compareMessages = (
+export const formatMessageEmbedding = async (message: Message) => {
+  const discordId = message.id
+  const { lemmas, tokens } = await preProcessQuestion(message.content)
+  const embedding = await embedMessageContent(tokens)
+
+  return { discordId, tokens, lemmas, embedding }
+}
+
+export const saveMessageEmbedding = async (
+  formattedMessageEmbedding: FormattedMessageEmbedding
+) => {
+  const db = await dbClient
+  await db.insert(MessageEmbeddings).values(formattedMessageEmbedding)
+}
+
+export const compareMessages = async (
   newMessage: Message<true>,
   oldMessage: queryMessage
-): boolean => {
-  const channel = formatMessage(newMessage)
+): Promise<boolean> => {
+  const channel = await formatMessage(newMessage)
 
   const keys = Object.keys(channel) as (keyof FormattedMessage)[]
   for (const key of keys) {

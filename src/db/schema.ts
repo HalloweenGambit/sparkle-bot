@@ -58,6 +58,8 @@ export const Messages = pgTable('messages', {
   guildId: varchar('guild_id', { length: 256 }).notNull(),
   authorId: varchar('author_id', { length: 256 }).notNull(),
   content: text('content'),
+  tokens: text('tokens').array(),
+  lemmas: text('lemmas').array(),
   isPinned: boolean('is_pinned').notNull(),
   discordCreatedAt: timestamp('discord_created_at'),
   createdAt: timestamp('created_at').defaultNow(),
@@ -102,14 +104,13 @@ export const MessageAttachments = pgTable('attachments', {
 })
 
 // Message Embeddings Table
+// !Move some columns to the Messages table
 export const MessageEmbeddings = pgTable('message_embeddings', {
   id: serial('embedding_id').primaryKey(),
-  messageId: varchar('message_id', { length: 256 }).references(
+  discordId: varchar('message_id', { length: 256 }).references(
     () => Messages.discordId
   ),
   embedding: vector('embedding', { dimensions: 512 }).notNull(),
-  tokens: text('tokens').array(),
-  lemmas: text('lemmas').array(),
   createdAt: timestamp('created_at').defaultNow(),
 })
 
