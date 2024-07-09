@@ -1,6 +1,10 @@
 import { Snowflake } from 'discord.js'
 import dbClient from '../../config/dbConfig'
-import { MessageEmbeddings, Questions } from '../../db/schema'
+import {
+  MessageEmbeddings,
+  QuestionEmbeddings,
+  Questions,
+} from '../../db/schema'
 import { eq } from 'drizzle-orm'
 import { FormattedQuestion } from '../../types'
 
@@ -21,11 +25,11 @@ export const saveQuestionEmbedding = async (
   }
   try {
     const db = await dbClient
-    await db.insert(MessageEmbeddings).values({
+    await db.insert(QuestionEmbeddings).values({
       discordId,
       embedding,
     })
-    console.log(`Saved embedding for message ${messageId}`)
+    console.log(`Saved embedding for message ${discordId}`)
   } catch (error) {
     console.log(`Error saving message embedding: ${error}`)
     throw { error: 'Failed saving embedding. Please try again later.' }
