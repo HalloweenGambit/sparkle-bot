@@ -1,12 +1,11 @@
 import { Message } from 'discord.js'
 import { preProcessQuestion } from '../services/preProcessMessageContent'
 import embedMessageContent from '../services/embedMessageContent'
+import { formatQuestion } from '../../utils/messagesUtils'
+import { saveQuestion } from '../services/questionService'
 
 export async function handleQuestion(message: Message) {
   const content = message.content
-  const guildId = message.guildId
-  const channelId = message.channelId
-  const createdAt = message.createdAt
 
   const containsQuestionMark = (str: string) => {
     const regex = /\?/
@@ -17,12 +16,10 @@ export async function handleQuestion(message: Message) {
     return
   }
 
-  const formattedQuestion = formatQuestion(content, guildId, channelId)
-  const { originalText, lemmas, tokens } = await preProcessQuestion(content)
-  const embeddings = await embedMessageContent(tokens)
-  // Process the question
-  // save processed question to db
-  // create embeddings
+  const formattedQuestion = await formatQuestion(message)
+  saveQuestion(formattedQuestion)
+  // const { discordId, tokens } = formattedQuestion
+  // const embeddings = await embedMessageContent(tokens)
   // save embeddings to db
 
   console.log(content)

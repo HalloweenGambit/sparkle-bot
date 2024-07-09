@@ -43,6 +43,20 @@ export type FormattedMessage = {
   discordCreatedAt: Date | null
 }
 
+export type FormattedQuestion = {
+  userId: Snowflake
+  discordId: Snowflake
+  originalText: string
+  lemmas: string[]
+  tokens: string[]
+  discordCreatedAt: Date
+}
+
+export type FormattedEmbedding = {
+  messageId: Snowflake
+  embedding: number[]
+}
+
 export type FormattedAttachement = {}
 
 // Define the Embed type based on Discord embed structure

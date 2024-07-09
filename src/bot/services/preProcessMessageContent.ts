@@ -62,6 +62,6 @@ export const preProcessQuestion = async (question: string) => {
 }
 
 // Example usage
-const question = 'Is this project open source?'
-const exampleResponse = await preProcessQuestion(question)
-console.log(exampleResponse)
+// const question = 'Is this project open source?'
+// const exampleResponse = await preProcessQuestion(question)
+// console.log(exampleResponse)

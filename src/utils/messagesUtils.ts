@@ -1,9 +1,11 @@
 import dbClient from '../config/dbConfig'
-import { FormattedMessage, queryMessage } from '../types'
+import { FormattedMessage, FormattedQuestion, queryMessage } from '../types'
 import { loadGuildChannel } from './channelUtils'
 import { Messages } from '../db/schema'
 import { eq } from 'drizzle-orm'
 import { Message, Snowflake } from 'discord.js'
+import { preProcessQuestion } from '../bot/services/preProcessMessageContent'
+import embedMessageContent from '../bot/services/embedMessageContent'
 
 export const loadAllChannelMessages = async (
   guildId: string,
@@ -136,3 +138,26 @@ export const saveGuildMessage = (messageId: string) => {
 //     }
 //   }
 // }
+
+// ! Make this work with a Message object
+export const formatQuestion = async (
+  message: Message
+): Promise<FormattedQuestion> => {
+  const { lemmas, tokens } = await preProcessQuestion(message.content)
+  return {
+    userId: message.author.id,
+    discordId: message.id,
+    originalText: message.content,
+    tokens,
+    lemmas,
+    discordCreatedAt: message.createdAt,
+  }
+}
+
+export const formatQuestionEmbedding = async (
+  questionId: Snowflake,
+  tokens: string[]
+) => {
+  const embeddings = await embedMessageContent(tokens)
+  return { questionId, embeddings }
+}

@@ -13,8 +13,8 @@ const embedMessageContent = async (tokens: string[]) => {
 export default embedMessageContent
 
 // Example input text
-const tokens = ['this', 'is', 'an', 'example']
+// const tokens = ['this', 'is', 'an', 'example']
 // Example usage
-embedMessageContent(tokens).then((embeddings) => {
-  console.log(embeddings)
-})
+// embedMessageContent(tokens).then((embeddings) => {
+//   console.log(embeddings)
+// })
