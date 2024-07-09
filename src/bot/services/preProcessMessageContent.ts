@@ -5,7 +5,7 @@ import { stopWords } from '../../utils/stopWords'
 const stopwords = new Set(stopWords)
 
 // Clean the text
-const cleanText = (text: string) =>
+export const cleanText = (text: string) =>
   text
     .replace(/[^a-zA-Z0-9\s]/g, '') // Remove non-alphanumeric characters
     .toLowerCase() // Convert to lowercase
@@ -21,16 +21,43 @@ const lemmatize = (tokens: string[]): string[] => {
   return lemmas
 }
 
-const preProcessQuestion = async (question: string) => {
+export const preProcessQuestion = async (question: string) => {
   try {
     const cleanedQuestion = cleanText(question)
-
     // Tokenize and process with Compromise
     const doc = nlp(cleanedQuestion)
-    return doc
+    const tokens = doc.terms().out('array') // Get array of tokens
+    const lemmas = lemmatize(tokens)
+    const posTags = doc.terms().out('tags') // Get POS tags
+    const namedEntities = doc.match('#Person|#Place|#Organization').out('array') // Extract named entities
+    const sentenceTokens = doc.sentences().out('array') // Split into sentences
+    const termFrequencies = tokens.reduce((freq, term) => {
+      freq[term] = (freq[term] || 0) + 1
+      return freq
+    }, {})
+
+    return {
+      originalText: question,
+      cleanedText: cleanedQuestion,
+      lemmas,
+      tokens,
+      posTags,
+      namedEntities,
+      sentenceTokens,
+      termFrequencies,
+    }
   } catch (error) {
     console.error('Error processing question:', error)
-    return []
+    return {
+      originalText: question,
+      cleanedText: '',
+      lemmas: [],
+      tokens: [],
+      posTags: [],
+      namedEntities: [],
+      sentenceTokens: [],
+      termFrequencies: {},
+    }
   }
 }
 

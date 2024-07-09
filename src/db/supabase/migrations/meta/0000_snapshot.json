@@ -1,58 +1,28 @@
 {
-  "id": "fb316dcf-427e-4a25-9e6a-a895d5987e36",
+  "id": "b9954e15-b266-4156-952e-1057dd3edb19",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.attachments": {
-      "name": "attachments",
+    "public.attachment_embeddings": {
+      "name": "attachment_embeddings",
       "schema": "",
       "columns": {
-        "attachment_id": {
-          "name": "attachment_id",
+        "attachment_embedding_id": {
+          "name": "attachment_embedding_id",
           "type": "serial",
           "primaryKey": true,
           "notNull": true
         },
-        "discord_id": {
-          "name": "discord_id",
+        "attachment_id": {
+          "name": "attachment_id",
           "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
         },
-        "url": {
-          "name": "url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "proxy_url": {
-          "name": "proxy_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "filename": {
-          "name": "filename",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "size": {
-          "name": "size",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "content_type": {
-          "name": "content_type",
-          "type": "varchar(128)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "discord_created_at": {
-          "name": "discord_created_at",
-          "type": "timestamp",
+        "embedding": {
+          "name": "embedding",
+          "type": "vector(512)",
           "primaryKey": false,
           "notNull": true
         },
@@ -66,12 +36,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "attachments_discord_id_messages_discord_id_fk": {
-          "name": "attachments_discord_id_messages_discord_id_fk",
-          "tableFrom": "attachments",
-          "tableTo": "messages",
+        "attachment_embeddings_attachment_id_attachments_discord_id_fk": {
+          "name": "attachment_embeddings_attachment_id_attachments_discord_id_fk",
+          "tableFrom": "attachment_embeddings",
+          "tableTo": "attachments",
           "columnsFrom": [
-            "discord_id"
+            "attachment_id"
           ],
           "columnsTo": [
             "discord_id"
@@ -185,18 +155,172 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.embeds": {
-      "name": "embeds",
+    "public.attachments": {
+      "name": "attachments",
       "schema": "",
       "columns": {
-        "embed_id": {
-          "name": "embed_id",
+        "message_attachment_id": {
+          "name": "message_attachment_id",
           "type": "serial",
           "primaryKey": true,
           "notNull": true
         },
         "discord_id": {
           "name": "discord_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "message_id": {
+          "name": "message_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "url": {
+          "name": "url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "proxy_url": {
+          "name": "proxy_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "filename": {
+          "name": "filename",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "size": {
+          "name": "size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "content_type": {
+          "name": "content_type",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "discord_created_at": {
+          "name": "discord_created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "attachments_message_id_messages_discord_id_fk": {
+          "name": "attachments_message_id_messages_discord_id_fk",
+          "tableFrom": "attachments",
+          "tableTo": "messages",
+          "columnsFrom": [
+            "message_id"
+          ],
+          "columnsTo": [
+            "discord_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "attachments_discord_id_unique": {
+          "name": "attachments_discord_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "discord_id"
+          ]
+        }
+      }
+    },
+    "public.message_embeddings": {
+      "name": "message_embeddings",
+      "schema": "",
+      "columns": {
+        "embedding_id": {
+          "name": "embedding_id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "message_id": {
+          "name": "message_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "embedding": {
+          "name": "embedding",
+          "type": "vector(512)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tokens": {
+          "name": "tokens",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lemmas": {
+          "name": "lemmas",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "message_embeddings_message_id_messages_discord_id_fk": {
+          "name": "message_embeddings_message_id_messages_discord_id_fk",
+          "tableFrom": "message_embeddings",
+          "tableTo": "messages",
+          "columnsFrom": [
+            "message_id"
+          ],
+          "columnsTo": [
+            "discord_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.message_embeds": {
+      "name": "message_embeds",
+      "schema": "",
+      "columns": {
+        "message_embed_id": {
+          "name": "message_embed_id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "message_id": {
+          "name": "message_id",
           "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
@@ -277,7 +401,8 @@
           "name": "discord_created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false,
+          "default": "now()"
         },
         "created_at": {
           "name": "created_at",
@@ -289,12 +414,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "embeds_discord_id_messages_discord_id_fk": {
-          "name": "embeds_discord_id_messages_discord_id_fk",
-          "tableFrom": "embeds",
+        "message_embeds_message_id_messages_discord_id_fk": {
+          "name": "message_embeds_message_id_messages_discord_id_fk",
+          "tableFrom": "message_embeds",
           "tableTo": "messages",
           "columnsFrom": [
-            "discord_id"
+            "message_id"
           ],
           "columnsTo": [
             "discord_id"
@@ -378,6 +503,77 @@
           ]
         }
       }
+    },
+    "public.question_embedding": {
+      "name": "question_embedding",
+      "schema": "",
+      "columns": {
+        "embedding": {
+          "name": "embedding",
+          "type": "vector(512)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.questions": {
+      "name": "questions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "message_id": {
+          "name": "message_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tokens": {
+          "name": "tokens",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lemmas": {
+          "name": "lemmas",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "questions_message_id_messages_discord_id_fk": {
+          "name": "questions_message_id_messages_discord_id_fk",
+          "tableFrom": "questions",
+          "tableTo": "messages",
+          "columnsFrom": [
+            "message_id"
+          ],
+          "columnsTo": [
+            "discord_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
     },
     "public.servers": {
       "name": "servers",

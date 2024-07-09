@@ -3,19 +3,18 @@ import * as use from '@tensorflow-models/universal-sentence-encoder'
 import { Tensor2D } from '@tensorflow/tfjs-node'
 
 // Function to embed text using Universal Sentence Encoder
-const embedTokens = async (tokens: string[]) => {
+const embedMessageContent = async (tokens: string[]) => {
   const tokenizedText = tokens.join(' ') // Join tokens to form a single string for embedding
   const model = await use.load()
-  const embeddings = await model.embed([tokenizedText])
+  const embeddings = await model.embed(tokenizedText)
   return embeddings.arraySync()
 }
 
-export default embedTokens
+export default embedMessageContent
 
 // Example input text
-const tokens = ['This', 'is', 'an', 'example.']
-
+const tokens = ['this', 'is', 'an', 'example']
 // Example usage
-embedTokens(tokens).then((embeddings) => {
+embedMessageContent(tokens).then((embeddings) => {
   console.log(embeddings)
 })
