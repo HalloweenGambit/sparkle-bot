@@ -6,8 +6,9 @@ import { Tensor2D } from '@tensorflow/tfjs-node'
 const embedMessageContent = async (tokens: string[]) => {
   const tokenizedText = tokens.join(' ') // Join tokens to form a single string for embedding
   const model = await use.load()
-  const embeddings = await model.embed(tokenizedText)
-  return embeddings.arraySync()
+  const embeddings = await model.embed([tokenizedText]) // Pass as an array with one element
+  const embeddingArray = embeddings.arraySync()
+  return embeddingArray[0] // Return the first (and only) element
 }
 
 export default embedMessageContent

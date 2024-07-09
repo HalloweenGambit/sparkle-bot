@@ -13,10 +13,8 @@ export const deleteQuestion = async () => {}
 
 // TODO: Implement an update and delete function
 export const saveQuestionEmbedding = async (
-  messageId: Snowflake,
-  embedding: number[],
-  tokens: string[],
-  lemmas: string[]
+  discordId: Snowflake,
+  embedding: number[]
 ) => {
   if (!embedding) {
     return
@@ -24,10 +22,8 @@ export const saveQuestionEmbedding = async (
   try {
     const db = await dbClient
     await db.insert(MessageEmbeddings).values({
-      messageId: messageId,
-      embedding: embedding,
-      tokens: tokens,
-      lemmas: lemmas,
+      discordId,
+      embedding,
     })
     console.log(`Saved embedding for message ${messageId}`)
   } catch (error) {

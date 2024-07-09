@@ -2,7 +2,10 @@ import { Message } from 'discord.js'
 import { preProcessQuestion } from '../services/preProcessMessageContent'
 import embedMessageContent from '../services/embedMessageContent'
 import { formatQuestion } from '../../utils/messagesUtils'
-import { saveQuestion } from '../services/questionService'
+import {
+  saveQuestion,
+  saveQuestionEmbedding,
+} from '../services/questionService'
 
 export async function handleQuestion(message: Message) {
   const content = message.content
@@ -18,10 +21,9 @@ export async function handleQuestion(message: Message) {
 
   const formattedQuestion = await formatQuestion(message)
   saveQuestion(formattedQuestion)
-  // const { discordId, tokens } = formattedQuestion
-  // const embeddings = await embedMessageContent(tokens)
-  // save embeddings to db
+  const { discordId, tokens } = formattedQuestion
+  const embedding = await embedMessageContent(tokens)
+  saveQuestionEmbedding(discordId, embedding)
 
-  console.log(content)
   return
 }

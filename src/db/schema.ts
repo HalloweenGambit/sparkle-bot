@@ -138,7 +138,7 @@ export const Questions = pgTable('questions', {
 // Question Embeddings Table
 export const QuestionEmbeddings = pgTable('question_embeddings', {
   id: serial('id').primaryKey(),
-  questionId: varchar('question_id', { length: 256 })
+  discordId: varchar('discord_id', { length: 256 })
     .references(() => Questions.discordId)
     .notNull(),
   embedding: vector('embedding', { dimensions: 512 }).notNull(),
