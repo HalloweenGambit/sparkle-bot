@@ -37,6 +37,7 @@ export default (client: Client) => {
         if (!message) {
           return
         }
+        // TODO: create a function to preProcess the message before saving it to the database
 
         const res = await saveMessage(guildId, channelId, messageId)
         const formattedEmbedding = await formatMessageEmbedding(message)

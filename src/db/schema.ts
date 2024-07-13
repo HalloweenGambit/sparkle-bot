@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm'
-import { serial, varchar, timestamp, vector } from 'drizzle-orm/pg-core'
+import { serial, varchar, timestamp, vector, index } from 'drizzle-orm/pg-core'
 import { integer, pgTable, boolean, text } from 'drizzle-orm/pg-core'
 
 // Servers Table (Guilds)
@@ -105,14 +105,23 @@ export const MessageAttachments = pgTable('attachments', {
 
 // Message Embeddings Table
 // !Move some columns to the Messages table
-export const MessageEmbeddings = pgTable('message_embeddings', {
-  id: serial('embedding_id').primaryKey(),
-  discordId: varchar('message_id', { length: 256 }).references(
-    () => Messages.discordId
-  ),
-  embedding: vector('embedding', { dimensions: 512 }).notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-})
+export const MessageEmbeddings = pgTable(
+  'message_embeddings',
+  {
+    id: serial('embedding_id').primaryKey(),
+    discordId: varchar('message_id', { length: 256 })
+      .references(() => Messages.discordId)
+      .notNull(),
+    embedding: vector('embedding', { dimensions: 512 }).notNull(),
+    createdAt: timestamp('created_at').defaultNow(),
+  },
+  (table) => ({
+    embeddingIndex: index('embeddingIndex').using(
+      'hnsw',
+      table.embedding.op('vector_cosine_ops')
+    ),
+  })
+)
 
 // Attachment Embeddings Table
 export const AttachmentEmbeddings = pgTable('attachment_embeddings', {
