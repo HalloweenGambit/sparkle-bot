@@ -1,6 +1,5 @@
 import '@tensorflow/tfjs-node' // Import TensorFlow.js for Node.js backend
 import * as use from '@tensorflow-models/universal-sentence-encoder'
-import { Tensor2D } from '@tensorflow/tfjs-node'
 
 // Function to embed text using Universal Sentence Encoder
 const embedMessageContent = async (tokens: string[]) => {
