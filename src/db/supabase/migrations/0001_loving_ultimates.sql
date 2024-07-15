@@ -1,2 +1,0 @@
-ALTER TABLE "message_embeddings" ALTER COLUMN "message_id" SET NOT NULL;--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "embeddingIndex" ON "message_embeddings" USING hnsw ("embedding" vector_cosine_ops);

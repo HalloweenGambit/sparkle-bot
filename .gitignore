@@ -3,10 +3,10 @@
 # macOS:
 .DS_Store
 
-tests/
 dist/
-supabase/
 trashbin/
+src/tests/
+src/db/supabase/
 node_modules/
 .env
 .env.development
