@@ -5,12 +5,12 @@ import {
   FormattedQuestion,
   queryMessage,
 } from '../types'
-import { loadGuildChannel } from './channelUtils'
-import { MessageEmbeddings, Messages } from '../db/schema'
+import { loadGuildChannel } from './channelUtils.js'
+import { MessageEmbeddings, Messages } from '../db/schema.js'
 import { eq } from 'drizzle-orm'
 import { Message, Snowflake } from 'discord.js'
-import { preProcessQuestion } from '../bot/services/preProcessMessageContent'
-import embedMessageContent from '../bot/services/embedMessageContent'
+import { preProcessQuestion } from '../bot/services/preProcessMessageContent.js'
+import embedMessageContent from '../bot/services/embedMessageContent.js'
 
 export const loadAllChannelMessages = async (
   guildId: string,

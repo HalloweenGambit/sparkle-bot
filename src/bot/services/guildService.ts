@@ -7,9 +7,9 @@ import {
   getChangedFields,
   loadCompleteGuilds,
   loadGuilds,
-} from '../../utils/guildUtils'
-import dbClient from '../../config/dbConfig'
-import { Servers } from '../../db/schema'
+} from '../../utils/guildUtils.js'
+import dbClient from '../../config/dbConfig.js'
+import { Servers } from '../../db/schema.js'
 import { eq } from 'drizzle-orm'
 
 // Create new guild

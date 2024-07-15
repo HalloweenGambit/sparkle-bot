@@ -1,13 +1,13 @@
 import { Snowflake } from 'discord.js'
-import dbClient from '../../config/dbConfig'
+import dbClient from '../../config/dbConfig.js'
 import {
   compareMessages,
   findMessage,
   formatMessage,
   getChangedFields,
   loadMessage,
-} from '../../utils/messagesUtils'
-import { Messages } from '../../db/schema'
+} from '../../utils/messagesUtils.js'
+import { Messages } from '../../db/schema.js'
 import { eq } from 'drizzle-orm'
 
 export const saveMessage = async (

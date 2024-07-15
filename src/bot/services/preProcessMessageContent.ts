@@ -1,5 +1,5 @@
 import nlp from 'compromise'
-import { stopWords } from '../../utils/stopWords'
+import { stopWords } from '../../utils/stopWords.js'
 
 // Define stopwords set
 const stopwords = new Set(stopWords)

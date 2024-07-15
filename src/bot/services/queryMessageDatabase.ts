@@ -1,6 +1,6 @@
 import { cosineDistance, desc, gt, sql } from 'drizzle-orm'
-import dbClient from '../../config/dbConfig'
-import { MessageEmbeddings } from '../../db/schema'
+import dbClient from '../../config/dbConfig.js'
+import { MessageEmbeddings } from '../../db/schema.js'
 
 const queryMessageDatabase = async (embedding: number[]) => {
   const db = await dbClient

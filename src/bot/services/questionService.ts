@@ -1,12 +1,12 @@
 import { Snowflake } from 'discord.js'
-import dbClient from '../../config/dbConfig'
+import dbClient from '../../config/dbConfig.js'
 import {
   MessageEmbeddings,
   QuestionEmbeddings,
   Questions,
-} from '../../db/schema'
+} from '../../db/schema.js'
 import { eq } from 'drizzle-orm'
-import { FormattedQuestion } from '../../types'
+import { FormattedQuestion } from '../../types.js'
 
 export const saveQuestion = async (question: FormattedQuestion) => {
   const db = await dbClient

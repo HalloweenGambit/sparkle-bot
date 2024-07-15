@@ -1,9 +1,9 @@
 import { Guild, Collection, OAuth2Guild } from 'discord.js'
-import discordClient from '../config/discordConfig'
-import dbClient from '../config/dbConfig'
-import { Servers } from '../db/schema'
+import discordClient from '../config/discordConfig.js'
+import dbClient from '../config/dbConfig.js'
+import { Servers } from '../db/schema.js'
 import { eq } from 'drizzle-orm'
-import { FormattedGuild, queryServers } from '../types'
+import { FormattedGuild, queryServers } from '../types.js'
 
 // Load all guilds from discordApi
 export const loadGuilds = async (): Promise<

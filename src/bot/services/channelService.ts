@@ -1,12 +1,12 @@
 import { GuildBasedChannel } from 'discord.js'
-import { FormattedChannel } from '../../types'
+import { FormattedChannel } from '../../types.js'
 import {
   findChannel,
   formatGuildChannel,
   getChangedFields,
-} from '../../utils/channelUtils'
-import dbClient from '../../config/dbConfig'
-import { Channels } from '../../db/schema'
+} from '../../utils/channelUtils.js'
+import dbClient from '../../config/dbConfig.js'
+import { Channels } from '../../db/schema.js'
 import { eq } from 'drizzle-orm'
 
 export const createChannel = async (channel: GuildBasedChannel) => {

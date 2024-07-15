@@ -1,11 +1,11 @@
 import DotenvFlow from 'dotenv-flow'
-import { loadEventListeners } from './bot/loaders/eventListenerLoader'
-import { loadSlashCommands } from './bot/loaders/slashCommandLoader'
-import discordClient from './config/discordConfig'
+import { loadEventListeners } from './bot/loaders/eventListenerLoader.js'
+import { loadSlashCommands } from './bot/loaders/slashCommandLoader.js'
+import discordClient from './config/discordConfig.js'
 
-import { syncAllChannels } from './utils/channelUtils'
-import { syncGuilds } from './bot/services/guildService'
-import { registerCommands } from './utils/registerCommands'
+import { syncAllChannels } from './utils/channelUtils.js'
+import { syncGuilds } from './bot/services/guildService.js'
+import { registerCommands } from './utils/registerCommands.js'
 
 DotenvFlow.config()
 

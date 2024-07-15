@@ -1,10 +1,10 @@
 import { Channel, Guild, GuildBasedChannel } from 'discord.js'
-import dbClient from '../config/dbConfig'
-import { Channels } from '../db/schema'
+import dbClient from '../config/dbConfig.js'
+import { Channels } from '../db/schema.js'
 import { eq } from 'drizzle-orm'
-import { FormattedChannel, FormattedGuild, queryChannel } from '../types'
-import { loadCompleteGuilds, loadGuild } from './guildUtils'
-import { createChannel, updateChannel } from '../bot/services/channelService'
+import { FormattedChannel, FormattedGuild, queryChannel } from '../types.js'
+import { loadCompleteGuilds, loadGuild } from './guildUtils.js'
+import { createChannel, updateChannel } from '../bot/services/channelService.js'
 
 export const loadGuildChannels = async (
   guild: Guild
