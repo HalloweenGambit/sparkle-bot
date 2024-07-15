@@ -34,7 +34,7 @@ export const updateQuestionEmbedding = async (messageId, embedding) => {
         const res = await db
             .update(MessageEmbeddings)
             .set({ embedding: embedding })
-            .where(eq(MessageEmbeddings.messageId, messageId));
+            .where(eq(MessageEmbeddings.discordId, messageId));
         console.log(`Updated embedding for message ${messageId}`);
         return res;
     }
@@ -48,7 +48,7 @@ export const deleteQuestionEmbedding = async (messageId) => {
         const db = await dbClient;
         await db
             .delete(MessageEmbeddings)
-            .where(eq(MessageEmbeddings.messageId, messageId));
+            .where(eq(MessageEmbeddings.discordId, messageId));
         console.log(`Deleted embedding for message ${messageId}`);
     }
     catch (error) {

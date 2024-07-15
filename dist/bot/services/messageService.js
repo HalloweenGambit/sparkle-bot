@@ -29,7 +29,7 @@ export const updateMessage = async (guildId, channelId, discordId) => {
             console.log(`Cannot update. Missing old or new message`);
             return;
         }
-        if (compareMessages(newMessage, oldMessage)) {
+        if (await compareMessages(newMessage, oldMessage)) {
             console.log(`Messages are the same, no need to update`);
             return;
         }

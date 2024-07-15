@@ -48,7 +48,7 @@ export const updateQuestionEmbedding = async (
     const res = await db
       .update(MessageEmbeddings)
       .set({ embedding: embedding })
-      .where(eq(MessageEmbeddings.messageId, messageId))
+      .where(eq(MessageEmbeddings.discordId, messageId))
     console.log(`Updated embedding for message ${messageId}`)
     return res
   } catch (error) {
@@ -62,7 +62,7 @@ export const deleteQuestionEmbedding = async (messageId: Snowflake) => {
     const db = await dbClient
     await db
       .delete(MessageEmbeddings)
-      .where(eq(MessageEmbeddings.messageId, messageId))
+      .where(eq(MessageEmbeddings.discordId, messageId))
     console.log(`Deleted embedding for message ${messageId}`)
   } catch (error) {
     console.error(`Error deleting message embedding: ${error}`)

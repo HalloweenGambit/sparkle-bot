@@ -46,7 +46,7 @@ export const updateMessage = async (
       return
     }
 
-    if (compareMessages(newMessage, oldMessage)) {
+    if (await compareMessages(newMessage, oldMessage)) {
       console.log(`Messages are the same, no need to update`)
       return
     }
