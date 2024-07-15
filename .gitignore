@@ -3,7 +3,9 @@
 # macOS:
 .DS_Store
 
-build/
+tests/
+dist/
+supabase/
 node_modules/
 .env
 .env.development
