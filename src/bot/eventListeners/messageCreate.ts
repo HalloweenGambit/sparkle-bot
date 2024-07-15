@@ -1,7 +1,7 @@
 import { Client } from 'discord.js'
-import geminiPro from '../../config/geminiPro'
-import { handleQuestion } from '../commands/handleQuestion'
-import { handleHeyDoc } from '../commands/handleHeyDoc'
+import geminiPro from '../../config/geminiPro.js'
+import { handleQuestion } from '../commands/handleQuestion.js'
+import { handleHeyDoc } from '../commands/handleHeyDoc.js'
 
 export default (client: Client) => {
   client.on('messageCreate', async (message) => {

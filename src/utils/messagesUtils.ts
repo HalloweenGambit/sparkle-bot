@@ -1,4 +1,4 @@
-import dbClient from '../config/dbConfig'
+import dbClient from '../config/dbConfig.js'
 import {
   FormattedMessage,
   FormattedMessageEmbedding,

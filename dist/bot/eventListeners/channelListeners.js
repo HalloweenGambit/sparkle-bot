@@ -1,4 +1,4 @@
-import { createChannel, deleteChannel, } from '../services/channelService';
+import { createChannel, deleteChannel, } from '../services/channelService.js';
 export default (client) => {
     client.on('channelCreate', async (channel) => {
         createChannel(channel);

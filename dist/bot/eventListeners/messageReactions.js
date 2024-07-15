@@ -1,5 +1,5 @@
-import { deleteMessage, saveMessage } from '../services/messageService';
-import { formatMessageEmbedding, loadMessage, saveMessageEmbedding, } from '../../utils/messagesUtils';
+import { deleteMessage, saveMessage } from '../services/messageService.js';
+import { formatMessageEmbedding, loadMessage, saveMessageEmbedding, } from '../../utils/messagesUtils.js';
 // TODOLATER: check for user permissions before proceeding
 // TODOLATER: decide if we want to delete the message or just remove the reaction
 // TODOLATER: add a cooldown to prevent spamming the database

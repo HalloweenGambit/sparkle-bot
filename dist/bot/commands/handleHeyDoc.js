@@ -1,4 +1,4 @@
-import geminiPro from '../../config/geminiPro';
+import geminiPro from '../../config/geminiPro.js';
 export const handleHeyDoc = async (message) => {
     const regex = /^hey doc/i;
     if (regex.test(message.content)) {

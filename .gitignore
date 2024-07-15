@@ -6,6 +6,7 @@
 tests/
 dist/
 supabase/
+trashbin/
 node_modules/
 .env
 .env.development

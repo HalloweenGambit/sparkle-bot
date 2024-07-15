@@ -1,4 +1,4 @@
-import dbClient from '../config/dbConfig';
+import dbClient from '../config/dbConfig.js';
 import { loadGuildChannel } from './channelUtils.js';
 import { MessageEmbeddings, Messages } from '../db/schema.js';
 import { eq } from 'drizzle-orm';

@@ -1,10 +1,10 @@
-import embedMessageContent from '../services/embedMessageContent';
-import { formatQuestion } from '../../utils/messagesUtils';
-import { saveQuestion, saveQuestionEmbedding, } from '../services/questionService';
-import queryMessageDatabase from '../services/queryMessageDatabase';
-import dbClient from '../../config/dbConfig';
+import embedMessageContent from '../services/embedMessageContent.js';
+import { formatQuestion } from '../../utils/messagesUtils.js';
+import { saveQuestion, saveQuestionEmbedding, } from '../services/questionService.js';
+import queryMessageDatabase from '../services/queryMessageDatabase.js';
+import dbClient from '../../config/dbConfig.js';
 import { eq } from 'drizzle-orm';
-import { Messages } from '../../db/schema';
+import { Messages } from '../../db/schema.js';
 export async function handleQuestion(message) {
     if (message.author.bot) {
         return;

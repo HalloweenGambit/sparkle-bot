@@ -1,10 +1,10 @@
 import { Client, GatewayIntentBits, Collection } from 'discord.js'
-import { deleteMessage, saveMessage } from '../services/messageService'
+import { deleteMessage, saveMessage } from '../services/messageService.js'
 import {
   formatMessageEmbedding,
   loadMessage,
   saveMessageEmbedding,
-} from '../../utils/messagesUtils'
+} from '../../utils/messagesUtils.js'
 import { load } from 'dotenv-flow'
 
 // TODOLATER: check for user permissions before proceeding
