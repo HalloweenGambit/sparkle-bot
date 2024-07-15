@@ -25,7 +25,9 @@
     "test": "NODE_ENV=development vitest",
     "start": "NODE_ENV=production drizzle-kit generate --config ./src/db/drizzle.config.ts tsx src/index.ts",
     "dev": "NODE_ENV=development tsx watch ./src/index.ts",
-    "deploy": "NODE_ENV=production tsx ./src/index.ts",
+    "deploy-generate": "NODE_ENV=production drizzle-kit generate --config ./src/db/drizzle.config.ts ",
+    "deploy-migrate": "NODE_ENV=production drizzle-kit migrate --config ./src/db/drizzle.config.ts",
+    "droplet": "NODE_ENV=production tsx ./src/index.ts",
     "generate": "NODE_ENV=development drizzle-kit generate --config ./src/db/drizzle.config.ts",
     "migrate": "NODE_ENV=development drizzle-kit migrate --config ./src/db/drizzle.config.ts",
     "build": "NODE_ENV=development vite build"
