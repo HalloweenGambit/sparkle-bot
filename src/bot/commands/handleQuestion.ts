@@ -46,6 +46,10 @@ export async function handleQuestion(message: Message) {
 
     // top 5 possiblt results
     const res = await queryMessageDatabase(embedding)
+    if (res.length === 0) {
+      console.log(`no results found`)
+      return
+    }
     // return the first best result
     const firstResult = res[0]
     const messageId = firstResult.messageId
