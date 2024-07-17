@@ -6,6 +6,7 @@ import {
   saveMessageEmbedding,
 } from '../../utils/messagesUtils.js'
 import { load } from 'dotenv-flow'
+import { addSparkle, removeSparkle } from '../services/sparkleReply.js'
 
 // TODOLATER: check for user permissions before proceeding
 // TODOLATER: decide if we want to delete the message or just remove the reaction
@@ -17,35 +18,7 @@ import { load } from 'dotenv-flow'
 export default (client: Client) => {
   client.on('messageReactionAdd', async (reaction, user) => {
     try {
-      // Ensure the reaction is in a guild
-      if (!reaction.message.guild) {
-        console.log('Reaction is not in a guild')
-        return
-      }
-
-      console.log('Reaction added:', reaction.emoji.name)
-      // TODO: add user to the database
-      console.log('User who added the reaction:', user.globalName)
-
-      // Your additional logic here
-      if (reaction.emoji.name === '✨') {
-        const guildId = reaction.message.guild.id
-        const channelId = reaction.message.channel.id
-        const messageId = reaction.message.id
-
-        const message = await loadMessage(guildId, channelId, messageId)
-        if (!message) {
-          return
-        }
-        // TODO: create a function to preProcess the message before saving it to the database
-
-        const res = await saveMessage(guildId, channelId, messageId)
-        const formattedEmbedding = await formatMessageEmbedding(message)
-        saveMessageEmbedding(formattedEmbedding)
-
-        await console.log(res)
-        console.log('User reacted with a sparkle!')
-      }
+      addSparkle(reaction, user)
     } catch (error) {
       console.error('Error handling messageReactionAdd event:', error)
     }
@@ -53,19 +26,7 @@ export default (client: Client) => {
 
   client.on('messageReactionRemove', async (reaction, user) => {
     try {
-      if (!reaction.message.guild) {
-        console.log('Reaction is not in a guild')
-        return
-      }
-
-      console.log('Reaction removed:', reaction.emoji.name)
-      console.log('User who removed the reaction:', user.globalName)
-
-      // Your additional logic here
-      if (reaction.emoji.name === '✨') {
-        const res = await deleteMessage(reaction.message.id)
-        console.log('User removed sparkle reaction!')
-      }
+      removeSparkle(reaction, user)
     } catch (error) {
       console.error('Error handling messageReactionRemove event:', error)
     }

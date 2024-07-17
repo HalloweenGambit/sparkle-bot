@@ -1,0 +1,7 @@
+NODE_ENV=production pm2 start dist/index.js --name doc-bot
+pm2 restart doc-bot
+pm2 stop doc-bot
+pm2 delete doc-bot
+pm2 logs doc-bot
+pm2 logs doc-bot --lines 100
+pm2 monit

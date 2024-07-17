@@ -141,11 +141,10 @@ export const getChangedFields = (
 
 export const formatAttachments = () => {}
 export const formatEmbeds = () => {}
+export const saveAttachment = () => {}
+export const saveEmbed = () => {}
 export const loadStarredMessages = (channelId: string) => {}
 export const loadPinnedMessages = (channelId: string) => {}
-export const saveGuildMessage = (messageId: string) => {
-  // fbreak out the message, embed, attachments
-}
 
 // export const loadPinneGuildMessages = async (guildId: string) => {
 //   try {
