@@ -1,9 +1,11 @@
 import defaultConfig from '../defaultCongif.json'
 import dbClient from '../../config/dbConfig.js'
 import { Configs } from '../../db/schema'
-import { Collection, Guild, OAuth2Guild, Snowflake } from 'discord.js'
+import { OAuth2Guild, Snowflake } from 'discord.js'
 import { eq } from 'drizzle-orm'
 import { loadGuilds } from '../../utils/guildUtils'
+import path from 'path' // Import path module for handling file paths
+import fs from 'fs'
 
 export const createConfigData = async (guild: OAuth2Guild) => {
   try {
@@ -52,6 +54,17 @@ export const loadConfigData = async (guildId: Snowflake) => {
   }
 }
 
+export const loadAllConfigs = async () => {
+  try {
+    const db = await dbClient
+    const res = await db.query.Configs.findMany()
+    return res
+  } catch (error) {
+    console.error('Error loading configurations:', error)
+    return { error: 'Failed to load configurations. Please try again later.' }
+  }
+}
+
 export const deleteConfig = async (guildId: Snowflake) => {
   try {
     const db = await dbClient
@@ -94,27 +107,17 @@ const findConfig = async (guildId: Snowflake) => {
   }
 }
 
-// export const syncConfig = async (id: Snowflake, guild: OAuth2Guild) => {
-//   try {
-//     // Load the configuration data for the guild
-//   } catch (error) {
-//     console.error('Error syncing configuration:', error)
-//     return { error: 'Failed to sync configuration. Please try again later.' }
-//   }
-// }
 export const syncAllConfigs = async () => {
-  // TODO: finish syncConfig function
-  // TODO: sync by also adding the configuration to a cache or local storage,
-  // !Currently only adding to the database if it doesn't exist
-
   try {
     console.log('Syncing configurations')
 
     // Load all guilds
     const guilds = await loadGuilds()
 
-    // Prepare arrays for batch operations
-    const cache: { [key: string]: any } = {}
+    // Prepare cache object
+    const cache = {}
+
+    // Array to store config check promises
     const configPromises = []
 
     // Iterate over each guild
@@ -123,14 +126,14 @@ export const syncAllConfigs = async () => {
       configPromises.push(
         (async () => {
           const res = await findConfig(id)
-          if (!res) {
-            // Create configuration data for the guild
+          if (!res || res.error) {
+            // Create configuration data for the guild if not found or error
             const newConfigData = await createConfigData(guild)
             await saveConfig(id, newConfigData)
             console.log(`Added new config for guild: ${guild.name}, id: ${id}`)
             cache[id] = newConfigData // Add to cache
-          } else {
-            cache[id] = res // Add existing config to cache
+          } else if (res.configData) {
+            cache[id] = res.configData // Add existing config to cache if configData exists
           }
         })()
       )
@@ -138,6 +141,20 @@ export const syncAllConfigs = async () => {
 
     // Wait for all promises to complete
     await Promise.all(configPromises)
+
+    // Determine the path to save the file based on current module file
+    const currentModuleFile = import.meta.url
+    const currentDir = path.dirname(new URL(currentModuleFile).pathname)
+    const parentFolderPath = path.join(currentDir, '../configsCache.json')
+
+    // Write cache to JSON file
+    fs.writeFile(parentFolderPath, JSON.stringify(cache), (err) => {
+      if (err) {
+        console.error('Error writing configsCache.json:', err)
+        throw err // Handle error appropriately
+      }
+      console.log('configsCache.json has been saved')
+    })
 
     // Optionally: Store cache in local storage or another caching mechanism
     // Example: localStorage.setItem('configsCache', JSON.stringify(cache));
