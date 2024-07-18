@@ -5,7 +5,11 @@ import { handleHeyDoc } from '../commands/handleHeyDoc.js'
 
 export default (client: Client) => {
   client.on('messageCreate', async (message) => {
-    console.log(message.content)
+    if (message.author.bot) return
+    if (!message.inGuild) {
+      return
+    }
+    console.log(`new guild msg: ${message.content}`)
     handleQuestion(message)
     handleHeyDoc(message)
   })

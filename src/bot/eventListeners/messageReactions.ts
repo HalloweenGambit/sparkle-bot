@@ -1,12 +1,9 @@
-import { Client, GatewayIntentBits, Collection } from 'discord.js'
-import { deleteMessage, saveMessage } from '../services/messageService.js'
+import { Client } from 'discord.js'
 import {
-  formatMessageEmbedding,
-  loadMessage,
-  saveMessageEmbedding,
-} from '../../utils/messagesUtils.js'
-import { load } from 'dotenv-flow'
-import { addSparkle, removeSparkle } from '../services/sparkleReply.js'
+  deleteSparkleMessage,
+  replyToAddSparkle,
+  saveSparkleMessage,
+} from '../../utils/sparkleUtils.js'
 
 // TODOLATER: check for user permissions before proceeding
 // TODOLATER: decide if we want to delete the message or just remove the reaction
@@ -18,7 +15,8 @@ import { addSparkle, removeSparkle } from '../services/sparkleReply.js'
 export default (client: Client) => {
   client.on('messageReactionAdd', async (reaction, user) => {
     try {
-      addSparkle(reaction, user)
+      await saveSparkleMessage(reaction, user)
+      await replyToAddSparkle(reaction, user)
     } catch (error) {
       console.error('Error handling messageReactionAdd event:', error)
     }
@@ -26,7 +24,7 @@ export default (client: Client) => {
 
   client.on('messageReactionRemove', async (reaction, user) => {
     try {
-      removeSparkle(reaction, user)
+      deleteSparkleMessage(reaction, user)
     } catch (error) {
       console.error('Error handling messageReactionRemove event:', error)
     }

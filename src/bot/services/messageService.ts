@@ -24,7 +24,6 @@ export const saveMessage = async (
     }
     const formattedMessage = await formatMessage(message)
     const res = await db.insert(Messages).values(formattedMessage).returning()
-    console.log(`Inserted message ${message.id}`)
     return res
   } catch (error) {
     console.error('Error saving message:', error)
