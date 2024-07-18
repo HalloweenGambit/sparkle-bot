@@ -1,14 +1,17 @@
 {
+  "server_id": "",
+  "server_name": "",
   "roles": {
-    "can_manage_messages": ["Admin", "Moderator"]
+    "can_manage_messages": ["Admin", "Moderator"],
+    "can_ask_questions": ["Member"]
   },
   "channels": {
-    "message_management": ["general-questions", "tech-support"],
-    "question_listener": ["general-questions", "tech-support"]
+    "message_management": ["all"],
+    "question_listener": ["all"]
   },
   "bot_feedback": {
-    "dm": true,
+    "dm": false,
     "same_channel": true,
-    "channel": "bot-feedback"
+    "defined_channel": ""
   }
 }

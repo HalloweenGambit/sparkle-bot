@@ -4,10 +4,17 @@ import {
   updateGuild,
   deleteGuild,
 } from '../services/guildService.js'
+import {
+  saveConfig,
+  createConfigData,
+  deleteConfig,
+} from '../services/configService.js'
 
 export default (client: Client) => {
   client.on('guildCreate', async (guild) => {
-    createGuild(guild)
+    await createGuild(guild)
+    const configData = await createConfigData(guild)
+    await saveConfig(guild.id, configData)
   })
 
   client.on('guildUpdate', async (guild) => {
@@ -15,6 +22,7 @@ export default (client: Client) => {
   })
 
   client.on('guildDelete', async (guild) => {
-    deleteGuild(guild.id)
+    await deleteGuild(guild.id)
+    await deleteConfig(guild.id)
   })
 }
