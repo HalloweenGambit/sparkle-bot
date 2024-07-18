@@ -24,7 +24,6 @@ export const saveMessage = async (
     }
     const formattedMessage = await formatMessage(message)
     const res = await db.insert(Messages).values(formattedMessage).returning()
-    console.log(`Inserted message ${message.id}`)
     return res
   } catch (error) {
     console.error('Error saving message:', error)
@@ -64,6 +63,9 @@ export const updateMessage = async (
 
 export const deleteMessage = async (discordId: Snowflake) => {
   const db = await dbClient
-
-  await db.delete(Messages).where(eq(Messages.discordId, discordId))
+  const res = await db
+    .delete(Messages)
+    .where(eq(Messages.discordId, discordId))
+    .returning()
+  return res
 }

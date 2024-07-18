@@ -103,7 +103,28 @@ export const saveMessageEmbedding = async (
   formattedMessageEmbedding: FormattedMessageEmbedding
 ) => {
   const db = await dbClient
-  await db.insert(MessageEmbeddings).values(formattedMessageEmbedding)
+  const res = await db
+    .insert(MessageEmbeddings)
+    .values(formattedMessageEmbedding)
+    .returning()
+  return res
+}
+
+// TODO: create a function that updates the message embedding in the database
+// export const updateMessageEmbedding = async (discord) => {
+//   const db = await dbClient
+//   const res = await db
+//     .update(Messages)
+//   return res
+// }
+
+export const deleteMessageEmbedding = async (discordId: Snowflake) => {
+  const db = await dbClient
+  const res = await db
+    .delete(MessageEmbeddings)
+    .where(eq(MessageEmbeddings.discordId, discordId))
+    .returning()
+  return res
 }
 
 export const compareMessages = async (
@@ -141,11 +162,10 @@ export const getChangedFields = (
 
 export const formatAttachments = () => {}
 export const formatEmbeds = () => {}
+export const saveAttachment = () => {}
+export const saveEmbed = () => {}
 export const loadStarredMessages = (channelId: string) => {}
 export const loadPinnedMessages = (channelId: string) => {}
-export const saveGuildMessage = (messageId: string) => {
-  // fbreak out the message, embed, attachments
-}
 
 // export const loadPinneGuildMessages = async (guildId: string) => {
 //   try {
