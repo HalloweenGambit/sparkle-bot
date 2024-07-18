@@ -1,0 +1,14 @@
+{
+  "roles": {
+    "can_manage_messages": ["Admin", "Moderator"]
+  },
+  "channels": {
+    "message_management": ["general-questions", "tech-support"],
+    "question_listener": ["general-questions", "tech-support"]
+  },
+  "bot_feedback": {
+    "dm": true,
+    "same_channel": true,
+    "channel": "bot-feedback"
+  }
+}
