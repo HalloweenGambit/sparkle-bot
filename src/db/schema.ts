@@ -1,5 +1,12 @@
 import { sql } from 'drizzle-orm'
-import { serial, varchar, timestamp, vector, index } from 'drizzle-orm/pg-core'
+import {
+  serial,
+  varchar,
+  timestamp,
+  vector,
+  index,
+  jsonb,
+} from 'drizzle-orm/pg-core'
 import { integer, pgTable, boolean, text } from 'drizzle-orm/pg-core'
 
 // Servers Table (Guilds)
@@ -152,5 +159,15 @@ export const QuestionEmbeddings = pgTable('question_embeddings', {
     .references(() => Questions.discordId)
     .notNull(),
   embedding: vector('embedding', { dimensions: 512 }).notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+})
+
+// Config Table
+export const Configs = pgTable('configs', {
+  id: serial('id').primaryKey(),
+  discordId: varchar('discord_id', { length: 256 })
+    .references(() => Servers.discordId)
+    .notNull(),
+  configData: jsonb('config_data').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 })
