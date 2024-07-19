@@ -2,8 +2,10 @@ import { Client } from 'discord.js'
 import {
   deleteSparkleMessage,
   replyToAddSparkle,
+  replyTotDeleteSparkle,
   saveSparkleMessage,
 } from '../../utils/sparkleUtils.js'
+import configCache from '../configsCache.json'
 
 // TODOLATER: check for user permissions before proceeding
 // TODOLATER: decide if we want to delete the message or just remove the reaction
@@ -24,7 +26,8 @@ export default (client: Client) => {
 
   client.on('messageReactionRemove', async (reaction, user) => {
     try {
-      deleteSparkleMessage(reaction, user)
+      await deleteSparkleMessage(reaction, user)
+      await replyTotDeleteSparkle(reaction, user)
     } catch (error) {
       console.error('Error handling messageReactionRemove event:', error)
     }

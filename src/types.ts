@@ -104,3 +104,25 @@ type Sticker = {
   description: string
   formatType: number
 }
+
+export type ServerConfig = {
+  server_id: string
+  server_name: string
+  roles: {
+    can_manage_messages: string[]
+    can_ask_questions: string[]
+  }
+  channels: {
+    message_management: string[]
+    question_listener: string[]
+  }
+  bot_feedback: {
+    dm: boolean
+    same_channel: boolean
+    feedback_channel: string[]
+  }
+}
+
+export type ConfigCache = {
+  [key: Snowflake]: ServerConfig
+}

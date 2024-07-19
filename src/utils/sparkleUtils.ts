@@ -1,4 +1,3 @@
-import { User } from 'discord.js'
 import {
   deleteMessageEmbedding,
   formatMessageEmbedding,
@@ -19,12 +18,10 @@ export const replyToAddSparkle = async (reaction, user) => {
 
 export const replyTotDeleteSparkle = async (reaction, user) => {
   try {
-    user.send(`You deleted message ${reaction.message.id} from the database!`)
+    user.send(`You removed message ${reaction.message.id} from the database!`)
     reaction.message.reply(
-      `You deleted message ${reaction.message.id} from the database!`
+      `You removed message ${reaction.message.id} from the database!`
     )
-    console.log(user)
-    console.log(reaction)
   } catch (error) {}
 }
 
@@ -77,10 +74,6 @@ export const deleteSparkleMessage = async (reaction, user) => {
       return
     }
 
-    // TODO: check for user permissions before proceeding
-    // TODO: check if channel is configured to allow deleting messages
-    // TODO: delete message embedding from the database
-
     const embeddingRes = await deleteMessageEmbedding(reaction.message.id)
     const msgRes = await deleteMessage(reaction.message.id)
 
@@ -88,13 +81,6 @@ export const deleteSparkleMessage = async (reaction, user) => {
       console.log(`Embedding or Message not found in database, cannot delete`)
       return
     }
-
-    user.send({
-      content: `You removed message ${reaction.message.id} from the database`,
-    })
-    reaction.message.reply({
-      content: `You removed message ${reaction.message.id} from the database`,
-    })
     console.log(
       `User ${user.globalName} removed ${reaction.message.id} from the database!`
     )

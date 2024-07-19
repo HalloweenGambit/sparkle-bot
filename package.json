@@ -21,7 +21,7 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "NODE_ENV=development tsx watch ./src/index.ts",
+    "dev": "NODE_ENV=development tsx ./src/index.ts",
     "test": "NODE_ENV=development vitest",
     "clean": "rimraf dist",
     "compile": "tsc --project tsconfig.json --outDir dist",
