@@ -2,7 +2,7 @@
   "server_id": "",
   "server_name": "",
   "roles": {
-    "can_manage_messages": ["Admin", "Moderator"],
+    "can_manage_messages": ["Administrator", "Moderator"],
     "can_ask_questions": ["Member"]
   },
   "channels": {
@@ -12,6 +12,7 @@
   "bot_feedback": {
     "dm": false,
     "same_channel": true,
-    "feedback_channel": ["none"]
+    "feedback_channel": null,
+    "emoji": "✅"
   }
 }

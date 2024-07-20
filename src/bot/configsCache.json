@@ -4,7 +4,7 @@
     "server_name": "Space Station 404",
     "roles": {
       "can_manage_messages": [
-        "Admin",
+        "Administrator",
         "Moderator"
       ],
       "can_ask_questions": [
@@ -22,9 +22,8 @@
     "bot_feedback": {
       "dm": false,
       "same_channel": true,
-      "feedback_channel": [
-        "none"
-      ]
+      "feedback_channel": null,
+      "emoji": "✅"
     }
   },
   "1008463449594007692": {
@@ -32,7 +31,7 @@
     "server_name": "smite and stuff",
     "roles": {
       "can_manage_messages": [
-        "Admin",
+        "Administrator",
         "Moderator"
       ],
       "can_ask_questions": [
@@ -50,9 +49,8 @@
     "bot_feedback": {
       "dm": false,
       "same_channel": true,
-      "feedback_channel": [
-        "none"
-      ]
+      "feedback_channel": null,
+      "emoji": "✅"
     }
   },
   "1263234293820559460": {
@@ -60,7 +58,7 @@
     "server_name": "Development Station",
     "roles": {
       "can_manage_messages": [
-        "Admin",
+        "Administrator",
         "Moderator"
       ],
       "can_ask_questions": [
@@ -78,9 +76,8 @@
     "bot_feedback": {
       "dm": false,
       "same_channel": true,
-      "feedback_channel": [
-        "none"
-      ]
+      "feedback_channel": null,
+      "emoji": "✅"
     }
   }
 }

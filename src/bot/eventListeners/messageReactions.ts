@@ -2,10 +2,14 @@ import { Client } from 'discord.js'
 import {
   deleteSparkleMessage,
   replyToAddSparkle,
-  replyTotDeleteSparkle,
+  replyToDeleteSparkle,
   saveSparkleMessage,
 } from '../../utils/sparkleUtils.js'
 import configCache from '../configsCache.json'
+import {
+  getConfigData,
+  verifyMessageReactionRole,
+} from '../../utils/configUtils.js'
 
 // TODOLATER: check for user permissions before proceeding
 // TODOLATER: decide if we want to delete the message or just remove the reaction
@@ -17,8 +21,18 @@ import configCache from '../configsCache.json'
 export default (client: Client) => {
   client.on('messageReactionAdd', async (reaction, user) => {
     try {
+      if (reaction.emoji.name !== '✨') return
+      const guildId = reaction.message?.guildId
+      if (!guildId) return
+
+      const configData = await getConfigData(guildId)
+      const configRoles = configData?.roles.can_manage_messages
+      const configBotFeedback = configData?.bot_feedback
+
+      if (!(await verifyMessageReactionRole(reaction, user, configRoles)))
+        return
+      await replyToAddSparkle(reaction, user, configBotFeedback)
       await saveSparkleMessage(reaction, user)
-      await replyToAddSparkle(reaction, user)
     } catch (error) {
       console.error('Error handling messageReactionAdd event:', error)
     }
@@ -26,8 +40,18 @@ export default (client: Client) => {
 
   client.on('messageReactionRemove', async (reaction, user) => {
     try {
+      if (reaction.emoji.name !== '✨') return
+      const guildId = reaction.message?.guildId
+      if (!guildId) return
+
+      const configData = await getConfigData(guildId)
+      const configRoles = configData?.roles.can_manage_messages
+      const configBotFeedback = configData?.bot_feedback
+
+      if (!(await verifyMessageReactionRole(reaction, user, configRoles)))
+        return
       await deleteSparkleMessage(reaction, user)
-      await replyTotDeleteSparkle(reaction, user)
+      await replyToDeleteSparkle(reaction, user, configBotFeedback)
     } catch (error) {
       console.error('Error handling messageReactionRemove event:', error)
     }

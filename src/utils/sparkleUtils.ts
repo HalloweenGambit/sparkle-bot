@@ -5,24 +5,130 @@ import {
   saveMessageEmbedding,
 } from './messagesUtils'
 import { deleteMessage, saveMessage } from '../bot/services/messageService'
+import discordClient from '../config/discordConfig'
 
 // !correct types
-export const replyToAddSparkle = async (reaction, user) => {
+export const replyToAddSparkle = async (reaction, user, botFeedbackConfig) => {
   try {
-    user.send(`You added message ${reaction.message.id} to the database!`)
-    reaction.message.reply(
-      `You added message ${reaction.message.id} to the database!`
-    )
-  } catch (error) {}
+    const { emoji, dm, same_channel, feedback_channel } = botFeedbackConfig
+
+    let reply
+
+    if (dm) {
+      // Send a direct message to the user
+      if (user) {
+        reply = await user.send(
+          `You added message ${reaction.message.id} to the database!`
+        )
+      } else {
+        console.error('User not found for DM')
+        return { error: 'User not found for DM' }
+      }
+    } else if (same_channel) {
+      // Reply in the same channel
+      reply = await reaction.message.reply(
+        `You added message ${reaction.message.id} to the database!`
+      )
+    } else if (
+      feedback_channel &&
+      feedback_channel.length > 0 &&
+      feedback_channel[0] !== 'none'
+    ) {
+      // Send to a specific feedback channel
+      const guild = reaction.message.guild
+      if (guild) {
+        const targetChannel = await guild.channels.fetch(feedback_channel[0])
+        if (targetChannel && targetChannel.isText()) {
+          reply = await targetChannel.send(
+            `You added message ${reaction.message.id} to the database!`
+          )
+        } else {
+          console.error('Feedback channel not found or is not a text channel')
+          return {
+            error: 'Feedback channel not found or is not a text channel',
+          }
+        }
+      } else {
+        console.error('Guild not found')
+        return { error: 'Guild not found' }
+      }
+    } else {
+      console.error('Invalid bot feedback configuration')
+      return { error: 'Invalid bot feedback configuration' }
+    }
+
+    if (emoji) {
+      await reaction.message.react(emoji)
+    }
+  } catch (error) {
+    console.error('Error replying to message reaction:', error)
+    return { error: 'Failed replying to message reaction.' }
+  }
 }
 
-export const replyTotDeleteSparkle = async (reaction, user) => {
+export const replyToDeleteSparkle = async (
+  reaction,
+  user,
+  botFeedbackConfig
+) => {
   try {
-    user.send(`You removed message ${reaction.message.id} from the database!`)
-    reaction.message.reply(
-      `You removed message ${reaction.message.id} from the database!`
-    )
-  } catch (error) {}
+    const { message, emoji, dm, same_channel, feedback_channel } =
+      botFeedbackConfig
+
+    let reply
+
+    if (dm) {
+      // Send a direct message to the user
+      if (user) {
+        reply = await user.send(
+          `You removed message ${reaction.message.id} from the database!`
+        )
+      } else {
+        console.error('User not found for DM')
+        return { error: 'User not found for DM' }
+      }
+    } else if (same_channel) {
+      // Reply in the same channel
+      reply = await reaction.message.reply(
+        `You removed message ${reaction.message.id} from the database!`
+      )
+    } else if (
+      feedback_channel &&
+      feedback_channel.length > 0 &&
+      feedback_channel[0] !== 'none'
+    ) {
+      // Send to a specific feedback channel
+      const guild = reaction.message.guild
+      if (guild) {
+        const targetChannel = await guild.channels.fetch(feedback_channel[0])
+        if (targetChannel && targetChannel.isText()) {
+          reply = await targetChannel.send(
+            `You removed message ${reaction.message.id} from the database!`
+          )
+        } else {
+          console.error('Feedback channel not found or is not a text channel')
+          return {
+            error: 'Feedback channel not found or is not a text channel',
+          }
+        }
+      } else {
+        console.error('Guild not found')
+        return { error: 'Guild not found' }
+      }
+    } else {
+      console.error('Invalid bot feedback configuration')
+      return { error: 'Invalid bot feedback configuration' }
+    }
+
+    if (emoji) {
+      await reaction.message.reactions.cache
+        .get(emoji)
+        .remove(discordClient?.user?.id)
+    }
+  } catch (error) {
+    console.error('Error replying to message reaction:', error)
+    return { error: 'Failed replying to message reaction.' }
+  }
 }
 
 export const saveSparkleMessage = async (reaction, user) => {
