@@ -17,9 +17,18 @@ export const replyToAddSparkle = async (reaction, user, botFeedbackConfig) => {
     if (dm) {
       // Send a direct message to the user
       if (user) {
-        reply = await user.send(
-          `You added message ${reaction.message.id} to the database!`
-        )
+        try {
+          reply = await user.send(
+            `You added message ${reaction.message.id} to the database!`
+          )
+        } catch (dmError) {
+          console.error('Error sending DM:', dmError)
+          // Handle specific DM errors (e.g., user blocked the bot or has DMs turned off)
+          return {
+            error:
+              'Unable to send DM. The user might have blocked the bot or have DMs turned off.',
+          }
+        }
       } else {
         console.error('User not found for DM')
         return { error: 'User not found for DM' }
@@ -58,7 +67,13 @@ export const replyToAddSparkle = async (reaction, user, botFeedbackConfig) => {
     }
 
     if (emoji) {
-      await reaction.message.react(emoji)
+      try {
+        await reaction.message.react(emoji)
+      } catch (reactionError) {
+        console.error('Error adding reaction:', reactionError)
+        // Handle specific reaction errors
+        return { error: 'Failed to add reaction to the message.' }
+      }
     }
   } catch (error) {
     console.error('Error replying to message reaction:', error)
@@ -72,17 +87,25 @@ export const replyToDeleteSparkle = async (
   botFeedbackConfig
 ) => {
   try {
-    const { message, emoji, dm, same_channel, feedback_channel } =
-      botFeedbackConfig
+    const { emoji, dm, same_channel, feedback_channel } = botFeedbackConfig
 
     let reply
 
     if (dm) {
       // Send a direct message to the user
       if (user) {
-        reply = await user.send(
-          `You removed message ${reaction.message.id} from the database!`
-        )
+        try {
+          reply = await user.send(
+            `You removed message ${reaction.message.id} from the database!`
+          )
+        } catch (dmError) {
+          console.error('Error sending DM:', dmError)
+          // Handle specific DM errors
+          return {
+            error:
+              'Unable to send DM. The user might have blocked the bot or have DMs turned off.',
+          }
+        }
       } else {
         console.error('User not found for DM')
         return { error: 'User not found for DM' }
@@ -121,9 +144,18 @@ export const replyToDeleteSparkle = async (
     }
 
     if (emoji) {
-      await reaction.message.reactions.cache
-        .get(emoji)
-        .remove(discordClient?.user?.id)
+      try {
+        const reactionToRemove = reaction.message.reactions.cache.get(emoji)
+        if (reactionToRemove) {
+          await reactionToRemove.users.remove(user.id) // Remove the user's reaction
+        } else {
+          console.error('Reaction not found on message')
+        }
+      } catch (reactionError) {
+        console.error('Error removing reaction:', reactionError)
+        // Handle specific errors related to reaction removal
+        return { error: 'Failed to remove reaction from the message.' }
+      }
     }
   } catch (error) {
     console.error('Error replying to message reaction:', error)
