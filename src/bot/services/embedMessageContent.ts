@@ -1,13 +1,21 @@
 import '@tensorflow/tfjs-node' // Import TensorFlow.js for Node.js backend
 import * as use from '@tensorflow-models/universal-sentence-encoder'
 
-// Function to embed text using Universal Sentence Encoder
-const embedMessageContent = async (tokens: string[]) => {
-  const tokenizedText = tokens.join(' ') // Join tokens to form a single string for embedding
-  const model = await use.load()
-  const embeddings = await model.embed([tokenizedText]) // Pass as an array with one element
+let model = null
+
+const loadModel = async () => {
+  if (!model) {
+    model = await use.load()
+  }
+  return model
+}
+
+const embedMessageContent = async (tokens) => {
+  const tokenizedText = tokens.join(' ')
+  const model = await loadModel()
+  const embeddings = await model.embed([tokenizedText])
   const embeddingArray = embeddings.arraySync()
-  return embeddingArray[0] // Return the first (and only) element
+  return embeddingArray[0]
 }
 
 export default embedMessageContent

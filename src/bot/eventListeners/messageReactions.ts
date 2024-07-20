@@ -5,7 +5,6 @@ import {
   replyToDeleteSparkle,
   saveSparkleMessage,
 } from '../../utils/sparkleUtils.js'
-import configCache from '../configsCache.json'
 import {
   getConfigData,
   verifyMessageReactionRole,

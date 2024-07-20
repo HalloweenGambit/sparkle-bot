@@ -92,8 +92,11 @@ export const formatMessage = async (
 }
 
 export const formatMessageEmbedding = async (message: Message) => {
+  console.log('getting msg is')
   const discordId = message.id
+  console.log('preprocessing msg')
   const { lemmas, tokens } = await preProcessQuestion(message.content)
+  console.log('embedding msg content')
   const embedding = await embedMessageContent(tokens)
 
   return { discordId, tokens, lemmas, embedding }
