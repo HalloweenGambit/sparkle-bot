@@ -6,6 +6,7 @@ import {
 } from './messagesUtils'
 import { deleteMessage, saveMessage } from '../bot/services/messageService'
 import discordClient from '../config/discordConfig'
+import { MessageReaction } from 'discord.js'
 
 // !correct types
 export const replyToAddSparkle = async (reaction, user, botFeedbackConfig) => {
@@ -144,18 +145,8 @@ export const replyToDeleteSparkle = async (
     }
 
     if (emoji) {
-      try {
-        const reactionToRemove = reaction.message.reactions.cache.get(emoji)
-        if (reactionToRemove) {
-          await reactionToRemove.users.remove(user.id) // Remove the user's reaction
-        } else {
-          console.error('Reaction not found on message')
-        }
-      } catch (reactionError) {
-        console.error('Error removing reaction:', reactionError)
-        // Handle specific errors related to reaction removal
-        return { error: 'Failed to remove reaction from the message.' }
-      }
+      // Remove the emoji reaction added by the bot
+      await reaction.message.reactions.cache.get(emoji)?.remove()
     }
   } catch (error) {
     console.error('Error replying to message reaction:', error)
