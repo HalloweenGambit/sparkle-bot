@@ -25,6 +25,7 @@ export async function handleQuestion(message: Message) {
     return
   }
 
+  console.log(`handling question: ${message.id}`)
   try {
     console.log(`start handling question: ${content}`)
     console.log(`started formatting question`)
