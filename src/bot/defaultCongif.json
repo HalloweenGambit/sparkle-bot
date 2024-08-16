@@ -2,12 +2,15 @@
   "server_id": "",
   "server_name": "",
   "roles": {
-    "can_manage_messages": ["Administrator", "Moderator"],
-    "can_ask_questions": ["Member"]
+    "all_roles": [{ "role_id": "", "role_name": "" }],
+    "permissions": {
+      "can_manage_messages": [{ "role_id": "", "role_name": "" }],
+      "can_ask_questions": [{ "role_id": "", "role_name": "" }]
+    }
   },
   "channels": {
-    "message_management": ["all"],
-    "question_listener": ["all"]
+    "message_management": [{ "channel_id": "", "channel_name": "" }],
+    "question_listener": [{ "channel_id": "", "channel_name": "" }]
   },
   "bot_feedback": {
     "dm": false,

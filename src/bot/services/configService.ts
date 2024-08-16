@@ -4,33 +4,31 @@ import { promisify } from 'util'
 import defaultConfig from '../defaultCongif.json'
 import dbClient from '../../config/dbConfig.js'
 import { Configs } from '../../db/schema'
-import { OAuth2Guild, Snowflake } from 'discord.js'
+import { Guild, OAuth2Guild, PermissionsBitField, Snowflake } from 'discord.js'
 import { eq } from 'drizzle-orm'
-import { loadGuilds } from '../../utils/guildUtils'
+import {
+  loadCompleteGuilds,
+  loadGuild,
+} from '../../utils/guildUtils'
 import { URL } from 'url'
 import configsCache from '../configsCache.json' assert { type: 'json' }
+import { Config } from 'drizzle-kit'
 
 // Promisify fs.writeFile
 const writeFileAsync = promisify(fs.writeFile)
 
-export const createConfigData = async (guild: OAuth2Guild) => {
+export const createConfig = async (guildId: Snowflake) => {
+  const configData = defaultConfigData(guildId)
   try {
-    const newConfigData = { ...defaultConfig } // Clone defaultConfig
-    newConfigData.server_id = guild.id
-    newConfigData.server_name = guild.name
-
-    return newConfigData
-  } catch (error) {
-    console.error('Error creating configuration:', error)
-    return { error: 'Failed to create configuration. Please try again later.' }
-  }
-}
-
-export const saveConfig = async (guildId: Snowflake, newConfigData: any) => {
-  try {
+    if (!guildId) {
+      console.error('No guild ID provided.')
+      return { error: 'No guild ID provided.' }
+    }
     const db = await dbClient
-    const config = { discordId: guildId, configData: newConfigData }
-    const res = await db.insert(Configs).values(config).returning()
+    const res = await db
+      .insert(Configs)
+      .values({ discordId: guildId, configData })
+      .returning()
     return res[0]
   } catch (error) {
     console.error('Error saving configuration:', error)
@@ -55,6 +53,57 @@ export const loadConfigData = async (guildId: Snowflake) => {
   } catch (error) {
     console.error('Error loading configuration:', error)
     return { error: 'Failed to load configuration. Please try again later.' }
+  }
+}
+
+const defaultConfigData = async (guildId: Snowflake) => {
+  const guild = await loadGuild(guildId)
+  const roles = await guild.roles.fetch()
+
+
+  const allRoles = roles.map((role) => ({
+    role_id: role.id,
+    role_name: role.name,
+    admin: role.flags.has(PermissionsBitField.Flags.ADMINISTRATOR)
+  }))
+
+  // Check for a role with ADMINISTRATOR permission
+
+  const defaultRole = adminRole || allRoles[0] // Fallback to the first role if no admin role found
+
+  return {
+    server_id: guild.id,
+    server_name: guild.name,
+    roles: {
+      all_roles: allRoles,
+      permissions: {
+        can_manage_messages: [defaultRole],
+        can_ask_questions: [defaultRole], // You can set this to a different default if needed
+      },
+    },
+    channels: {
+      message_management: , // Set to general by default
+      question_listener: [{ channel_id: '', channel_name: 'Questions' }], // Set to questions by default
+    },
+    bot_feedback: {
+      dm: false,
+      same_channel: true,
+      feedback_channel: null,
+      emoji: '✅',
+    },
+  }
+}
+
+export const createConfigData = async (guild: Guild) => {
+  try {
+    const serverName = guild.name
+    const serverId = guild.id
+    const roles = guild.roles.fetch()
+  } catch (error) {
+    console.error('Error saving configuration data:', error)
+    return {
+      error: `Failed to save configuration data for guild: ${guild.id}. Please try again later.`,
+    }
   }
 }
 
@@ -117,7 +166,7 @@ const currentModuleURL = new URL(import.meta.url)
 const currentDir = path.dirname(currentModuleURL.pathname)
 const cacheFilePath = path.join(currentDir, '../configsCache.json')
 
-async function readCacheFile() {
+const readCacheFile = async () => {
   try {
     const data = fs.readFileSync(cacheFilePath, 'utf8')
     return JSON.parse(data)
@@ -127,7 +176,7 @@ async function readCacheFile() {
   }
 }
 
-async function writeCacheFile(cacheData) {
+const writeCacheFile = async (cacheData) => {
   try {
     fs.writeFileSync(cacheFilePath, JSON.stringify(cacheData, null, 2), 'utf8')
     console.log('Cache file updated successfully.')
@@ -160,7 +209,7 @@ export const syncAllConfigs = async () => {
     console.log('Syncing configurations')
 
     // Load all guilds
-    const guilds = await loadGuilds()
+    const guilds = await loadCompleteGuilds()
 
     // Load the cache data once
     const cacheData = await readCacheFile()
@@ -169,13 +218,13 @@ export const syncAllConfigs = async () => {
     const configPromises = []
 
     // Iterate over each guild
-    for (const [guildId, guild] of guilds) {
+    for (const guild of guilds) {
       // Check if config for that guild exists in the database
-      const config = await findConfigData(guildId)
+      const config = await findConfigData(guild.id)
 
       if (!config) {
         console.log(`No config found for guild ID: ${guildId}`)
-        const configData = await createConfigData(guild)
+        const configData = await createConfig(guild)
         await saveConfig(guildId, configData)
       }
 
@@ -197,3 +246,13 @@ export const syncAllConfigs = async () => {
 }
 
 // TODO: check for changes in configData and update the cache accordingly
+export const findRoles = async (guildId: Snowflake) => {
+  try {
+    const configData = await loadGuild(guildId)
+    const roles = await configData.roles.fetch()
+    return roles
+  } catch (error) {
+    console.error('Error finding roles:', error)
+    return { error: 'Failed to find roles. Please try again later.' }
+  }
+}
