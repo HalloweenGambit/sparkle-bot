@@ -1,14 +1,4 @@
 import { Message } from 'discord.js'
-import embedMessageContent from '../services/embedMessageContent.js'
-import { formatQuestion } from '../../utils/messagesUtils.js'
-import {
-  saveQuestion,
-  saveQuestionEmbedding,
-} from '../services/questionService.js'
-import queryMessageDatabase from '../services/queryMessageDatabase.js'
-import dbClient from '../../config/dbConfig.js'
-import { eq } from 'drizzle-orm'
-import { Messages } from '../../db/schema.js'
 import { queryPipeline } from '../services/ragService.js'
 
 export async function handleQuestion(message: Message) {

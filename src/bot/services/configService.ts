@@ -3,7 +3,12 @@ import path from 'path'
 import { promisify } from 'util'
 import dbClient from '../../config/dbConfig.js'
 import { Configs } from '../../db/schema'
-import { Snowflake } from 'discord.js'
+import {
+  ChannelType,
+  GuildBasedChannel,
+  NonThreadGuildBasedChannel,
+  Snowflake,
+} from 'discord.js'
 import { eq } from 'drizzle-orm'
 import { loadCompleteGuilds, loadGuild } from '../../utils/guildUtils'
 import { URL } from 'url'
@@ -51,9 +56,19 @@ const createConfigData = async (guildId: Snowflake) => {
         administratorPermission,
     }))
 
-    const can_manage_messages = all_roles.filter(
-      (role) => role.isAdmin === true
-    )
+    const admins = all_roles.filter((role) => role.isAdmin === true)
+    const can_manage_messages = admins.map((role) => role.role_id)
+
+    const can_ask_questions = all_roles.map((role) => role.role_id)
+
+    const all_channels = await guild.channels.fetch()
+
+    // TODO: allow other channel types to be used
+    const all_text_channels = all_channels.filter((channel) => {
+      console.log(`channel type: ${channel?.type}`)
+      return channel?.type === 0
+    })
+    const all_text_channel_ids = all_text_channels.map((channel) => channel.id)
 
     return {
       server_id: guild.id,
@@ -62,12 +77,12 @@ const createConfigData = async (guildId: Snowflake) => {
         all_roles,
         permissions: {
           can_manage_messages,
-          can_ask_questions: ['@everyone'],
+          can_ask_questions,
         },
       },
       channels: {
-        message_management: 'all',
-        question_listener: 'all',
+        message_management: all_text_channel_ids,
+        question_listener: all_text_channel_ids,
       },
       bot_feedback: {
         dm: false,
@@ -242,6 +257,7 @@ export const loadConfigData = async (
 
     // Convert role_permissions back to BigInt
     const configData = res.configData as ConfigData
+
     configData.roles.all_roles.forEach((role) => {
       role.role_permissions = role.role_permissions
     })

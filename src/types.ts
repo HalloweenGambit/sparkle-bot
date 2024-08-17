@@ -144,8 +144,8 @@ export type ConfigData = {
     }
   }
   channels: {
-    message_management: string
-    question_listener: string
+    message_management: Array<string>
+    question_listener: Array<string>
   }
   bot_feedback: {
     dm: boolean
