@@ -126,3 +126,31 @@ export type ServerConfig = {
 export type ConfigCache = {
   [key: Snowflake]: ServerConfig
 }
+
+// Define the ConfigData interface as provided
+export type ConfigData = {
+  server_id: Snowflake
+  server_name: string
+  roles: {
+    all_roles: Array<{
+      role_id: Snowflake
+      role_name: string
+      role_permissions: string
+      isAdmin: boolean
+    }>
+    permissions: {
+      can_manage_messages: Array<string>
+      can_ask_questions: Array<string>
+    }
+  }
+  channels: {
+    message_management: string
+    question_listener: string
+  }
+  bot_feedback: {
+    dm: boolean
+    same_channel: boolean
+    feedback_channel: Snowflake | null
+    emoji: string
+  }
+}

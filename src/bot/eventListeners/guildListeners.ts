@@ -4,17 +4,12 @@ import {
   updateGuild,
   deleteGuild,
 } from '../services/guildService.js'
-import {
-  saveConfig,
-  createConfigData,
-  deleteConfig,
-} from '../services/configService.js'
+import { createConfig, deleteConfig } from '../services/configService.js'
 
 export default (client: Client) => {
   client.on('guildCreate', async (guild) => {
     await createGuild(guild)
-    const configData = await createConfigData(guild)
-    await saveConfig(guild.id, configData)
+    const configData = await createConfig(guild.id)
   })
 
   client.on('guildUpdate', async (guild) => {

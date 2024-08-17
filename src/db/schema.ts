@@ -162,12 +162,24 @@ export const QuestionEmbeddings = pgTable('question_embeddings', {
   createdAt: timestamp('created_at').defaultNow(),
 })
 
+import { customType } from 'drizzle-orm/pg-core'
+
+const customJsonb = <ConfigData>(name: string) =>
+  customType<{ data: ConfigData; driverData: string }>({
+    dataType() {
+      return 'jsonb'
+    },
+    toDriver(value: ConfigData): string {
+      return JSON.stringify(value)
+    },
+  })(name)
+
 // Config Table
 export const Configs = pgTable('configs', {
   id: serial('id').primaryKey(),
   discordId: varchar('discord_id', { length: 256 })
     .references(() => Servers.discordId)
     .notNull(),
-  configData: jsonb('config_data').notNull(),
+  configData: customJsonb('config_data').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 })

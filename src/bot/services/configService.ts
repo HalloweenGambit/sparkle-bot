@@ -3,13 +3,12 @@ import path from 'path'
 import { promisify } from 'util'
 import dbClient from '../../config/dbConfig.js'
 import { Configs } from '../../db/schema'
-import { Base, Guild, Role, RoleData, Snowflake } from 'discord.js'
+import { Snowflake } from 'discord.js'
 import { eq } from 'drizzle-orm'
 import { loadCompleteGuilds, loadGuild } from '../../utils/guildUtils'
 import { URL } from 'url'
 import { Config } from 'drizzle-kit'
-import { Sql } from 'postgres'
-import { config } from 'dotenv-flow'
+import { ConfigData } from '../../types.js'
 
 // Promisify fs.writeFile
 const writeFileAsync = promisify(fs.writeFile)
@@ -119,7 +118,7 @@ export const loadAllConfigs = async () => {
 }
 
 // ?might need to make a separate function for findConfig
-const findConfig = async (guildId: Snowflake) => {
+export const findConfig = async (guildId: Snowflake) => {
   try {
     const db = await dbClient
     const res = await db.query.Configs.findFirst({
@@ -222,33 +221,6 @@ export const syncAllConfigs = async () => {
   } catch (error) {
     console.error('Error syncing configurations:', error)
     return { error: 'Failed to sync configurations. Please try again later.' }
-  }
-}
-// Define the ConfigData interface as provided
-interface ConfigData {
-  server_id: Snowflake
-  server_name: string
-  roles: {
-    all_roles: Array<{
-      role_id: Snowflake
-      role_name: string
-      role_permissions: string
-      isAdmin: boolean
-    }>
-    permissions: {
-      can_manage_messages: Array<string>
-      can_ask_questions: Array<string>
-    }
-  }
-  channels: {
-    message_management: string
-    question_listener: string
-  }
-  bot_feedback: {
-    dm: boolean
-    same_channel: boolean
-    feedback_channel: Snowflake | null
-    emoji: string
   }
 }
 
