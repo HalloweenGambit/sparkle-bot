@@ -18,7 +18,11 @@ export default (client: Client) => {
       }
       // TODO: load the configuration for this guild
       const guildId = message.guild.id
+      console.log(`guildId: ${guildId}`)
+
       const guildConfigData = await loadConfigData(guildId)
+      console.log(`guildConfigData: ${guildConfigData}`)
+
       if (!guildConfigData) {
         console.log(`no guild config data found for this guild`)
         return

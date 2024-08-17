@@ -3,17 +3,12 @@ import path from 'path'
 import { promisify } from 'util'
 import dbClient from '../../config/dbConfig.js'
 import { Configs } from '../../db/schema'
-import {
-  ChannelType,
-  GuildBasedChannel,
-  NonThreadGuildBasedChannel,
-  Snowflake,
-} from 'discord.js'
+import { Snowflake } from 'discord.js'
 import { eq } from 'drizzle-orm'
 import { loadCompleteGuilds, loadGuild } from '../../utils/guildUtils'
 import { URL } from 'url'
-import { Config } from 'drizzle-kit'
 import { ConfigData } from '../../types.js'
+import { boolean } from 'drizzle-orm/mysql-core/index.js'
 
 // Promisify fs.writeFile
 const writeFileAsync = promisify(fs.writeFile)
@@ -222,8 +217,8 @@ export const syncAllConfigs = async () => {
         console.log(`No config found for guild ID: ${guild.id}`)
         await createConfig(guild.id)
       }
-      console.log(`refreshing available roles for guild ID: ${guild.id}`)
-      await refreshAvailableRoles(guild.id)
+      console.log(`currently not refreshing available roles in config files`)
+      // await refreshAvailableRoles(guild.id)
 
       // Push syncConfig promise to configPromises
       configPromises.push(syncCache(guild.id))
@@ -256,11 +251,7 @@ export const loadConfigData = async (
     }
 
     // Convert role_permissions back to BigInt
-    const configData = res.configData as ConfigData
-
-    configData.roles.all_roles.forEach((role) => {
-      role.role_permissions = role.role_permissions
-    })
+    const configData = (await res.configData) as ConfigData
 
     return configData
   } catch (error) {
@@ -275,41 +266,56 @@ const loadRoles = async (guildId: Snowflake) => {
   return roles
 }
 
-export const refreshAvailableRoles = async (guildId: Snowflake) => {
-  try {
-    // Load roles from the guild
-    const roles = await loadRoles(guildId)
-    if ('error' in roles) {
-      return roles
-    }
+// export const refreshAvailableRoles = async (guildId: Snowflake) => {
+//   try {
+//     // Load roles from the guild
+//     const roles = await loadRoles(guildId)
 
-    // Load configuration data for the guild
-    const configData = await loadConfigData(guildId)
-    if ('error' in configData) {
-      return configData
-    }
+//     // Ensure roles is a collection or expected object
+//     if (!roles) {
+//       console.error(
+//         `No roles found or error retrieving roles for guild ID: ${guildId}`
+//       )
+//       return { error: 'Failed to load roles for this guild.' }
+//     }
 
-    // Create updated configuration with new roles
-    const updatedConfigData: ConfigData = {
-      ...configData,
-      roles: {
-        ...configData.roles,
-        all_roles: roles.map((role) => ({
-          role_id: role.id,
-          role_name: role.name,
-          role_permissions: role.permissions.bitfield.toString(),
-          isAdmin:
-            (BigInt(role.permissions.bitfield) & BigInt(0x00000008)) ===
-            BigInt(0x00000008),
-        })),
-      },
-    }
+//     // Convert roles collection to an array
+//     const rolesArray = Array.from(roles.values())
 
-    // Save the updated configuration data
-    await updateConfigData(guildId, updatedConfigData)
-    return updatedConfigData
-  } catch (error) {
-    console.error('Error syncing roles:', error)
-    return { error: 'Failed to sync roles. Please try again later.' }
-  }
-}
+//     // Load configuration data for the guild
+//     const configData = await loadConfigData(guildId)
+
+//     // Debugging output to understand the structure of configData
+//     console.log('Loaded configData:', configData)
+
+//     if (!configData || 'error' in configData) {
+//       console.error(
+//         `No configuration data found or error loading configuration for guild ID: ${guildId}`
+//       )
+//       return { error: 'Failed to load configuration data for this guild.' }
+//     }
+
+//     // Create updated configuration with new roles
+//     const updatedConfigData: ConfigData = {
+//       ...configData,
+//       roles: {
+//         ...configData.roles,
+//         all_roles: rolesArray.map((role) => ({
+//           role_id: role.id,
+//           role_name: role.name,
+//           role_permissions: role.permissions.bitfield.toString(),
+//           isAdmin:
+//             (BigInt(role.permissions.bitfield) & BigInt(0x00000008)) ===
+//             BigInt(0x00000008),
+//         })),
+//       },
+//     }
+
+//     // Save the updated configuration data
+//     await updateConfigData(guildId, updatedConfigData)
+//     return updatedConfigData
+//   } catch (error) {
+//     console.error('Error syncing roles:', error)
+//     return { error: 'Failed to sync roles. Please try again later.' }
+//   }
+// }
