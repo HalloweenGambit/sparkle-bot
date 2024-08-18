@@ -3,7 +3,7 @@ import path from 'path'
 import { promisify } from 'util'
 import dbClient from '../../config/dbConfig.js'
 import { Configs } from '../../db/schema'
-import { Snowflake } from 'discord.js'
+import { Message, Snowflake } from 'discord.js'
 import { eq } from 'drizzle-orm'
 import { loadCompleteGuilds, loadGuild } from '../../utils/guildUtils'
 import { URL } from 'url'
@@ -175,12 +175,15 @@ export const deleteConfig = async (guildId: Snowflake) => {
 
 // TODO: check for changes in configData and update the cache accordingly
 // TODO: descide on what to do with the cacheData
-export const syncCache = async (
-  discordId: Snowflake
-): Promise<ConfigData | { error: string }> => {
+export const syncCache = async (discordId: Snowflake) => {
   try {
     const cacheData = await loadCacheFile()
     const res = await loadConfigData(discordId)
+
+    if ('error' in res) {
+      console.error(`Error loading configuration for guild ID: ${discordId}`)
+      return res
+    }
 
     if (cacheData[discordId]) {
       cacheData[discordId] = res
@@ -194,6 +197,8 @@ export const syncCache = async (
     return cacheData[discordId]
   } catch (error) {
     console.error('Error syncing configuration:', error)
+    console.error(error)
+
     return { error: 'Failed to sync configuration. Please try again later.' }
   }
 }
@@ -234,10 +239,12 @@ export const syncAllConfigs = async () => {
   }
 }
 
+export type ConfigDataResult = ConfigData | { error: string }
+
 // Updated loadConfigData function with correct return type
 export const loadConfigData = async (
   guildId: Snowflake
-): Promise<ConfigData | { error: string }> => {
+): Promise<ConfigDataResult> => {
   console.log('Loading configuration for Discord ID:', guildId)
   try {
     const db = await dbClient
@@ -245,15 +252,15 @@ export const loadConfigData = async (
       where: eq(Configs.discordId, guildId),
     })
 
+    // Convert role_permissions back to BigInt
     if (!res) {
-      console.log('No configuration found for Discord ID:', guildId)
-      return { error: 'No configuration found for this server.' }
+      console.log(`No config found for guild ID: ${guildId}`)
+      return { error: 'No configuration found for this guild.' }
     }
 
-    // Convert role_permissions back to BigInt
-    const configData = (await res.configData) as ConfigData
-
-    return configData
+    // !This is a temporary to fix getting unknown from db
+    // !Could not setup custom jsonb type
+    return res.configData as ConfigData
   } catch (error) {
     console.error('Error loading configuration:', error)
     return { error: 'Failed to load configuration. Please try again later.' }
@@ -319,3 +326,41 @@ const loadRoles = async (guildId: Snowflake) => {
 //     return { error: 'Failed to sync roles. Please try again later.' }
 //   }
 // }
+
+export const authorizeUserForQuestion = async (message: Message) => {
+  if (!message.guild) {
+    console.log(`No guild found for this message`)
+    return
+  }
+
+  const guildId = message.guild.id
+  const guildConfigData = await loadConfigData(guildId)
+  const user = message.member
+
+  if (!user) {
+    console.log(`No user found for this message`)
+    return { error: 'No user found for this message' }
+  }
+
+  const userRoles = user.roles.cache
+
+  if (!userRoles.size) {
+    console.log(`No roles found for this user`)
+    return { error: 'No roles found for this user' }
+  }
+
+  const userRoleIds = Array.from(userRoles.values()).map((role) => role.id)
+
+  if ('error' in guildConfigData) {
+    console.log(`No roles found for asking questions`)
+    return { error: 'No roles found for asking questions' }
+  }
+
+  const askQuestionRoleIds = guildConfigData.roles.permissions.can_ask_questions
+  const verified = askQuestionRoleIds.some((role) => userRoleIds.includes(role))
+
+  console.log(`userRoleIds: ${userRoleIds}`)
+  console.log(`askQuestionRoleIds: ${askQuestionRoleIds}`)
+
+  return verified
+}

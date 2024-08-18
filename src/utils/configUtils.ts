@@ -87,12 +87,6 @@ export const verifyMessageReactionRole = async (
   }
 }
 
-export const verifyMessageReactionChannel = async (
-  reaction,
-  user,
-  configRoles
-) => {}
-
 export const messageReactionReply = async (reaction, botFeedbackConfig) => {
   try {
     const { message, emoji, dm, same_channel, feedback_channel } =
@@ -146,8 +140,3 @@ export const messageReactionReply = async (reaction, botFeedbackConfig) => {
     return { error: 'Failed replying to message reaction.' }
   }
 }
-
-export const verifyQuestionPrivileges = async (
-  guildId: Snowflake,
-  userId: Snowflake
-) => {}

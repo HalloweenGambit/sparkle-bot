@@ -164,13 +164,17 @@ export const QuestionEmbeddings = pgTable('question_embeddings', {
 
 import { customType } from 'drizzle-orm/pg-core'
 
-const customJsonb = <ConfigData>(name: string) =>
-  customType<{ data: ConfigData; driverData: string }>({
+// Define a custom type for your JSONB column
+const customJsonb = <T>(name: string) =>
+  customType<{ data: T; driverData: string }>({
     dataType() {
       return 'jsonb'
     },
-    toDriver(value: ConfigData): string {
+    toDriver(value: T): string {
       return JSON.stringify(value)
+    },
+    fromDriver(value: string): T {
+      return JSON.parse(value)
     },
   })(name)
 

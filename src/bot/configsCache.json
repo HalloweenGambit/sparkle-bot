@@ -1,5 +1,75 @@
 {
   "1008463449594007692": "{\"server_id\":\"1008463449594007692\",\"server_name\":\"smite and stuff\",\"roles\":{\"all_roles\":[{\"role_id\":\"1008463449594007692\",\"role_name\":\"@everyone\",\"role_permissions\":\"2222085186637377\",\"isAdmin\":false},{\"role_id\":\"1247740308188434523\",\"role_name\":\"MOD\",\"role_permissions\":\"982959099740151\",\"isAdmin\":false},{\"role_id\":\"1262564030288232560\",\"role_name\":\"Doc Bot\",\"role_permissions\":\"8\",\"isAdmin\":true},{\"role_id\":\"1267952891918946338\",\"role_name\":\"Dyno\",\"role_permissions\":\"1513962695863\",\"isAdmin\":false}],\"permissions\":{\"can_manage_messages\":[\"1262564030288232560\"],\"can_ask_questions\":[\"1008463449594007692\",\"1247740308188434523\",\"1262564030288232560\",\"1267952891918946338\"]}},\"channels\":{\"message_management\":[\"1008463450197995633\",\"1008463450197995634\",\"1247838939318976522\",\"1248375761900015649\",\"1252089177823117394\",\"1259302989852708927\"],\"question_listener\":[\"1008463450197995633\",\"1008463450197995634\",\"1247838939318976522\",\"1248375761900015649\",\"1252089177823117394\",\"1259302989852708927\"]},\"bot_feedback\":{\"dm\":false,\"same_channel\":false,\"feedback_channel\":null,\"emoji\":\"✅\"}}",
-  "1248436505479876700": "{\"server_id\":\"1248436505479876700\",\"server_name\":\"Space Station 404\",\"roles\":{\"all_roles\":[{\"role_id\":\"1248436505479876700\",\"role_name\":\"@everyone\",\"role_permissions\":\"2248473465835073\",\"isAdmin\":false},{\"role_id\":\"1248437714882138195\",\"role_name\":\"Great Scott!\",\"role_permissions\":\"3221269576\",\"isAdmin\":true},{\"role_id\":\"1249979169052299314\",\"role_name\":\"muted\",\"role_permissions\":\"0\",\"isAdmin\":false},{\"role_id\":\"1262339144470888482\",\"role_name\":\"Doc Bot\",\"role_permissions\":\"8\",\"isAdmin\":true},{\"role_id\":\"1264140610391248967\",\"role_name\":\"Moderator\",\"role_permissions\":\"0\",\"isAdmin\":false}],\"permissions\":{\"can_manage_messages\":[\"1248437714882138195\",\"1262339144470888482\"],\"can_ask_questions\":[\"1248436505479876700\",\"1248437714882138195\",\"1249979169052299314\",\"1262339144470888482\",\"1264140610391248967\"]}},\"channels\":{\"message_management\":[\"1249979168452771881\",\"1260841104077488208\",\"1260853246285709313\",\"1260853496761290763\"],\"question_listener\":[\"1249979168452771881\",\"1260841104077488208\",\"1260853246285709313\",\"1260853496761290763\"]},\"bot_feedback\":{\"dm\":false,\"same_channel\":false,\"feedback_channel\":null,\"emoji\":\"✅\"}}",
+  "1248436505479876700": {
+    "server_id": "1248436505479876700",
+    "server_name": "Space Station 404",
+    "roles": {
+      "all_roles": [
+        {
+          "role_id": "1248436505479876700",
+          "role_name": "@everyone",
+          "role_permissions": "2248473465835073",
+          "isAdmin": false
+        },
+        {
+          "role_id": "1248437714882138195",
+          "role_name": "Great Scott!",
+          "role_permissions": "3221269576",
+          "isAdmin": true
+        },
+        {
+          "role_id": "1249979169052299314",
+          "role_name": "muted",
+          "role_permissions": "0",
+          "isAdmin": false
+        },
+        {
+          "role_id": "1262339144470888482",
+          "role_name": "Doc Bot",
+          "role_permissions": "8",
+          "isAdmin": true
+        },
+        {
+          "role_id": "1264140610391248967",
+          "role_name": "Moderator",
+          "role_permissions": "0",
+          "isAdmin": false
+        }
+      ],
+      "permissions": {
+        "can_manage_messages": [
+          "1248437714882138195",
+          "1262339144470888482"
+        ],
+        "can_ask_questions": [
+          "1248436505479876700",
+          "1248437714882138195",
+          "1249979169052299314",
+          "1262339144470888482",
+          "1264140610391248967"
+        ]
+      }
+    },
+    "channels": {
+      "message_management": [
+        "1249979168452771881",
+        "1260841104077488208",
+        "1260853246285709313",
+        "1260853496761290763"
+      ],
+      "question_listener": [
+        "1249979168452771881",
+        "1260841104077488208",
+        "1260853246285709313",
+        "1260853496761290763"
+      ]
+    },
+    "bot_feedback": {
+      "dm": false,
+      "same_channel": false,
+      "feedback_channel": null,
+      "emoji": "✅"
+    }
+  },
   "1263234293820559460": "{\"server_id\":\"1263234293820559460\",\"server_name\":\"Development Station\",\"roles\":{\"all_roles\":[{\"role_id\":\"1263234293820559460\",\"role_name\":\"@everyone\",\"role_permissions\":\"2248473465835073\",\"isAdmin\":false},{\"role_id\":\"1263234632774582316\",\"role_name\":\"Great Scott! -Devmode\",\"role_permissions\":\"1342178440\",\"isAdmin\":true},{\"role_id\":\"1264008944926588999\",\"role_name\":\"Administrator\",\"role_permissions\":\"0\",\"isAdmin\":false}],\"permissions\":{\"can_manage_messages\":[\"1263234632774582316\"],\"can_ask_questions\":[\"1263234293820559460\",\"1263234632774582316\",\"1264008944926588999\"]}},\"channels\":{\"message_management\":[\"1263234293820559464\",\"1263245046610657392\"],\"question_listener\":[\"1263234293820559464\",\"1263245046610657392\"]},\"bot_feedback\":{\"dm\":false,\"same_channel\":false,\"feedback_channel\":null,\"emoji\":\"✅\"}}"
 }
