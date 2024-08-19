@@ -107,7 +107,6 @@ export default (client: Client) => {
           if (configData.bot_feedback.dm) {
             await dmReply(user, configData)
           }
-          dmReply(user, configData)
 
           if (configData.bot_feedback.same_channel) {
             await sameChannelReply(reaction, configData)
@@ -116,6 +115,7 @@ export default (client: Client) => {
 
           if (configData.bot_feedback.feedback_channel) {
             // await feedbackChannelReply(reaction, configData)
+            // get guild
           }
 
           if (configData.bot_feedback.emoji) {
