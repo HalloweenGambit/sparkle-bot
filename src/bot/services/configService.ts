@@ -51,6 +51,16 @@ const createConfigData = async (guildId: Snowflake) => {
         administratorPermission,
     }))
 
+    roles.forEach((role) => {
+      console.log(`role id: ${role.id}
+        role name: ${role.name}
+        role permissions: ${role.permissions.bitfield}
+        is admin: ${
+          (BigInt(role.permissions.bitfield) & administratorPermission) ===
+          administratorPermission
+        }`)
+    })
+
     const admins = all_roles.filter((role) => role.isAdmin === true)
     const can_manage_messages = admins.map((role) => role.role_id)
 
@@ -185,6 +195,7 @@ export const syncCache = async (discordId: Snowflake) => {
       return res
     }
 
+    // TODO: check for whats changing in the configData and update the cache accordingly
     if (cacheData[discordId]) {
       cacheData[discordId] = res
       console.log(`Config updated in cache for guild ID: ${discordId}`)
@@ -222,6 +233,7 @@ export const syncAllConfigs = async () => {
         console.log(`No config found for guild ID: ${guild.id}`)
         await createConfig(guild.id)
       }
+
       console.log(`currently not refreshing available roles in config files`)
       // await refreshAvailableRoles(guild.id)
 
@@ -328,6 +340,7 @@ const loadRoles = async (guildId: Snowflake) => {
 // }
 
 export const authorizeUserForQuestion = async (message: Message) => {
+  console.log(`Authorizing user for asking questions`)
   if (!message.guild) {
     console.log(`No guild found for this message`)
     return
@@ -362,5 +375,6 @@ export const authorizeUserForQuestion = async (message: Message) => {
   console.log(`userRoleIds: ${userRoleIds}`)
   console.log(`askQuestionRoleIds: ${askQuestionRoleIds}`)
 
+  console.log(`User is authorized to ask questions: ${verified}`)
   return verified
 }

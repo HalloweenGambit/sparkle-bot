@@ -21,7 +21,10 @@ export default (client: Client) => {
       }
 
       const verified = await authorizeUserForQuestion(message)
-      console.log(verified)
+      if (!verified) {
+        console.log(`User is not authorized to ask questions`)
+        return
+      }
       handleQuestion(message)
       handleHeyDoc(message)
       // TODO: Check what the bot feedback settings are for this guild

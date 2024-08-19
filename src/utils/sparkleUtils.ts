@@ -6,7 +6,8 @@ import {
 } from './messagesUtils'
 import { deleteMessage, saveMessage } from '../bot/services/messageService'
 import discordClient from '../config/discordConfig'
-import { MessageReaction } from 'discord.js'
+import { MessageReaction, ReactionUserManager, Role } from 'discord.js'
+import { loadConfigData } from '../bot/services/configService'
 
 // !correct types
 export const replyToAddSparkle = async (reaction, user, botFeedbackConfig) => {
@@ -215,5 +216,39 @@ export const deleteSparkleMessage = async (reaction, user) => {
     )
   } catch (error) {
     console.error('Error handling messageReactionRemove event:', error)
+  }
+}
+
+export const authorizeUserSparkle = async (reaction) => {
+  try {
+    console.log(`Authorizing user for sparkle management`)
+
+    const guildId = reaction.message?.guildId
+
+    if (!guildId) return
+
+    const configData = await loadConfigData(guildId)
+
+    if ('error' in configData) return
+
+    const messageManagementRoles =
+      configData?.roles.permissions.can_manage_messages
+
+    const userRoles = reaction.message.member.roles.cache.map(
+      (role: Role) => role.id
+    )
+
+    console.log(`User roles: ${userRoles}`)
+    console.log(`Message management roles: ${messageManagementRoles}`)
+
+    const authorized = messageManagementRoles.some((role) =>
+      userRoles.includes(role)
+    )
+
+    console.log(`User is authorized for message management: ${authorized}`)
+    return authorized
+  } catch (error) {
+    console.error('Error authorizing user for sparkle management:', error)
+    return false
   }
 }
