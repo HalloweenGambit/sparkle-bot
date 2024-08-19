@@ -75,4 +75,5 @@ export const queryPipeline = async (message: Message) => {
   }
 
   console.log(`Total pipeline time: ${Date.now() - startTime} ms`)
+  return answer
 }

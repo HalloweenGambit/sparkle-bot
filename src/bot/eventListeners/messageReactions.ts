@@ -71,7 +71,7 @@ export default (client: Client) => {
             }
           }
 
-          const feedbackChannelReply = async (reaction, configData) => {
+          const targetChannelReply = async (reaction, configData) => {
             try {
               const feedbackChannel =
                 reaction.message.guild.channels.cache.find(
@@ -107,15 +107,15 @@ export default (client: Client) => {
           if (configData.bot_feedback.dm) {
             await dmReply(user, configData)
           }
+          await dmReply(user, configData)
 
           if (configData.bot_feedback.same_channel) {
             await sameChannelReply(reaction, configData)
           }
-          sameChannelReply(reaction, configData)
+          await sameChannelReply(reaction, configData)
 
           if (configData.bot_feedback.feedback_channel) {
-            // await feedbackChannelReply(reaction, configData)
-            // get guild
+            await targetChannelReply(reaction, configData)
           }
 
           if (configData.bot_feedback.emoji) {
