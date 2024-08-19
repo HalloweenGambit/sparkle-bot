@@ -28,6 +28,8 @@ const startBot = async () => {
       await syncGuilds()
       await syncAllChannels()
       await syncAllConfigs()
+
+      // ! currently listening to all channels not ones that are in the database configData
       console.log('you are the CaPiTaN now!')
     })
   } catch (error) {

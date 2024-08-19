@@ -5,12 +5,9 @@ import { handleHeyDoc } from '../commands/handleHeyDoc.js'
 export default (client: Client) => {
   client.on('messageCreate', async (message) => {
     try {
-      // console.log(answer)
+      // returns the answer to the question asked in chat
       handleQuestion(message)
       handleHeyDoc(message)
-
-      // TODO: Check what the bot feedback settings are for this guild
-      // TODO: Reply to the user based on the bot feedback settings
     } catch (error) {
       console.error('An error occurred while processing the message:', error)
     }

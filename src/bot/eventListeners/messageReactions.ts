@@ -2,12 +2,10 @@ import { Client, Role } from 'discord.js'
 import {
   authorizeUserSparkle,
   deleteSparkleMessage,
-  replyToDeleteSparkle,
   saveSparkleMessage,
 } from '../../utils/sparkleUtils.js'
-import { findConfig, loadConfigData } from '../services/configService.js'
+import { loadConfigData } from '../services/configService.js'
 import { ConfigData } from '../../types.js'
-import { c } from 'vite/dist/node/types.d-aGj9QkWt.js'
 
 // TODOLATER: check for user permissions before proceeding
 // TODOLATER: decide if we want to delete the message or just remove the reaction

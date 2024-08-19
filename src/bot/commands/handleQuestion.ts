@@ -28,6 +28,9 @@ export async function handleQuestion(message: Message) {
       return
     }
 
+    // TODO: implement an authorization that checks if bot should be listening to a specific channel
+    const validChannel = (message: Message) => {}
+
     const verified = await authorizeUserForQuestion(message)
     if (!verified) {
       console.log(`User is not authorized to ask questions`)
