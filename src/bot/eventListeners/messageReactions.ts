@@ -6,6 +6,8 @@ import {
   saveSparkleMessage,
 } from '../../utils/sparkleUtils.js'
 import { findConfig, loadConfigData } from '../services/configService.js'
+import { ConfigData } from '../../types.js'
+import { c } from 'vite/dist/node/types.d-aGj9QkWt.js'
 
 // TODOLATER: check for user permissions before proceeding
 // TODOLATER: decide if we want to delete the message or just remove the reaction
@@ -13,11 +15,9 @@ import { findConfig, loadConfigData } from '../services/configService.js'
 // TODOLATER: add a check to ensure the message is not already saved
 // TODO: create a function that saves the message embedding to the database
 // TODO: check to see if the message is already saved in the database before proceeding
-
 export default (client: Client) => {
   client.on('messageReactionAdd', async (reaction, user) => {
     try {
-      // handleSparkleAdd(reaction, user)
       if (reaction.emoji.name !== '✨') return
 
       const authorized = authorizeUserSparkle(reaction)
@@ -30,82 +30,104 @@ export default (client: Client) => {
       await saveSparkleMessage(reaction, user)
 
       const replyToAddSparkle = async (reaction, user) => {
+        console.log(`replying to message reaction`)
         try {
-          const configData = loadConfigData(reaction.message.guild.id)
+          const configData = (await loadConfigData(
+            reaction.message.guild.id
+          )) as ConfigData
+          const dm = configData.bot_feedback.dm
+          const sameChannel = configData.bot_feedback.same_channel
+          const feedbackChannel = configData.bot_feedback.feedback_channel
+          const emoji = configData.bot_feedback.emoji
 
-          let reply
+          console.log(
+            `bot_feedback: dm: ${dm}, sameChannel: ${sameChannel}, feedbackChannel: ${feedbackChannel}, emoji: ${emoji}`
+          )
 
-          if (dm) {
-            // Send a direct message to the user
-            if (user) {
-              try {
-                reply = await user.send(
-                  `You added message ${reaction.message.id} to the database!`
-                )
-              } catch (dmError) {
-                console.error('Error sending DM:', dmError)
-                // Handle specific DM errors (e.g., user blocked the bot or has DMs turned off)
-                return {
-                  error:
-                    'Unable to send DM. The user might have blocked the bot or have DMs turned off.',
-                }
-              }
-            } else {
-              console.error('User not found for DM')
-              return { error: 'User not found for DM' }
-            }
-          } else if (same_channel) {
-            // Reply in the same channel
-            reply = await reaction.message.reply(
-              `You added message ${reaction.message.id} to the database!`
-            )
-          } else if (
-            feedback_channel &&
-            feedback_channel.length > 0 &&
-            feedback_channel[0] !== 'none'
-          ) {
-            // Send to a specific feedback channel
-            const guild = reaction.message.guild
-            if (guild) {
-              const targetChannel = await guild.channels.fetch(
-                feedback_channel[0]
+          const dmReply = async (user, configData) => {
+            try {
+              await user.send(
+                `You added message ${reaction.message.id} to the database!`
               )
-              if (targetChannel && targetChannel.isText()) {
-                reply = await targetChannel.send(
-                  `You added message ${reaction.message.id} to the database!`
-                )
-              } else {
-                console.error(
-                  'Feedback channel not found or is not a text channel'
-                )
-                return {
-                  error: 'Feedback channel not found or is not a text channel',
-                }
+            } catch (dmError) {
+              console.error('Error sending DM:', dmError)
+              return {
+                error:
+                  'Unable to send DM. The user might have blocked the bot or have DMs turned off.',
               }
-            } else {
-              console.error('Guild not found')
-              return { error: 'Guild not found' }
             }
-          } else {
-            console.error('Invalid bot feedback configuration')
-            return { error: 'Invalid bot feedback configuration' }
           }
 
-          if (emoji) {
+          const sameChannelReply = async (reaction, configData) => {
             try {
-              await reaction.message.react(emoji)
+              await reaction.message.reply(
+                `You added message ${reaction.message.id} to the database!`
+              )
+            } catch (replyError) {
+              console.error('Error replying to message:', replyError)
+              return {
+                error: 'Failed to reply to the message.',
+              }
+            }
+          }
+
+          const feedbackChannelReply = async (reaction, configData) => {
+            try {
+              const feedbackChannel =
+                reaction.message.guild.channels.cache.find(
+                  (channel) =>
+                    channel.id === configData.bot_feedback.feedback_channel
+                )
+              if (!feedbackChannel) {
+                console.error('Feedback channel not found')
+                return { error: 'Feedback channel not found' }
+              }
+
+              await feedbackChannel.send(
+                `User ${user.tag} added message ${reaction.message.id} to the database!`
+              )
+            } catch (feedbackError) {
+              console.error('Error sending feedback message:', feedbackError)
+              return { error: 'Failed to send feedback message.' }
+            }
+          }
+
+          const emojiReply = async (reaction, configData) => {
+            try {
+              await reaction.message.react(
+                configData.bot_feedback.emoji || '✨'
+              )
             } catch (reactionError) {
               console.error('Error adding reaction:', reactionError)
-              // Handle specific reaction errors
               return { error: 'Failed to add reaction to the message.' }
             }
+          }
+
+          // Execute the replies based on config settings
+          if (configData.bot_feedback.dm) {
+            await dmReply(user, configData)
+          }
+          dmReply(user, configData)
+
+          if (configData.bot_feedback.same_channel) {
+            await sameChannelReply(reaction, configData)
+          }
+          sameChannelReply(reaction, configData)
+
+          if (configData.bot_feedback.feedback_channel) {
+            // await feedbackChannelReply(reaction, configData)
+          }
+
+          if (configData.bot_feedback.emoji) {
+            await emojiReply(reaction, configData)
           }
         } catch (error) {
           console.error('Error replying to message reaction:', error)
           return { error: 'Failed replying to message reaction.' }
         }
       }
-      // await replyToAddSparkle(reaction, user, configBotFeedback)
+
+      await replyToAddSparkle(reaction, user)
     } catch (error) {
       console.error('Error handling messageReactionAdd event:', error)
     }
