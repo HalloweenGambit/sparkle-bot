@@ -15,7 +15,8 @@ const queryMessageDatabase = async (embedding: number[]) => {
   const similarMessages = await db
     .select({ messageId: MessageEmbeddings.discordId, similarity })
     .from(MessageEmbeddings)
-    .where(gt(similarity, 0.5))
+    // TODO: make it so the administrator can set the threshold
+    .where(gt(similarity, 0.8))
     .orderBy(desc(similarity)) // Order by similarity in descending order
     .limit(5) // Limit the results to the top 4 most similar messages
 
