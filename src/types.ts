@@ -109,8 +109,16 @@ export type ServerConfig = {
   server_id: string
   server_name: string
   roles: {
-    can_manage_messages: string[]
-    can_ask_questions: string[]
+    all_roles: {
+      role_id: string
+      role_name: string
+      role_permissions: string
+      isAdmin: boolean
+    }[]
+    permissions: {
+      can_manage_messages: string[]
+      can_ask_questions: string[]
+    }
   }
   channels: {
     message_management: string[]
@@ -119,7 +127,8 @@ export type ServerConfig = {
   bot_feedback: {
     dm: boolean
     same_channel: boolean
-    feedback_channel: string[]
+    feedback_channel: string | null
+    emoji: string
   }
 }
 
