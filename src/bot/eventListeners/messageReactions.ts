@@ -105,13 +105,12 @@ export default (client: Client) => {
           if (configData.bot_feedback.dm) {
             await dmReply(user, configData)
           }
-          await dmReply(user, configData)
 
           if (configData.bot_feedback.same_channel) {
             await sameChannelReply(reaction, configData)
           }
-          await sameChannelReply(reaction, configData)
 
+          // TODO: check if the feedback channel is valid then reply to it
           if (configData.bot_feedback.feedback_channel) {
             await targetChannelReply(reaction, configData)
           }
