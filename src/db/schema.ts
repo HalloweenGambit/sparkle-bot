@@ -164,19 +164,19 @@ export const QuestionEmbeddings = pgTable('question_embeddings', {
 
 import { customType } from 'drizzle-orm/pg-core'
 
-// Define a custom type for your JSONB column
-const customJsonb = <T>(name: string) =>
-  customType<{ data: T; driverData: string }>({
-    dataType() {
-      return 'jsonb'
-    },
-    toDriver(value: T): string {
-      return JSON.stringify(value)
-    },
-    fromDriver(value: string): T {
-      return JSON.parse(value)
-    },
-  })(name)
+// // Define a custom type for your JSONB column
+// const customJsonb = <T>(name: string) =>
+//   customType<{ data: T; driverData: string }>({
+//     dataType() {
+//       return 'jsonb'
+//     },
+//     toDriver(value: T): string {
+//       return JSON.stringify(value)
+//     },
+//     fromDriver(value: string): T {
+//       return JSON.parse(value)
+//     },
+//   })(name)
 
 // Config Table
 export const Configs = pgTable('configs', {
@@ -184,6 +184,6 @@ export const Configs = pgTable('configs', {
   discordId: varchar('discord_id', { length: 256 })
     .references(() => Servers.discordId)
     .notNull(),
-  configData: customJsonb('config_data').notNull(),
+  configData: jsonb('config_data').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 })

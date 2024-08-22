@@ -3,8 +3,6 @@ import { queryPipeline } from '../services/ragService.js'
 import { authorizeUserForQuestion } from '../services/configService.js'
 
 export async function handleQuestion(message: Message) {
-  console.log(`handling question: ${message.id}`)
-
   try {
     if (message.author.bot) {
       return
@@ -23,6 +21,7 @@ export async function handleQuestion(message: Message) {
     if (!message.inGuild()) {
       return
     }
+
     if (!message.guild?.id) {
       console.log(`No guild ID found for this message`)
       return
@@ -36,6 +35,8 @@ export async function handleQuestion(message: Message) {
       console.log(`User is not authorized to ask questions`)
       return
     }
+
+    console.log(`handling question: ${message.id}`)
 
     const answer = await queryPipeline(message)
     if (!answer) return
