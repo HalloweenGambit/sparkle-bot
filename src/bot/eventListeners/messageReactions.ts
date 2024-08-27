@@ -1,4 +1,4 @@
-import { Client, Role } from 'discord.js'
+import { Channel, Client, MessageReaction, Role, TextChannel } from 'discord.js'
 import {
   authorizeUserSparkle,
   deleteSparkleMessage,
@@ -70,13 +70,17 @@ export default (client: Client) => {
             }
           }
 
-          const targetChannelReply = async (reaction, configData) => {
+          const targetChannelReply = async (
+            reaction: MessageReaction,
+            configData: ConfigData
+          ) => {
             try {
               const feedbackChannel =
-                reaction.message.guild.channels.cache.find(
-                  (channel) =>
+                reaction.message.guild?.channels.cache.find(
+                  (channel: Channel) =>
                     channel.id === configData.bot_feedback.feedback_channel
-                )
+                ) as TextChannel
+
               if (!feedbackChannel) {
                 console.error('Feedback channel not found')
                 return { error: 'Feedback channel not found' }
