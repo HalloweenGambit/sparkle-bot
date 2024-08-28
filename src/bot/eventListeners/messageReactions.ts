@@ -7,6 +7,8 @@ import {
 import { loadConfigData } from '../services/configService.js'
 import { ConfigData } from '../../types.js'
 import discordClient from '../../config/discordConfig.js'
+import { handleAddSparkle } from '../services/handleSparkle.js'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
 // TODOLATER: check for user permissions before proceeding
 // TODOLATER: decide if we want to delete the message or just remove the reaction
@@ -27,109 +29,79 @@ export default (client: Client) => {
       }
 
       await saveSparkleMessage(reaction, user)
+      await handleAddSparkle(reaction, user)
 
-      const replyToAddSparkle = async (reaction, user) => {
-        console.log(`replying to message reaction`)
-        try {
-          const configData = (await loadConfigData(
-            reaction.message.guild.id
-          )) as ConfigData
-          const dm = configData.bot_feedback.dm
-          const sameChannel = configData.bot_feedback.same_channel
-          const feedbackChannel = configData.bot_feedback.feedback_channel
-          const emoji = configData.bot_feedback.emoji
+      const reactionMessage = reaction.message
+      const guildId = reactionMessage.guild?.id
 
-          console.log(
-            `bot_feedback: dm: ${dm}, sameChannel: ${sameChannel}, feedbackChannel: ${feedbackChannel}, emoji: ${emoji}`
-          )
-
-          const dmReply = async (user, configData) => {
-            try {
-              await user.send(
-                `You added message ${reaction.message.id} to the database!`
-              )
-            } catch (dmError) {
-              console.error('Error sending DM:', dmError)
-              return {
-                error:
-                  'Unable to send DM. The user might have blocked the bot or have DMs turned off.',
-              }
-            }
-          }
-
-          const sameChannelReply = async (reaction, configData) => {
-            try {
-              await reaction.message.reply(
-                `You added message ${reaction.message.id} to the database!`
-              )
-            } catch (replyError) {
-              console.error('Error replying to message:', replyError)
-              return {
-                error: 'Failed to reply to the message.',
-              }
-            }
-          }
-
-          const targetChannelReply = async (
-            reaction: MessageReaction,
-            configData: ConfigData
-          ) => {
-            try {
-              const feedbackChannel =
-                reaction.message.guild?.channels.cache.find(
-                  (channel: Channel) =>
-                    channel.id === configData.bot_feedback.feedback_channel
-                ) as TextChannel
-
-              if (!feedbackChannel) {
-                console.error('Feedback channel not found')
-                return { error: 'Feedback channel not found' }
-              }
-
-              await feedbackChannel.send(
-                `User ${user.tag} added message ${reaction.message.id} to the database!`
-              )
-            } catch (feedbackError) {
-              console.error('Error sending feedback message:', feedbackError)
-              return { error: 'Failed to send feedback message.' }
-            }
-          }
-
-          const emojiReply = async (reaction, configData) => {
-            try {
-              await reaction.message.react(
-                configData.bot_feedback.emoji || '✨'
-              )
-            } catch (reactionError) {
-              console.error('Error adding reaction:', reactionError)
-              return { error: 'Failed to add reaction to the message.' }
-            }
-          }
-
-          // Execute the replies based on config settings
-          if (configData.bot_feedback.dm) {
-            await dmReply(user, configData)
-          }
-
-          if (configData.bot_feedback.same_channel) {
-            await sameChannelReply(reaction, configData)
-          }
-
-          // TODO: check if the feedback channel is valid then reply to it
-          if (configData.bot_feedback.feedback_channel) {
-            await targetChannelReply(reaction, configData)
-          }
-
-          if (configData.bot_feedback.emoji) {
-            await emojiReply(reaction, configData)
-          }
-        } catch (error) {
-          console.error('Error replying to message reaction:', error)
-          return { error: 'Failed replying to message reaction.' }
+      const extractJsonArray = (text) => {
+        // Use a regular expression to find the JSON array within the string
+        const match = text.match(/\[.*?\]/s)
+        if (match) {
+          return match[0] // Return the first match
         }
+        throw new Error('No valid JSON array found in the text')
       }
 
-      await replyToAddSparkle(reaction, user)
+      const createPotentialQuestions = async (reactionMessage) => {
+        try {
+          const configData = await loadConfigData(guildId)
+          const apiKey = process.env.API_KEY || configData?.api_key
+
+          if (!apiKey) {
+            console.error('No API key found')
+            return
+          }
+
+          console.log('API_KEY:', apiKey)
+
+          const gpt = new GoogleGenerativeAI(apiKey)
+          const model = await gpt.getGenerativeModel({
+            model: 'gemini-1.5-flash',
+          })
+
+          const prePrompt = `Given the following message: "${reactionMessage}", generate 10 potential questions users may ask that could be answered with it. Format the output as a valid JSON array of strings.`
+          const res = await model.generateContent(prePrompt)
+          let text = await res.response.text()
+
+          // Extract JSON array from the text
+          let jsonArrayText
+          try {
+            jsonArrayText = extractJsonArray(text)
+            console.log('Extracted JSON array:', jsonArrayText)
+          } catch (extractError) {
+            console.error('Error extracting JSON array:', extractError)
+            return
+          }
+
+          // Parse the JSON array
+          let questionsArray
+          try {
+            questionsArray = JSON.parse(jsonArrayText)
+            if (
+              !Array.isArray(questionsArray) ||
+              questionsArray.some((q) => typeof q !== 'string')
+            ) {
+              throw new Error('Invalid format: Expected an array of strings')
+            }
+          } catch (parseError) {
+            console.error('Error parsing JSON response:', parseError)
+            return
+          }
+
+          console.log('Potential questions:', questionsArray)
+          return questionsArray
+        } catch (error) {
+          console.error('Error creating potential questions:', error)
+        }
+      }
+      const potentialQuestions = await createPotentialQuestions(reactionMessage)
+      if (!potentialQuestions) {
+        console.error('Failed to create potential questions')
+        return
+      } else {
+        console.log('Successfully created potential questions')
+      }
     } catch (error) {
       console.error('Error handling messageReactionAdd event:', error)
     }

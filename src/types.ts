@@ -162,4 +162,6 @@ export type ConfigData = {
     feedback_channel: Snowflake | null
     emoji: string
   }
+  // gemini api key
+  api_key: string
 }

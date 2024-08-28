@@ -5,8 +5,7 @@ import {
   saveMessageEmbedding,
 } from './messagesUtils'
 import { deleteMessage, saveMessage } from '../bot/services/messageService'
-import discordClient from '../config/discordConfig'
-import { MessageReaction, ReactionUserManager, Role } from 'discord.js'
+import { Role } from 'discord.js'
 import { loadConfigData } from '../bot/services/configService'
 
 // !correct types
@@ -33,6 +32,7 @@ export const saveSparkleMessage = async (reaction, user) => {
     const messageId = reaction.message.id
 
     const loadMessageStartTime = Date.now()
+    // TODO: check if message is already saved
     const message = await loadMessage(guildId, channelId, messageId)
     console.log(`Loading message took ${Date.now() - loadMessageStartTime} ms`)
 
