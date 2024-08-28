@@ -194,7 +194,7 @@ export const PotentialQuestions = pgTable('potential_questions', {
   messageId: varchar('message_id', { length: 256 })
     .references(() => Messages.discordId)
     .notNull(),
-  ServerId: varchar('server_id', { length: 256 })
+  serverId: varchar('server_id', { length: 256 })
     .references(() => Servers.discordId)
     .notNull(),
   question: text('question').notNull(),

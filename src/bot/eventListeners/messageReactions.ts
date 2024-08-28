@@ -37,18 +37,18 @@ export default (client: Client) => {
 
       const reactionMessage = reaction.message
       const guildId = reactionMessage.guild?.id
+      const serverId = guildId
       const messageId = reactionMessage.id
 
-      const extractJsonArray = (text) => {
-        // Use a regular expression to find the JSON array within the string
+      const extractJsonArray = (text: string): string => {
         const match = text.match(/\[.*?\]/s)
         if (match) {
-          return match[0] // Return the first match
+          return match[0]
         }
         throw new Error('No valid JSON array found in the text')
       }
 
-      const createPotentialQuestions = async (reactionMessage) => {
+      const createPotentialQuestions = async (reactionMessage: string) => {
         try {
           const configData = await loadConfigData(guildId)
           const apiKey = process.env.API_KEY || configData?.api_key
@@ -65,9 +65,8 @@ export default (client: Client) => {
 
           const prePrompt = `Given the following message: "${reactionMessage}", generate 10 potential questions users may ask that could be answered with it. Format the output as a valid JSON array of strings.`
           const res = await model.generateContent(prePrompt)
-          let text = await res.response.text()
+          const text = await res.response.text()
 
-          // Extract JSON array from the text
           let jsonArrayText
           try {
             jsonArrayText = extractJsonArray(text)
@@ -77,7 +76,6 @@ export default (client: Client) => {
             return
           }
 
-          // Parse the JSON array
           let questionsArray
           try {
             questionsArray = JSON.parse(jsonArrayText)
@@ -99,12 +97,16 @@ export default (client: Client) => {
         }
       }
 
-      const formatPotentialQuestion = async (question, messageId, guildId) => {
+      const formatPotentialQuestion = async (
+        question: string,
+        messageId: string,
+        serverId: string
+      ) => {
         const { lemmas, tokens } = await preProcessQuestion(question)
         const embedding = await embedMessageContent(tokens)
         return {
           messageId,
-          guildId,
+          serverId,
           question,
           lemmas,
           tokens,
@@ -112,30 +114,32 @@ export default (client: Client) => {
         }
       }
 
-      const savePotentialQuestions = async (
-        potentialQuestions,
-        messageId,
-        guildId
-      ) => {
-        const formattedQuestions = potentialQuestions.map(async (question) => {
-          await formatPotentialQuestion(question, messageId, guildId)
-        })
-        const db = await dbClient
-        await db
-          .insert(PotentialQuestions)
-          .values(formattedQuestions)
-          .returning()
+      const savePotentialQuestions = async (formattedQuestions: any[]) => {
+        try {
+          const db = await dbClient
+          await db
+            .insert(PotentialQuestions)
+            .values(formattedQuestions)
+            .returning()
+        } catch (error) {
+          console.error('Error saving potential questions:', error)
+        }
       }
 
       const potentialQuestions = await createPotentialQuestions(reactionMessage)
-
       if (!potentialQuestions) {
         console.error('Failed to create potential questions')
         return
-      } else {
-        await savePotentialQuestions(potentialQuestions, messageId, guildId)
-        console.log('Successfully created & saved potential questions')
       }
+
+      const formattedQuestions = await Promise.all(
+        potentialQuestions.map((question) =>
+          formatPotentialQuestion(question, messageId, serverId)
+        )
+      )
+
+      await savePotentialQuestions(formattedQuestions)
+      console.log('Successfully created & saved potential questions')
     } catch (error) {
       console.error('Error handling messageReactionAdd event:', error)
     }
