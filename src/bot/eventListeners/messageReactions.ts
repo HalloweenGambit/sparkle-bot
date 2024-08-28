@@ -53,8 +53,6 @@ export default (client: Client) => {
             return
           }
 
-          console.log('API_KEY:', apiKey)
-
           const gpt = new GoogleGenerativeAI(apiKey)
           const model = await gpt.getGenerativeModel({
             model: 'gemini-1.5-flash',
@@ -102,6 +100,7 @@ export default (client: Client) => {
       } else {
         console.log('Successfully created potential questions')
       }
+      const savePotentialQuestions = async (potentialQuestions) => {}
     } catch (error) {
       console.error('Error handling messageReactionAdd event:', error)
     }

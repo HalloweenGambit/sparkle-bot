@@ -42,6 +42,11 @@ export const queryPipeline = async (message: Message) => {
     `Saving question embedding took ${Date.now() - stageStartTime} ms`
   )
 
+  // TODO: query the potential questions database for similar questions
+  const potentialQuestions = await queryPotentialQuestions(embedding)
+  // TODO: return the top 5 most similar questions
+  // TODO: use llm to see if the answer attatched to the question is correct
+
   // Start timer for querying the message database
   stageStartTime = Date.now()
   const res = await queryMessageDatabase(embedding)
