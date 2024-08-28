@@ -187,3 +187,19 @@ export const Configs = pgTable('configs', {
   configData: jsonb('config_data').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 })
+
+export const PotentialQuestions = pgTable('potential_questions', {
+  id: serial('id').primaryKey(),
+  // message that is related to the potential question
+  messageId: varchar('message_id', { length: 256 })
+    .references(() => Messages.discordId)
+    .notNull(),
+  ServerId: varchar('server_id', { length: 256 })
+    .references(() => Servers.discordId)
+    .notNull(),
+  question: text('question').notNull(),
+  tokens: text('tokens').array().notNull(),
+  lemmas: text('lemmas').array().notNull(),
+  embedding: vector('embedding', { dimensions: 512 }).notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+})

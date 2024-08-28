@@ -43,7 +43,9 @@ export const queryPipeline = async (message: Message) => {
   )
 
   // TODO: query the potential questions database for similar questions
-  const potentialQuestions = await queryPotentialQuestions(embedding)
+  // const queryPotentialQuestions = async (embedding: number[]) => {}
+  // const potentialQuestions = await queryPotentialQuestions(embedding)
+
   // TODO: return the top 5 most similar questions
   // TODO: use llm to see if the answer attatched to the question is correct
 

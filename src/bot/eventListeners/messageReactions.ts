@@ -9,6 +9,10 @@ import { ConfigData } from '../../types.js'
 import discordClient from '../../config/discordConfig.js'
 import { handleAddSparkle } from '../services/handleSparkle.js'
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import { preProcessQuestion } from '../services/preProcessMessageContent.js'
+import embedMessageContent from '../services/embedMessageContent.js'
+import dbClient from '../../config/dbConfig.js'
+import { PotentialQuestions } from '../../db/schema.js'
 
 // TODOLATER: check for user permissions before proceeding
 // TODOLATER: decide if we want to delete the message or just remove the reaction
@@ -33,6 +37,7 @@ export default (client: Client) => {
 
       const reactionMessage = reaction.message
       const guildId = reactionMessage.guild?.id
+      const messageId = reactionMessage.id
 
       const extractJsonArray = (text) => {
         // Use a regular expression to find the JSON array within the string
@@ -93,14 +98,44 @@ export default (client: Client) => {
           console.error('Error creating potential questions:', error)
         }
       }
+
+      const formatPotentialQuestion = async (question, messageId, guildId) => {
+        const { lemmas, tokens } = await preProcessQuestion(question)
+        const embedding = await embedMessageContent(tokens)
+        return {
+          messageId,
+          guildId,
+          question,
+          lemmas,
+          tokens,
+          embedding,
+        }
+      }
+
+      const savePotentialQuestions = async (
+        potentialQuestions,
+        messageId,
+        guildId
+      ) => {
+        const formattedQuestions = potentialQuestions.map(async (question) => {
+          await formatPotentialQuestion(question, messageId, guildId)
+        })
+        const db = await dbClient
+        await db
+          .insert(PotentialQuestions)
+          .values(formattedQuestions)
+          .returning()
+      }
+
       const potentialQuestions = await createPotentialQuestions(reactionMessage)
+
       if (!potentialQuestions) {
         console.error('Failed to create potential questions')
         return
       } else {
-        console.log('Successfully created potential questions')
+        await savePotentialQuestions(potentialQuestions, messageId, guildId)
+        console.log('Successfully created & saved potential questions')
       }
-      const savePotentialQuestions = async (potentialQuestions) => {}
     } catch (error) {
       console.error('Error handling messageReactionAdd event:', error)
     }
