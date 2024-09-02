@@ -94,6 +94,7 @@ export const formatMessage = async (
 export const formatMessageEmbedding = async (message: Message) => {
   console.log('Getting message ID')
   const discordId = message.id
+  const guildId = message.guildId as string
 
   console.log('Preprocessing message')
   const preProcessStartTime = Date.now()
@@ -109,7 +110,7 @@ export const formatMessageEmbedding = async (message: Message) => {
     `Embedding message content took ${Date.now() - embedStartTime} ms`
   )
 
-  return { discordId, tokens, lemmas, embedding }
+  return { discordId, guildId, tokens, lemmas, embedding }
 }
 
 export const saveMessageEmbedding = async (

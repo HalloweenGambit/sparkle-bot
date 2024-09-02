@@ -119,6 +119,9 @@ export const MessageEmbeddings = pgTable(
     discordId: varchar('message_id', { length: 256 })
       .references(() => Messages.discordId)
       .notNull(),
+    guildId: varchar('server_id', { length: 256 })
+      .references(() => Servers.discordId)
+      .notNull(),
     embedding: vector('embedding', { dimensions: 512 }).notNull(),
     createdAt: timestamp('created_at').defaultNow(),
   },

@@ -95,6 +95,7 @@ const createConfigData = async (guildId: Snowflake) => {
         feedback_channel: null,
         emoji: '✅',
       },
+      api_key: null,
     }
   } catch (error) {
     console.error('Error saving configuration data:', error)

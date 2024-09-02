@@ -47,6 +47,7 @@ export type FormattedMessage = {
 
 export type FormattedMessageEmbedding = {
   discordId: Snowflake
+  guildId: Snowflake
   tokens: string[]
   lemmas: string[]
   embedding: number[]

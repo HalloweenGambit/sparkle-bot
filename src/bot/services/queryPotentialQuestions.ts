@@ -1,8 +1,11 @@
-import { cosineDistance, desc, gt, sql } from 'drizzle-orm'
+import { cosineDistance, desc, eq, gt, sql } from 'drizzle-orm'
 import dbClient from '../../config/dbConfig.js'
 import { PotentialQuestions } from '../../db/schema.js'
 
-export const queryPotentialQuestions = async (embedding: number[]) => {
+export const queryPotentialQuestions = async (
+  embedding: number[],
+  serverId
+) => {
   const db = await dbClient
 
   // Assuming `cosineDistance` is a function that generates a SQL expression for the cosine distance
@@ -12,7 +15,7 @@ export const queryPotentialQuestions = async (embedding: number[]) => {
   )})`
 
   // The similarity score will be dynamically calculated in the SQL query
-  const similarQuestions = await db
+  const query = db
     .select({
       id: PotentialQuestions.id,
       messageId: PotentialQuestions.messageId,
@@ -20,7 +23,11 @@ export const queryPotentialQuestions = async (embedding: number[]) => {
       similarity,
     })
     .from(PotentialQuestions)
-    // TODO: make it so the administrator can set the threshold
+    .$dynamic() // Enable dynamic mode
+
+  // TODO: make it so the administrator can set the threshold
+  const similarQuestions = await query
+    .where(eq(PotentialQuestions.serverId, serverId))
     .where(gt(similarity, 0.8))
     .orderBy(desc(similarity)) // Order by similarity in descending order
     .limit(5) // Limit the results to the top 4 most similar messages

@@ -64,78 +64,80 @@
       "same_channel": false,
       "feedback_channel": null,
       "emoji": "✅"
-    }
+    },
+    "api_key": null
   },
   "1248436505479876700": {
+    "server_id": "1248436505479876700",
+    "server_name": "Space Station 404",
     "roles": {
       "all_roles": [
         {
-          "isAdmin": false,
           "role_id": "1248436505479876700",
           "role_name": "@everyone",
-          "role_permissions": "2248473465835073"
+          "role_permissions": "2248473465835073",
+          "isAdmin": false
         },
         {
-          "isAdmin": true,
           "role_id": "1248437714882138195",
           "role_name": "Great Scott!",
-          "role_permissions": "3221269576"
+          "role_permissions": "3221269576",
+          "isAdmin": true
         },
         {
-          "isAdmin": false,
           "role_id": "1249979169052299314",
           "role_name": "muted",
-          "role_permissions": "0"
+          "role_permissions": "0",
+          "isAdmin": false
         },
         {
-          "isAdmin": true,
           "role_id": "1262339144470888482",
           "role_name": "Doc Bot",
-          "role_permissions": "8"
+          "role_permissions": "8",
+          "isAdmin": true
         },
         {
-          "isAdmin": false,
           "role_id": "1264140610391248967",
           "role_name": "Moderator",
-          "role_permissions": "0"
+          "role_permissions": "0",
+          "isAdmin": false
         }
       ],
       "permissions": {
+        "can_manage_messages": [
+          "1248437714882138195",
+          "1262339144470888482"
+        ],
         "can_ask_questions": [
           "1248436505479876700",
           "1248437714882138195",
           "1249979169052299314",
           "1262339144470888482",
           "1264140610391248967"
-        ],
-        "can_manage_messages": [
-          "1248437714882138195",
-          "1262339144470888482"
         ]
       }
     },
     "channels": {
-      "question_listener": [
+      "message_management": [
         "1249979168452771881",
         "1260841104077488208",
         "1260853246285709313",
         "1260853496761290763"
       ],
-      "message_management": [
+      "question_listener": [
         "1249979168452771881",
         "1260841104077488208",
         "1260853246285709313",
         "1260853496761290763"
       ]
     },
-    "server_id": "1248436505479876700",
-    "server_name": "Space Station 404",
     "bot_feedback": {
-      "dm": true,
-      "emoji": "✅",
-      "same_channel": true,
-      "feedback_channel": ""
-    }
+      "dm": false,
+      "same_channel": false,
+      "feedback_channel": null,
+      "emoji": "✅"
+    },
+    "api_key": null
   },
   "1263234293820559460": {
     "server_id": "1263234293820559460",
@@ -175,12 +177,14 @@
     },
     "channels": {
       "message_management": [
-        "1263234293820559464",
-        "1263245046610657392"
+        "1275630361551835197",
+        "1275630712220946452",
+        "1275636562406670366"
       ],
       "question_listener": [
-        "1263234293820559464",
-        "1263245046610657392"
+        "1275630361551835197",
+        "1275630712220946452",
+        "1275636562406670366"
       ]
     },
     "bot_feedback": {
@@ -188,6 +192,7 @@
       "same_channel": false,
       "feedback_channel": null,
       "emoji": "✅"
-    }
+    },
+    "api_key": null
   }
 }

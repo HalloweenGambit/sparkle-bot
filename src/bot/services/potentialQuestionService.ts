@@ -21,7 +21,7 @@ export const createPotentialQuestions = async (
 ) => {
   try {
     const configData = await loadConfigData(guildId)
-    const apiKey = process.env.API_KEY || configData?.api_key
+    const apiKey = configData?.api_key
 
     if (!apiKey) {
       console.error('No API key found')

@@ -44,9 +44,18 @@ export const queryPipeline = async (message: Message) => {
     `Saving question embedding took ${Date.now() - stageStartTime} ms`
   )
 
+  if (!message.guild || !message.guild.id) {
+    console.log(`Message does not belong to a guild`)
+    return
+  }
+
   // Query the potential questions database for similar questions
   stageStartTime = Date.now()
-  let linkedQuestions = await queryPotentialQuestions(embedding)
+  let linkedQuestions = await queryPotentialQuestions(
+    embedding,
+    message.guild.id
+  )
+
   console.log(
     `Querying potential questions database took ${
       Date.now() - stageStartTime
@@ -78,7 +87,7 @@ export const queryPipeline = async (message: Message) => {
     )
 
     stageStartTime = Date.now()
-    const res = await queryMessageDatabase(embedding)
+    const res = await queryMessageDatabase(embedding, message.guild.id)
     console.log(
       `Querying Messages database took ${Date.now() - stageStartTime} ms`
     )
