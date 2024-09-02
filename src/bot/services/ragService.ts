@@ -6,7 +6,7 @@ import queryMessageDatabase from './queryMessageDatabase'
 import dbClient from '../../config/dbConfig'
 import { Messages } from '../../db/schema'
 import { eq } from 'drizzle-orm'
-
+import { queryPotentialQuestions } from './queryPotentialQuestions'
 // RAG query pipeline
 export const queryPipeline = async (message: Message) => {
   console.log(
@@ -15,6 +15,8 @@ export const queryPipeline = async (message: Message) => {
 
   // Start timer for the entire pipeline
   const startTime = Date.now()
+
+  // TODO: extract question portion
 
   // Start timer for formatting the question
   let stageStartTime = Date.now()
@@ -42,43 +44,63 @@ export const queryPipeline = async (message: Message) => {
     `Saving question embedding took ${Date.now() - stageStartTime} ms`
   )
 
-  // TODO: query the potential questions database for similar questions
-  // const queryPotentialQuestions = async (embedding: number[]) => {}
-  // const potentialQuestions = await queryPotentialQuestions(embedding)
-
-  // TODO: return the top 5 most similar questions
-  // TODO: use llm to see if the answer attatched to the question is correct
-
-  // Start timer for querying the message database
+  // Query the potential questions database for similar questions
   stageStartTime = Date.now()
-  const res = await queryMessageDatabase(embedding)
+  let linkedQuestions = await queryPotentialQuestions(embedding)
   console.log(
-    `Querying message database took ${Date.now() - stageStartTime} ms`
+    `Querying potential questions database took ${
+      Date.now() - stageStartTime
+    } ms`
   )
 
-  if (res.length === 0) {
-    console.log(`No results found`)
-    console.log(`Total pipeline time: ${Date.now() - startTime} ms`)
-    return
+  let answer
+
+  if (linkedQuestions.length > 0) {
+    // If similar questions are found, get the first one
+    const firstQuestion = linkedQuestions[0]
+    const questionMessageId = firstQuestion.messageId
+
+    // Query the message database for the answer
+    stageStartTime = Date.now()
+    const db = await dbClient
+    answer = await db.query.Messages.findFirst({
+      where: eq(Messages.discordId, questionMessageId),
+    })
+    console.log(
+      `Searching message in database took ${Date.now() - stageStartTime} ms`
+    )
   }
 
-  const firstResult = res[0]
-  const messageId = firstResult.messageId
+  if (!answer) {
+    // If no similar question is found or no answer was retrieved, query the Messages database directly
+    console.log(
+      `No results found in potential questions. Querying Messages database...`
+    )
 
-  const db = await dbClient
+    stageStartTime = Date.now()
+    const res = await queryMessageDatabase(embedding)
+    console.log(
+      `Querying Messages database took ${Date.now() - stageStartTime} ms`
+    )
 
-  // Start timer for searching the message in the database
-  stageStartTime = Date.now()
-  const answer = await db.query.Messages.findFirst({
-    where: eq(Messages.discordId, messageId),
-  })
-  console.log(
-    `Searching message in database took ${Date.now() - stageStartTime} ms`
-  )
+    if (res.length > 0) {
+      const firstResult = res[0]
+      const messageId = firstResult.messageId
+
+      // Start timer for searching the message in the database
+      stageStartTime = Date.now()
+      const db = await dbClient
+      answer = await db.query.Messages.findFirst({
+        where: eq(Messages.discordId, messageId),
+      })
+      console.log(
+        `Searching message in database took ${Date.now() - stageStartTime} ms`
+      )
+    }
+  }
 
   if (!answer) {
-    console.log(`Total pipeline time: ${Date.now() - startTime} ms`)
-    return
+    console.log(`No results found`)
   }
 
   console.log(`Total pipeline time: ${Date.now() - startTime} ms`)
