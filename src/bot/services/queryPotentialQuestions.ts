@@ -14,6 +14,7 @@ export const queryPotentialQuestions = async (embedding: number[]) => {
   // The similarity score will be dynamically calculated in the SQL query
   const similarQuestions = await db
     .select({
+      id: PotentialQuestions.id,
       messageId: PotentialQuestions.messageId,
       serverId: PotentialQuestions.serverId,
       similarity,
@@ -27,7 +28,7 @@ export const queryPotentialQuestions = async (embedding: number[]) => {
   // Log the results for debugging purposes
   similarQuestions.forEach((message) => {
     console.log(
-      `Message ID: ${message.messageId}, Similarity Score: ${message.similarity}`
+      `Potential Question ID: ${message.id}, Message ID: ${message.messageId}, Similarity Score: ${message.similarity}`
     )
   })
 
