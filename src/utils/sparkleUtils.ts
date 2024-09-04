@@ -3,7 +3,7 @@ import {
   formatMessageEmbedding,
   loadMessage,
   saveMessageEmbedding,
-} from './messagesUtils'
+} from './messagesUtils.js'
 import { deleteMessage, saveMessage } from '../bot/services/messageService.js'
 import { Role } from 'discord.js'
 import { loadConfigData } from '../bot/services/configService.js'
