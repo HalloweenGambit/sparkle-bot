@@ -1,17 +1,16 @@
 import fs from 'fs'
 import path from 'path'
-import { promisify } from 'util'
+// import { promisify } from 'util'
 import dbClient from '../../config/dbConfig.js'
-import { Configs } from '../../db/schema'
 import { Message, Snowflake } from 'discord.js'
 import { eq } from 'drizzle-orm'
-import { loadCompleteGuilds, loadGuild } from '../../utils/guildUtils'
 import { URL } from 'url'
 import { ConfigData } from '../../types.js'
-import { boolean } from 'drizzle-orm/mysql-core/index.js'
+import { Configs } from '../../db/schema.js'
+import { loadCompleteGuilds, loadGuild } from '../../utils/guildUtils.js'
 
 // Promisify fs.writeFile
-const writeFileAsync = promisify(fs.writeFile)
+// const writeFileAsync = promisify(fs.writeFile)
 // Resolve the directory of the current module
 const currentModuleURL = new URL(import.meta.url)
 const currentDir = path.dirname(currentModuleURL.pathname)
