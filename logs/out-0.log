@@ -1,96 +1,136 @@
-2024-07-15 22:12:49: Database connected successfully.
-2024-07-15 22:12:49: Event listener channelListeners.js loaded.
-2024-07-15 22:12:49: Event listener guildListeners.js loaded.
-2024-07-15 22:12:49: Event listener interactionCreate.js loaded.
-2024-07-15 22:12:50: Event listener messageCreate.js loaded.
-2024-07-15 22:12:50: Event listener messageReactions.js loaded.
-2024-07-15 22:12:50: Slash command ping.js loaded.
-2024-07-15 22:13:07: Database connected successfully.
-2024-07-15 22:13:07: Event listener channelListeners.js loaded.
-2024-07-15 22:13:07: Event listener guildListeners.js loaded.
-2024-07-15 22:13:07: Event listener interactionCreate.js loaded.
-2024-07-15 22:13:08: Event listener messageCreate.js loaded.
-2024-07-15 22:13:08: Event listener messageReactions.js loaded.
-2024-07-15 22:13:08: Slash command ping.js loaded.
-2024-07-15 22:13:09: Logged in as Doc Bot#4136
-2024-07-15 22:13:09: Started deleting all existing application (/) commands.
-2024-07-15 22:13:09: Successfully deleted all existing application (/) commands.
-2024-07-15 22:13:09: Started refreshing application (/) commands.
-2024-07-15 22:13:09: Successfully registered application (/) commands.
-2024-07-15 22:13:09: Started syncing guilds
-2024-07-15 22:13:12: new guilds: 0, modified guilds: 0, unchanged guilds: 2
-2024-07-15 22:13:12: Started syncing channels
-2024-07-15 22:13:17: new channels: 0, modified channels: 0, unchanged channels: 18
-2024-07-15 22:13:17: you are the CaPiTaN now!
-2024-07-15 22:14:34: Database connected successfully.
-2024-07-15 22:14:34: Event listener channelListeners.js loaded.
-2024-07-15 22:14:34: Event listener guildListeners.js loaded.
-2024-07-15 22:14:34: Event listener interactionCreate.js loaded.
-2024-07-15 22:14:35: Event listener messageCreate.js loaded.
-2024-07-15 22:14:35: Event listener messageReactions.js loaded.
-2024-07-15 22:14:35: Slash command ping.js loaded.
-2024-07-15 22:14:36: Logged in as Doc Bot#4136
-2024-07-15 22:14:36: Started deleting all existing application (/) commands.
-2024-07-15 22:14:36: Successfully deleted all existing application (/) commands.
-2024-07-15 22:14:36: Started refreshing application (/) commands.
-2024-07-15 22:14:37: Successfully registered application (/) commands.
-2024-07-15 22:14:37: Started syncing guilds
-2024-07-15 22:14:39: new guilds: 0, modified guilds: 0, unchanged guilds: 2
-2024-07-15 22:14:39: Started syncing channels
-2024-07-15 22:14:44: new channels: 0, modified channels: 0, unchanged channels: 18
-2024-07-15 22:14:44: you are the CaPiTaN now!
-2024-07-15 22:15:14: Database connected successfully.
-2024-07-15 22:15:14: Event listener channelListeners.js loaded.
-2024-07-15 22:15:14: Event listener guildListeners.js loaded.
-2024-07-15 22:15:14: Event listener interactionCreate.js loaded.
-2024-07-15 22:15:14: Event listener messageCreate.js loaded.
-2024-07-15 22:15:14: Event listener messageReactions.js loaded.
-2024-07-15 22:15:14: Slash command ping.js loaded.
-2024-07-15 22:15:15: Logged in as Doc Bot#4136
-2024-07-15 22:15:15: Started deleting all existing application (/) commands.
-2024-07-15 22:15:15: Successfully deleted all existing application (/) commands.
-2024-07-15 22:15:15: Started refreshing application (/) commands.
-2024-07-15 22:16:04: Database connected successfully.
-2024-07-15 22:16:04: Event listener channelListeners.js loaded.
-2024-07-15 22:16:04: Event listener guildListeners.js loaded.
-2024-07-15 22:16:04: Event listener interactionCreate.js loaded.
-2024-07-15 22:16:04: Event listener messageCreate.js loaded.
-2024-07-15 22:16:04: Event listener messageReactions.js loaded.
-2024-07-15 22:16:04: Slash command ping.js loaded.
-2024-07-15 22:16:05: Logged in as Doc Bot#4136
-2024-07-15 22:16:05: Started deleting all existing application (/) commands.
-2024-07-15 22:16:06: Successfully deleted all existing application (/) commands.
-2024-07-15 22:16:06: Started refreshing application (/) commands.
-2024-07-15 22:16:10: Database connected successfully.
-2024-07-15 22:16:10: Event listener channelListeners.js loaded.
-2024-07-15 22:16:10: Event listener guildListeners.js loaded.
-2024-07-15 22:16:10: Event listener interactionCreate.js loaded.
-2024-07-15 22:16:11: Event listener messageCreate.js loaded.
-2024-07-15 22:16:11: Event listener messageReactions.js loaded.
-2024-07-15 22:16:11: Slash command ping.js loaded.
-2024-07-15 22:16:12: Logged in as Doc Bot#4136
-2024-07-15 22:16:12: Started deleting all existing application (/) commands.
-2024-07-15 22:16:12: Database connected successfully.
-2024-07-15 22:16:12: Event listener channelListeners.js loaded.
-2024-07-15 22:16:12: Event listener guildListeners.js loaded.
-2024-07-15 22:16:12: Event listener interactionCreate.js loaded.
-2024-07-15 22:16:13: Event listener messageCreate.js loaded.
-2024-07-15 22:16:13: Event listener messageReactions.js loaded.
-2024-07-15 22:16:13: Slash command ping.js loaded.
-2024-07-15 22:17:10: Database connected successfully.
-2024-07-15 22:17:10: Event listener channelListeners.js loaded.
-2024-07-15 22:17:10: Event listener guildListeners.js loaded.
-2024-07-15 22:17:10: Event listener interactionCreate.js loaded.
-2024-07-15 22:17:10: Event listener messageCreate.js loaded.
-2024-07-15 22:17:10: Event listener messageReactions.js loaded.
-2024-07-15 22:17:10: Slash command ping.js loaded.
-2024-07-15 22:17:11: Logged in as Doc Bot#4136
-2024-07-15 22:17:11: Started deleting all existing application (/) commands.
-2024-07-15 22:17:12: Successfully deleted all existing application (/) commands.
-2024-07-15 22:17:12: Started refreshing application (/) commands.
-2024-07-15 22:17:12: Successfully registered application (/) commands.
-2024-07-15 22:17:12: Started syncing guilds
-2024-07-15 22:17:15: new guilds: 0, modified guilds: 0, unchanged guilds: 2
-2024-07-15 22:17:15: Started syncing channels
-2024-07-15 22:17:19: new channels: 0, modified channels: 0, unchanged channels: 18
-2024-07-15 22:17:19: you are the CaPiTaN now!
+2024-09-04 00:28:20: Database connected successfully.
+2024-09-04 00:28:20: Event listener channelListeners.js loaded.
+2024-09-04 00:28:20: Event listener guildListeners.js loaded.
+2024-09-04 00:28:20: Event listener interactionCreate.js loaded.
+2024-09-04 00:28:20: Slash command ping.js loaded.
+2024-09-04 00:28:20: Logged in as Doc Bot#4136
+2024-09-04 00:28:20: Started deleting all existing application (/) commands.
+2024-09-04 00:28:21: Successfully deleted all existing application (/) commands.
+2024-09-04 00:28:21: Started refreshing application (/) commands.
+2024-09-04 00:28:21: Successfully registered application (/) commands.
+2024-09-04 00:28:21: Started syncing guilds
+2024-09-04 00:28:23: new guilds: 0, modified guilds: 0, unchanged guilds: 2
+2024-09-04 00:28:23: Started syncing channels
+2024-09-04 00:28:26: new channels: 0, modified channels: 0, unchanged channels: 18
+2024-09-04 00:28:26: Syncing configurations
+2024-09-04 00:28:26: currently not refreshing available roles in config files
+2024-09-04 00:28:26: Loading configuration for Discord ID: 1008463449594007692
+2024-09-04 00:28:26: currently not refreshing available roles in config files
+2024-09-04 00:28:26: Loading configuration for Discord ID: 1248436505479876700
+2024-09-04 00:28:26: Config updated in cache for guild ID: 1248436505479876700
+2024-09-04 00:28:26: Cache file updated successfully.
+2024-09-04 00:28:26: Config updated in cache for guild ID: 1008463449594007692
+2024-09-04 00:28:26: Cache file updated successfully.
+2024-09-04 00:28:26: All configurations synced successfully.
+2024-09-04 00:28:26: you are the CaPiTaN now!
+2024-09-04 00:29:47: Database connected successfully.
+2024-09-04 00:29:47: Event listener channelListeners.js loaded.
+2024-09-04 00:29:47: Event listener guildListeners.js loaded.
+2024-09-04 00:29:47: Event listener interactionCreate.js loaded.
+2024-09-04 00:29:47: Slash command ping.js loaded.
+2024-09-04 00:29:47: Logged in as Doc Bot#4136
+2024-09-04 00:29:47: Started deleting all existing application (/) commands.
+2024-09-04 00:29:47: Successfully deleted all existing application (/) commands.
+2024-09-04 00:29:47: Started refreshing application (/) commands.
+2024-09-04 00:29:48: Successfully registered application (/) commands.
+2024-09-04 00:29:48: Started syncing guilds
+2024-09-04 00:29:50: new guilds: 0, modified guilds: 0, unchanged guilds: 2
+2024-09-04 00:29:50: Started syncing channels
+2024-09-04 00:29:53: new channels: 0, modified channels: 0, unchanged channels: 18
+2024-09-04 00:29:53: Syncing configurations
+2024-09-04 00:29:53: currently not refreshing available roles in config files
+2024-09-04 00:29:53: Loading configuration for Discord ID: 1008463449594007692
+2024-09-04 00:29:53: currently not refreshing available roles in config files
+2024-09-04 00:29:53: Loading configuration for Discord ID: 1248436505479876700
+2024-09-04 00:29:53: Config updated in cache for guild ID: 1248436505479876700
+2024-09-04 00:29:53: Cache file updated successfully.
+2024-09-04 00:29:53: Config updated in cache for guild ID: 1008463449594007692
+2024-09-04 00:29:53: Cache file updated successfully.
+2024-09-04 00:29:53: All configurations synced successfully.
+2024-09-04 00:29:53: you are the CaPiTaN now!
+2024-09-04 00:33:10: Database connected successfully.
+2024-09-04 00:33:10: Event listener channelListeners.js loaded.
+2024-09-04 00:33:10: Event listener guildListeners.js loaded.
+2024-09-04 00:33:10: Event listener interactionCreate.js loaded.
+2024-09-04 00:33:10: Event listener messageCreate.js loaded.
+2024-09-04 00:33:10: Event listener messageReactions.js loaded.
+2024-09-04 00:33:10: Slash command ping.js loaded.
+2024-09-04 00:33:11: Logged in as Doc Bot#4136
+2024-09-04 00:33:11: Started deleting all existing application (/) commands.
+2024-09-04 00:33:11: Successfully deleted all existing application (/) commands.
+2024-09-04 00:33:11: Started refreshing application (/) commands.
+2024-09-04 00:33:11: Successfully registered application (/) commands.
+2024-09-04 00:33:11: Started syncing guilds
+2024-09-04 00:33:13: new guilds: 0, modified guilds: 0, unchanged guilds: 2
+2024-09-04 00:33:13: Started syncing channels
+2024-09-04 00:33:16: new channels: 0, modified channels: 0, unchanged channels: 18
+2024-09-04 00:33:16: Syncing configurations
+2024-09-04 00:33:16: currently not refreshing available roles in config files
+2024-09-04 00:33:16: Loading configuration for Discord ID: 1008463449594007692
+2024-09-04 00:33:16: currently not refreshing available roles in config files
+2024-09-04 00:33:16: Loading configuration for Discord ID: 1248436505479876700
+2024-09-04 00:33:17: Config updated in cache for guild ID: 1248436505479876700
+2024-09-04 00:33:17: Cache file updated successfully.
+2024-09-04 00:33:17: Config updated in cache for guild ID: 1008463449594007692
+2024-09-04 00:33:17: Cache file updated successfully.
+2024-09-04 00:33:17: All configurations synced successfully.
+2024-09-04 00:33:17: you are the CaPiTaN now!
+2024-09-04 00:33:31: Authorizing user for asking questions
+2024-09-04 00:33:31: Loading configuration for Discord ID: 1248436505479876700
+2024-09-04 00:33:32: userRoleIds: 1264140610391248967,1248436505479876700
+2024-09-04 00:33:32: askQuestionRoleIds: 1248436505479876700,1248437714882138195,1249979169052299314,1262339144470888482,1264140610391248967
+2024-09-04 00:33:32: User is authorized to ask questions: true
+2024-09-04 00:33:32: handling question: 1280777752299044915
+2024-09-04 00:33:32: Querying database for answer to the following question: Q: How can I suggest a book for the next reading cycle?
+A: To suggest a book for the next reading cycle, head over to the #book-suggestions channel and post your recommendation along with a brief summary and why you think it’s a good fit for the club. Members will vote on the suggestions at the end of the month.
+2024-09-04 00:33:32: Formatting question took 41 ms
+2024-09-04 00:33:32: Saving question took 107 ms
+2024-09-04 00:33:36: Embedding message content took 4609 ms
+2024-09-04 00:33:36: Saved embedding for message 1280777752299044915
+2024-09-04 00:33:36: Saving question embedding took 129 ms
+2024-09-04 00:33:37: Querying potential questions database took 169 ms
+2024-09-04 00:33:37: No results found in potential questions. Querying Messages database...
+2024-09-04 00:33:37: Querying Messages database took 183 ms
+2024-09-04 00:33:37: No results found
+2024-09-04 00:33:37: Total pipeline time: 5239 ms
+2024-09-04 00:33:42: Authorizing user for sparkle management
+2024-09-04 00:33:42: Loading configuration for Discord ID: 1248436505479876700
+2024-09-04 00:33:42: User spacebar reacted to message 1280777752299044915 with a sparkle!
+2024-09-04 00:33:42: Loading message took 1 ms
+2024-09-04 00:33:42: User roles: 1264140610391248967,1248436505479876700
+2024-09-04 00:33:42: Message management roles: 1248437714882138195,1262339144470888482
+2024-09-04 00:33:42: User is authorized for message management: false
+2024-09-04 00:33:42: Saving message took 136 ms
+2024-09-04 00:33:42: Formatting embedding
+2024-09-04 00:33:42: Getting message ID
+2024-09-04 00:33:42: Preprocessing message
+2024-09-04 00:33:42: Preprocessing message took 12 ms
+2024-09-04 00:33:42: Embedding message content
+2024-09-04 00:33:42: Embedding message content took 30 ms
+2024-09-04 00:33:42: Formatting embedding took 42 ms
+2024-09-04 00:33:42: Saving embedding took 0 ms
+2024-09-04 00:33:42: User spacebar added message 1280777752299044915 and embedding to the database!
+2024-09-04 00:33:42: Loading configuration for Discord ID: 1248436505479876700
+2024-09-04 00:33:42: replying to message reaction
+2024-09-04 00:33:42: Loading configuration for Discord ID: 1248436505479876700
+2024-09-04 00:33:42: bot_feedback: dm: false, sameChannel: false, feedbackChannel: null, emoji: ✅
+2024-09-04 00:33:57: Authorizing user for asking questions
+2024-09-04 00:33:57: Loading configuration for Discord ID: 1248436505479876700
+2024-09-04 00:33:57: userRoleIds: 1264140610391248967,1248436505479876700
+2024-09-04 00:33:57: askQuestionRoleIds: 1248436505479876700,1248437714882138195,1249979169052299314,1262339144470888482,1264140610391248967
+2024-09-04 00:33:57: User is authorized to ask questions: true
+2024-09-04 00:33:57: handling question: 1280777859522367528
+2024-09-04 00:33:57: Querying database for answer to the following question: Q: How can I suggest a book for the next reading cycle?
+A: To suggest a book for the next reading cycle, head over to the #book-suggestions channel and post your recommendation along with a brief summary and why you think it’s a good fit for the club. Members will vote on the suggestions at the end of the month.
+2024-09-04 00:33:57: Formatting question took 10 ms
+2024-09-04 00:33:57: Saving question took 112 ms
+2024-09-04 00:33:57: Embedding message content took 35 ms
+2024-09-04 00:33:57: Saved embedding for message 1280777859522367528
+2024-09-04 00:33:57: Saving question embedding took 110 ms
+2024-09-04 00:33:57: Querying potential questions database took 179 ms
+2024-09-04 00:33:57: No results found in potential questions. Querying Messages database...
+2024-09-04 00:33:58: Message ID: 1280777752299044915, Similarity Score: 1
+2024-09-04 00:33:58: Querying Messages database took 113 ms
+2024-09-04 00:33:58: Searching message in database took 115 ms
+2024-09-04 00:33:58: Total pipeline time: 676 ms
+2024-09-04 00:33:58: Replying to question: 1280777859522367528

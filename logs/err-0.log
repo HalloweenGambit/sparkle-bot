@@ -6,3 +6,8 @@
 2024-07-15 22:16:10: Platform node has already been set. Overwriting the platform with node.
 2024-07-15 22:16:12: Platform node has already been set. Overwriting the platform with node.
 2024-07-15 22:17:10: Platform node has already been set. Overwriting the platform with node.
+2024-09-04 00:28:20: Error loading event listeners: Cannot find module '/Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/dist/utils/messagesUtils' imported from /Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/dist/bot/services/ragService.js
+2024-09-04 00:29:47: Error loading event listeners: Cannot find module '/Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/dist/utils/messagesUtils' imported from /Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/dist/bot/services/ragService.js
+2024-09-04 00:33:10: Platform node has already been set. Overwriting the platform with node.
+2024-09-04 00:33:42: No API key found
+2024-09-04 00:33:42: Failed to create potential questions

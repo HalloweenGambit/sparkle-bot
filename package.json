@@ -34,7 +34,7 @@
     "migrate:dev": "NODE_ENV=development drizzle-kit migrate --config ./src/db/drizzle.config.ts",
     "migrate:prod": "NODE_ENV=production drizzle-kit migrate --config ./src/db/drizzle.config.ts",
     "start-droplet": "npm run start:prod",
-    "start:prod": "NODE_ENV=production node dist/index.js"
+    "start:prod": "NODE_ENV=production pm2 start ecosystem.config.cjs --env production"
   },
   "keywords": [],
   "author": "gamb1t",

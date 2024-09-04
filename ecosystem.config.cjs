@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'doc-bot', // Replace with your application's name
+      name: 'doc-bot', // Application's name
       script: 'dist/index.js', // Path to your main application script
       instances: 1, // Number of instances to be started
       autorestart: true, // Enable auto-restart in case of failures
