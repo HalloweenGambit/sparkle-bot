@@ -1,9 +1,9 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
-import { loadConfigData } from './configService'
-import { preProcessQuestion } from './preProcessMessageContent'
-import embedMessageContent from './embedMessageContent'
-import { PotentialQuestions } from '../../db/schema'
-import dbClient from '../../config/dbConfig'
+import { loadConfigData } from './configService.js'
+import { preProcessQuestion } from './preProcessMessageContent.js'
+import embedMessageContent from './embedMessageContent.js'
+import { PotentialQuestions } from '../../db/schema.js'
+import dbClient from '../../config/dbConfig.js'
 import { Snowflake } from 'discord.js'
 
 const extractJsonArray = (text: string): string => {

@@ -3,8 +3,8 @@
 // check the user permissions
 
 import { Channel, MessageReaction, TextChannel } from 'discord.js'
-import { ConfigData } from '../../types'
-import { loadConfigData } from './configService'
+import { ConfigData } from '../../types.js'
+import { loadConfigData } from './configService.js'
 
 // check if the message is already saved
 export const handleAddSparkle = async (reaction, user) => {

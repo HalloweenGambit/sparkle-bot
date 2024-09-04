@@ -1,12 +1,12 @@
 import { Message } from 'discord.js'
-import { formatQuestion } from '../../utils/messagesUtils'
-import { saveQuestion, saveQuestionEmbedding } from './questionService'
-import embedMessageContent from './embedMessageContent'
-import queryMessageDatabase from './queryMessageDatabase'
-import dbClient from '../../config/dbConfig'
-import { Messages } from '../../db/schema'
+import { formatQuestion } from '../../utils/messagesUtils.js'
+import { saveQuestion, saveQuestionEmbedding } from './questionService.js'
+import embedMessageContent from './embedMessageContent.js'
+import queryMessageDatabase from './queryMessageDatabase.js'
+import dbClient from '../../config/dbConfig.js'
+import { Messages } from '../../db/schema.js'
 import { eq } from 'drizzle-orm'
-import { queryPotentialQuestions } from './queryPotentialQuestions'
+import { queryPotentialQuestions } from './queryPotentialQuestions.js'
 // RAG query pipeline
 export const queryPipeline = async (message: Message) => {
   console.log(

@@ -1,5 +1,5 @@
 import { Collection, Snowflake } from 'discord.js'
-import { Servers, Channels, Messages } from './db/schema'
+import { Servers, Channels, Messages } from './db/schema.js'
 // types.ts
 export type queryServers = typeof Servers.$inferSelect
 export type queryChannel = typeof Channels.$inferSelect

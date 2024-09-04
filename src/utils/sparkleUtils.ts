@@ -4,9 +4,9 @@ import {
   loadMessage,
   saveMessageEmbedding,
 } from './messagesUtils'
-import { deleteMessage, saveMessage } from '../bot/services/messageService'
+import { deleteMessage, saveMessage } from '../bot/services/messageService.js'
 import { Role } from 'discord.js'
-import { loadConfigData } from '../bot/services/configService'
+import { loadConfigData } from '../bot/services/configService.js'
 
 // !correct types
 

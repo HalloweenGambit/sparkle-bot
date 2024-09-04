@@ -2,7 +2,7 @@ import {
   createPotentialQuestions,
   formatPotentialQuestion,
   savePotentialQuestions,
-} from '../bot/services/potentialQuestionService'
+} from '../bot/services/potentialQuestionService.js'
 
 export const managePotentialQuestions = async (reaction) => {
   try {
