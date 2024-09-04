@@ -67,6 +67,15 @@ export const createPotentialQuestions = async (
   }
 }
 
+export const savePotentialQuestions = async (formattedQuestions: any[]) => {
+  try {
+    const db = await dbClient
+    await db.insert(PotentialQuestions).values(formattedQuestions).returning()
+  } catch (error) {
+    console.error('Error saving potential questions:', error)
+  }
+}
+
 export const formatPotentialQuestion = async (
   question: string,
   messageId: string,
@@ -81,14 +90,5 @@ export const formatPotentialQuestion = async (
     lemmas,
     tokens,
     embedding,
-  }
-}
-
-export const savePotentialQuestions = async (formattedQuestions: any[]) => {
-  try {
-    const db = await dbClient
-    await db.insert(PotentialQuestions).values(formattedQuestions).returning()
-  } catch (error) {
-    console.error('Error saving potential questions:', error)
   }
 }
