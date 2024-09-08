@@ -140,59 +140,59 @@
     "api_key": null
   },
   "1263234293820559460": {
-    "server_id": "1263234293820559460",
-    "server_name": "Development Station",
     "roles": {
       "all_roles": [
         {
+          "isAdmin": false,
           "role_id": "1263234293820559460",
           "role_name": "@everyone",
-          "role_permissions": "2248473465835073",
-          "isAdmin": false
+          "role_permissions": "2248473465835073"
         },
         {
+          "isAdmin": true,
           "role_id": "1263234632774582316",
           "role_name": "Great Scott! -Devmode",
-          "role_permissions": "1342178440",
-          "isAdmin": true
+          "role_permissions": "1342178440"
         },
         {
+          "isAdmin": true,
           "role_id": "1264008944926588999",
           "role_name": "Administrator",
-          "role_permissions": "8",
-          "isAdmin": true
+          "role_permissions": "8"
         }
       ],
       "permissions": {
-        "can_manage_messages": [
+        "can_ask_questions": [
+          "1263234293820559460",
           "1263234632774582316",
           "1264008944926588999"
         ],
-        "can_ask_questions": [
-          "1263234293820559460",
+        "can_manage_messages": [
           "1263234632774582316",
           "1264008944926588999"
         ]
       }
     },
+    "api_key": "AIzaSyCwJ9-9P-eyv1tNBgXQDoO-jCahKCohaE4",
     "channels": {
-      "message_management": [
+      "question_listener": [
         "1275630361551835197",
         "1275630712220946452",
         "1275636562406670366"
       ],
-      "question_listener": [
+      "message_management": [
         "1275630361551835197",
         "1275630712220946452",
         "1275636562406670366"
       ]
     },
+    "server_id": "1263234293820559460",
+    "server_name": "Development Station",
     "bot_feedback": {
       "dm": false,
+      "emoji": "✅",
       "same_channel": false,
-      "feedback_channel": null,
-      "emoji": "✅"
-    },
-    "api_key": null
+      "feedback_channel": ""
+    }
   }
 }
