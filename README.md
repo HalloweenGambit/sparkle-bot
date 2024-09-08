@@ -56,7 +56,7 @@ This Discord bot leverages **Retrieval-Augmented Generation (RAG)** and **Gemini
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/discord-rag-bot.git
+   git clone https://github.com/HalloweenGambit/sparkle-bot.git
    cd discord-rag-bot
    ```
 

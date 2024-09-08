@@ -134,3 +134,421 @@ A: To suggest a book for the next reading cycle, head over to the #book-suggesti
 2024-09-04 00:33:58: Searching message in database took 115 ms
 2024-09-04 00:33:58: Total pipeline time: 676 ms
 2024-09-04 00:33:58: Replying to question: 1280777859522367528
+2024-09-08 02:00:18: Database connected successfully.
+2024-09-08 02:00:18: Event listener channelListeners.js loaded.
+2024-09-08 02:00:18: Event listener guildListeners.js loaded.
+2024-09-08 02:00:18: Event listener interactionCreate.js loaded.
+2024-09-08 02:00:19: Event listener messageCreate.js loaded.
+2024-09-08 02:00:19: Event listener messageReactions.js loaded.
+2024-09-08 02:00:19: Slash command ping.js loaded.
+2024-09-08 02:00:19: Logged in as Doc Bot#4136
+2024-09-08 02:00:19: Started deleting all existing application (/) commands.
+2024-09-08 02:00:19: Successfully deleted all existing application (/) commands.
+2024-09-08 02:00:19: Started refreshing application (/) commands.
+2024-09-08 02:00:20: Successfully registered application (/) commands.
+2024-09-08 02:00:20: Started syncing guilds
+2024-09-08 02:00:22: No Stored guild with 1008463449594007692 was found
+2024-09-08 02:00:22: No Stored guild with 1263234293820559460 was found
+2024-09-08 02:00:22: No Stored guild with 1281723163847163945 was found
+2024-09-08 02:00:22: new guilds: 3, modified guilds: 0, unchanged guilds: 0
+2024-09-08 02:00:22: Started syncing channels
+2024-09-08 02:00:23: No Stored channel with 1008463450197995632 was found
+2024-09-08 02:00:23: No Stored channel with 1008463450197995633 was found
+2024-09-08 02:00:23: Inserted channel 1008463450197995632:Text Channels
+2024-09-08 02:00:23: No Stored channel with 1008463450197995634 was found
+2024-09-08 02:00:23: No Stored channel with 1008463450197995635 was found
+2024-09-08 02:00:23: Inserted channel 1008463450197995634:clips-and-highlights
+2024-09-08 02:00:23: No Stored channel with 1008463450197995636 was found
+2024-09-08 02:00:23: Inserted channel 1008463450197995633:general
+2024-09-08 02:00:23: No Stored channel with 1008463450197995637 was found
+2024-09-08 02:00:23: Inserted channel 1008463450197995636:Lobby
+2024-09-08 02:00:23: Inserted channel 1008463450197995637:Gaming
+2024-09-08 02:00:23: No Stored channel with 1247838939318976522 was found
+2024-09-08 02:00:23: No Stored channel with 1248375761900015649 was found
+2024-09-08 02:00:23: Inserted channel 1247838939318976522:modlog
+2024-09-08 02:00:23: Inserted channel 1008463450197995635:Voice Channels
+2024-09-08 02:00:23: No Stored channel with 1252089177823117394 was found
+2024-09-08 02:00:23: Inserted channel 1248375761900015649:dev
+2024-09-08 02:00:24: No Stored channel with 1257376898359758858 was found
+2024-09-08 02:00:24: Inserted channel 1252089177823117394:meta-builds
+2024-09-08 02:00:24: Inserted channel 1257376898359758858:miami-by-night
+2024-09-08 02:00:24: No Stored channel with 1259302989852708927 was found
+2024-09-08 02:00:24: Inserted channel 1259302989852708927:talk-to-doc-brown
+2024-09-08 02:00:24: No Stored channel with 1263234293820559462 was found
+2024-09-08 02:00:24: No Stored channel with 1263234293820559463 was found
+2024-09-08 02:00:24: Inserted channel 1263234293820559462:Text Channels
+2024-09-08 02:00:24: No Stored channel with 1263234293820559465 was found
+2024-09-08 02:00:24: Inserted channel 1263234293820559463:Voice Channels
+2024-09-08 02:00:24: No Stored channel with 1275636562406670366 was found
+2024-09-08 02:00:24: Inserted channel 1263234293820559465:General
+2024-09-08 02:00:24: No Stored channel with 1281326973364211742 was found
+2024-09-08 02:00:24: Inserted channel 1275636562406670366:general
+2024-09-08 02:00:24: No Stored channel with 1281327058881871882 was found
+2024-09-08 02:00:24: Inserted channel 1281326973364211742:doc-bot-faqs
+2024-09-08 02:00:25: Inserted channel 1281327058881871882:test-questions
+2024-09-08 02:00:25: No Stored channel with 1281723163847163946 was found
+2024-09-08 02:00:25: No Stored channel with 1281723163847163947 was found
+2024-09-08 02:00:25: Inserted channel 1281723163847163946:Text Channels
+2024-09-08 02:00:25: No Stored channel with 1281723163847163948 was found
+2024-09-08 02:00:25: Inserted channel 1281723163847163947:Voice Channels
+2024-09-08 02:00:25: No Stored channel with 1281723163847163949 was found
+2024-09-08 02:00:25: Inserted channel 1281723163847163948:general
+2024-09-08 02:00:25: Inserted channel 1281723163847163949:General
+2024-09-08 02:00:25: new channels: 21, modified channels: 0, unchanged channels: 0
+2024-09-08 02:00:25: Syncing configurations
+2024-09-08 02:00:25: No config found for guild ID: 1008463449594007692
+2024-09-08 02:00:25: Creating configuration for Discord ID: 1008463449594007692
+2024-09-08 02:00:26: role id: 1008463449594007692
+        role name: @everyone
+        role permissions: 2222085186637377
+        is admin: false
+2024-09-08 02:00:26: role id: 1247740308188434523
+        role name: MOD
+        role permissions: 982959099740151
+        is admin: false
+2024-09-08 02:00:26: role id: 1262564030288232560
+        role name: Doc Bot
+        role permissions: 8
+        is admin: true
+2024-09-08 02:00:26: role id: 1267952891918946338
+        role name: Dyno
+        role permissions: 1513962695863
+        is admin: false
+2024-09-08 02:00:26: channel type: 4
+2024-09-08 02:00:26: channel type: 0
+2024-09-08 02:00:26: channel type: 0
+2024-09-08 02:00:26: channel type: 4
+2024-09-08 02:00:26: channel type: 2
+2024-09-08 02:00:26: channel type: 2
+2024-09-08 02:00:26: channel type: 0
+2024-09-08 02:00:26: channel type: 0
+2024-09-08 02:00:26: channel type: 0
+2024-09-08 02:00:26: channel type: 15
+2024-09-08 02:00:26: channel type: 0
+2024-09-08 02:00:26: currently not refreshing available roles in config files
+2024-09-08 02:00:26: Loading configuration for Discord ID: 1008463449594007692
+2024-09-08 02:00:26: Config updated in cache for guild ID: 1008463449594007692
+2024-09-08 02:00:26: Cache file updated successfully.
+2024-09-08 02:00:26: No config found for guild ID: 1263234293820559460
+2024-09-08 02:00:26: Creating configuration for Discord ID: 1263234293820559460
+2024-09-08 02:00:26: role id: 1263234293820559460
+        role name: @everyone
+        role permissions: 2248473465835073
+        is admin: false
+2024-09-08 02:00:26: role id: 1263234632774582316
+        role name: Great Scott! -Devmode
+        role permissions: 1342178440
+        is admin: true
+2024-09-08 02:00:26: role id: 1264008944926588999
+        role name: Administrator
+        role permissions: 8
+        is admin: true
+2024-09-08 02:00:26: role id: 1281328199350882317
+        role name: Doc Bot
+        role permissions: 8
+        is admin: true
+2024-09-08 02:00:26: channel type: 4
+2024-09-08 02:00:26: channel type: 4
+2024-09-08 02:00:26: channel type: 2
+2024-09-08 02:00:26: channel type: 0
+2024-09-08 02:00:26: channel type: 0
+2024-09-08 02:00:26: channel type: 0
+2024-09-08 02:00:26: currently not refreshing available roles in config files
+2024-09-08 02:00:26: Loading configuration for Discord ID: 1263234293820559460
+2024-09-08 02:00:26: Config updated in cache for guild ID: 1263234293820559460
+2024-09-08 02:00:26: Cache file updated successfully.
+2024-09-08 02:00:26: No config found for guild ID: 1281723163847163945
+2024-09-08 02:00:26: Creating configuration for Discord ID: 1281723163847163945
+2024-09-08 02:00:26: role id: 1281723163847163945
+        role name: @everyone
+        role permissions: 2248473465835073
+        is admin: false
+2024-09-08 02:00:26: role id: 1281723210542616642
+        role name: Doc Bot
+        role permissions: 8
+        is admin: true
+2024-09-08 02:00:27: channel type: 4
+2024-09-08 02:00:27: channel type: 4
+2024-09-08 02:00:27: channel type: 0
+2024-09-08 02:00:27: channel type: 2
+2024-09-08 02:00:27: currently not refreshing available roles in config files
+2024-09-08 02:00:27: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:00:27: New config added to cache for guild ID: 1281723163847163945
+2024-09-08 02:00:27: Cache file updated successfully.
+2024-09-08 02:00:27: All configurations synced successfully.
+2024-09-08 02:00:27: you are the CaPiTaN now!
+2024-09-08 02:00:45: Authorizing user for sparkle management
+2024-09-08 02:00:45: Loading configuration for Discord ID: 1263234293820559460
+2024-09-08 02:00:45: User spacebar reacted to message 1282249239090565235 with a sparkle!
+2024-09-08 02:00:45: Loading message took 2 ms
+2024-09-08 02:00:45: User roles: 1264008944926588999,1263234293820559460
+2024-09-08 02:00:45: Message management roles: 1263234632774582316,1264008944926588999,1281328199350882317
+2024-09-08 02:00:45: User is authorized for message management: true
+2024-09-08 02:00:45: Saving message took 149 ms
+2024-09-08 02:00:45: Formatting embedding
+2024-09-08 02:00:45: Getting message ID
+2024-09-08 02:00:45: Preprocessing message
+2024-09-08 02:00:45: Preprocessing message took 4 ms
+2024-09-08 02:00:45: Embedding message content
+2024-09-08 02:00:50: Embedding message content took 5048 ms
+2024-09-08 02:00:50: Formatting embedding took 5054 ms
+2024-09-08 02:00:50: Saving embedding took 1 ms
+2024-09-08 02:00:50: User spacebar added message 1282249239090565235 and embedding to the database!
+2024-09-08 02:00:50: Loading configuration for Discord ID: 1263234293820559460
+2024-09-08 02:00:50: replying to message reaction
+2024-09-08 02:00:50: Loading configuration for Discord ID: 1263234293820559460
+2024-09-08 02:00:50: bot_feedback: dm: false, sameChannel: false, feedbackChannel: null, emoji: ✅
+2024-09-08 02:01:37: Authorizing user for asking questions
+2024-09-08 02:01:37: Loading configuration for Discord ID: 1263234293820559460
+2024-09-08 02:01:37: userRoleIds: 1264008944926588999,1263234293820559460
+2024-09-08 02:01:37: askQuestionRoleIds: 1263234293820559460,1263234632774582316,1264008944926588999,1281328199350882317
+2024-09-08 02:01:37: User is authorized to ask questions: true
+2024-09-08 02:01:37: handling question: 1282249474739277878
+2024-09-08 02:01:37: Querying database for answer to the following question: sdv?
+2024-09-08 02:01:37: Formatting question took 15 ms
+2024-09-08 02:01:38: Saving question took 111 ms
+2024-09-08 02:01:38: Embedding message content took 75 ms
+2024-09-08 02:01:38: Saved embedding for message 1282249474739277878
+2024-09-08 02:01:38: Saving question embedding took 128 ms
+2024-09-08 02:01:38: Querying potential questions database took 175 ms
+2024-09-08 02:01:38: No results found in potential questions. Querying Messages database...
+2024-09-08 02:01:38: Message ID: 1282249239090565235, Similarity Score: 1
+2024-09-08 02:01:38: Querying Messages database took 169 ms
+2024-09-08 02:01:38: Searching message in database took 114 ms
+2024-09-08 02:01:38: Total pipeline time: 788 ms
+2024-09-08 02:01:38: Replying to question: 1282249474739277878
+2024-09-08 02:01:41: Authorizing user for sparkle management
+2024-09-08 02:01:41: Loading configuration for Discord ID: 1263234293820559460
+2024-09-08 02:01:41: User roles: 1264008944926588999,1263234293820559460
+2024-09-08 02:01:41: Message management roles: 1263234632774582316,1264008944926588999,1281328199350882317
+2024-09-08 02:01:41: User is authorized for message management: true
+2024-09-08 02:01:41: Deleting embedding took 122 ms
+2024-09-08 02:01:41: Deleting message took 110 ms
+2024-09-08 02:01:41: User spacebar removed 1282249239090565235 from the database!
+2024-09-08 02:01:41: Removed bot's ✅ reaction
+2024-09-08 02:35:20: guild: 3, spacebar's server has been marked as inactive :(
+2024-09-08 02:35:58: Creating configuration for Discord ID: 1281723163847163945
+2024-09-08 02:35:58: role id: 1281723163847163945
+        role name: @everyone
+        role permissions: 2248473465835073
+        is admin: false
+2024-09-08 02:35:58: role id: 1282258114837745740
+        role name: Doc Bot
+        role permissions: 8
+        is admin: true
+2024-09-08 02:35:58: channel type: 4
+2024-09-08 02:35:58: channel type: 4
+2024-09-08 02:35:58: channel type: 0
+2024-09-08 02:35:58: channel type: 2
+2024-09-08 02:36:47: Authorizing user for sparkle management
+2024-09-08 02:36:47: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:36:47: User spacebar reacted to message 1282258304718082140 with a sparkle!
+2024-09-08 02:36:47: Loading message took 7 ms
+2024-09-08 02:36:47: User roles: 1281723163847163945
+2024-09-08 02:36:47: Message management roles: 1282258114837745740
+2024-09-08 02:36:47: User is authorized for message management: false
+2024-09-08 02:36:47: Saving message took 137 ms
+2024-09-08 02:36:47: Formatting embedding
+2024-09-08 02:36:47: Getting message ID
+2024-09-08 02:36:47: Preprocessing message
+2024-09-08 02:36:47: Preprocessing message took 7 ms
+2024-09-08 02:36:47: Embedding message content
+2024-09-08 02:36:47: Embedding message content took 50 ms
+2024-09-08 02:36:47: Formatting embedding took 58 ms
+2024-09-08 02:36:47: Saving embedding took 0 ms
+2024-09-08 02:36:47: User spacebar added message 1282258304718082140 and embedding to the database!
+2024-09-08 02:36:47: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:36:47: replying to message reaction
+2024-09-08 02:36:47: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:36:47: bot_feedback: dm: false, sameChannel: false, feedbackChannel: null, emoji: ✅
+2024-09-08 02:37:02: Authorizing user for asking questions
+2024-09-08 02:37:02: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:37:02: userRoleIds: 1281723163847163945
+2024-09-08 02:37:02: askQuestionRoleIds: 1281723163847163945,1282258114837745740
+2024-09-08 02:37:02: User is authorized to ask questions: true
+2024-09-08 02:37:02: handling question: 1282258384292282468
+2024-09-08 02:37:02: Querying database for answer to the following question: testing?
+2024-09-08 02:37:02: Formatting question took 2 ms
+2024-09-08 02:37:02: Saving question took 123 ms
+2024-09-08 02:37:02: Embedding message content took 40 ms
+2024-09-08 02:37:02: Saved embedding for message 1282258384292282468
+2024-09-08 02:37:02: Saving question embedding took 146 ms
+2024-09-08 02:37:02: Querying potential questions database took 188 ms
+2024-09-08 02:37:02: No results found in potential questions. Querying Messages database...
+2024-09-08 02:37:02: Message ID: 1282258304718082140, Similarity Score: 1
+2024-09-08 02:37:02: Querying Messages database took 165 ms
+2024-09-08 02:37:02: Searching message in database took 111 ms
+2024-09-08 02:37:02: Total pipeline time: 778 ms
+2024-09-08 02:37:02: Replying to question: 1282258384292282468
+2024-09-08 02:37:24: Authorizing user for sparkle management
+2024-09-08 02:37:24: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:37:24: User roles: 1281723163847163945
+2024-09-08 02:37:24: Message management roles: 1282258114837745740
+2024-09-08 02:37:24: User is authorized for message management: false
+2024-09-08 02:37:24: Deleting embedding took 178 ms
+2024-09-08 02:37:24: Deleting message took 112 ms
+2024-09-08 02:37:24: User spacebar removed 1282258304718082140 from the database!
+2024-09-08 02:37:24: Removed bot's ✅ reaction
+2024-09-08 02:38:49: Authorizing user for sparkle management
+2024-09-08 02:38:49: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:38:49: User spacebar reacted to message 1282258821091295314 with a sparkle!
+2024-09-08 02:38:49: Loading message took 4 ms
+2024-09-08 02:38:49: User roles: 1281723163847163945
+2024-09-08 02:38:49: Message management roles: 1282258114837745740
+2024-09-08 02:38:49: User is authorized for message management: false
+2024-09-08 02:38:49: Saving message took 129 ms
+2024-09-08 02:38:49: Formatting embedding
+2024-09-08 02:38:49: Getting message ID
+2024-09-08 02:38:49: Preprocessing message
+2024-09-08 02:38:49: Preprocessing message took 3 ms
+2024-09-08 02:38:49: Embedding message content
+2024-09-08 02:38:49: Embedding message content took 51 ms
+2024-09-08 02:38:49: Formatting embedding took 55 ms
+2024-09-08 02:38:49: Saving embedding took 0 ms
+2024-09-08 02:38:49: User spacebar added message 1282258821091295314 and embedding to the database!
+2024-09-08 02:38:49: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:38:50: Extracted JSON array: [
+  "What is the purpose of this test?",
+  "Are you currently testing something?",
+  "What are you testing right now?",
+  "Is this a test?",
+  "Is this just a test?",
+  "Can you tell me more about what you're testing?",
+  "What are you testing and why?",
+  "What is being tested?",
+  "Is this a test environment?",
+  "What are the test results?"
+]
+2024-09-08 02:38:50: Potential questions: [
+  'What is the purpose of this test?',
+  'Are you currently testing something?',
+  'What are you testing right now?',
+  'Is this a test?',
+  'Is this just a test?',
+  "Can you tell me more about what you're testing?",
+  'What are you testing and why?',
+  'What is being tested?',
+  'Is this a test environment?',
+  'What are the test results?'
+]
+2024-09-08 02:38:51: Successfully created & saved potential questions
+2024-09-08 02:38:51: replying to message reaction
+2024-09-08 02:38:51: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:38:51: bot_feedback: dm: false, sameChannel: false, feedbackChannel: , emoji: ✅
+2024-09-08 02:39:05: Authorizing user for sparkle management
+2024-09-08 02:39:05: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:39:05: Deleting embedding took 114 ms
+2024-09-08 02:39:05: User roles: 1281723163847163945
+2024-09-08 02:39:05: Message management roles: 1282258114837745740
+2024-09-08 02:39:05: User is authorized for message management: false
+2024-09-08 02:39:06: Removed bot's ✅ reaction
+2024-09-08 02:39:12: Authorizing user for sparkle management
+2024-09-08 02:39:12: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:39:12: User spacebar reacted to message 1282258821091295314 with a sparkle!
+2024-09-08 02:39:12: Loading message took 3 ms
+2024-09-08 02:39:12: User roles: 1281723163847163945
+2024-09-08 02:39:12: Message management roles: 1282258114837745740
+2024-09-08 02:39:12: User is authorized for message management: false
+2024-09-08 02:39:12: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:39:14: Extracted JSON array: [
+  "What is the word being used to test something?",
+  "Can you give me an example of a word used for testing purposes?",
+  "What word is commonly used to indicate a trial run or experiment?",
+  "What is a short word that signifies a trial or evaluation?",
+  "What word is often used to describe a process of checking for errors or functionality?",
+  "What is a simple word that means to examine or evaluate something?",
+  "If I want to check something out, what word can I use?",
+  "What word is used to describe a preliminary examination or assessment?",
+  "What is a basic word that implies trying something out?",
+  "What word can be used to indicate a process of assessing or verifying something?"
+]
+2024-09-08 02:39:14: Potential questions: [
+  'What is the word being used to test something?',
+  'Can you give me an example of a word used for testing purposes?',
+  'What word is commonly used to indicate a trial run or experiment?',
+  'What is a short word that signifies a trial or evaluation?',
+  'What word is often used to describe a process of checking for errors or functionality?',
+  'What is a simple word that means to examine or evaluate something?',
+  'If I want to check something out, what word can I use?',
+  'What word is used to describe a preliminary examination or assessment?',
+  'What is a basic word that implies trying something out?',
+  'What word can be used to indicate a process of assessing or verifying something?'
+]
+2024-09-08 02:39:14: Successfully created & saved potential questions
+2024-09-08 02:39:14: replying to message reaction
+2024-09-08 02:39:14: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:39:15: bot_feedback: dm: false, sameChannel: false, feedbackChannel: , emoji: ✅
+2024-09-08 02:40:57: Authorizing user for sparkle management
+2024-09-08 02:40:57: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:40:57: Deleting embedding took 112 ms
+2024-09-08 02:40:57: User roles: 1281723163847163945
+2024-09-08 02:40:57: Message management roles: 1282258114837745740
+2024-09-08 02:40:57: User is authorized for message management: false
+2024-09-08 02:40:58: Removed bot's ✅ reaction
+2024-09-08 02:41:03: Authorizing user for sparkle management
+2024-09-08 02:41:03: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:41:03: User spacebar reacted to message 1282259381336932353 with a sparkle!
+2024-09-08 02:41:03: Loading message took 1 ms
+2024-09-08 02:41:03: User roles: 1281723163847163945
+2024-09-08 02:41:03: Message management roles: 1282258114837745740
+2024-09-08 02:41:03: User is authorized for message management: false
+2024-09-08 02:41:03: Saving message took 118 ms
+2024-09-08 02:41:03: Formatting embedding
+2024-09-08 02:41:03: Getting message ID
+2024-09-08 02:41:03: Preprocessing message
+2024-09-08 02:41:03: Preprocessing message took 2 ms
+2024-09-08 02:41:03: Embedding message content
+2024-09-08 02:41:03: Embedding message content took 48 ms
+2024-09-08 02:41:03: Formatting embedding took 50 ms
+2024-09-08 02:41:03: Saving embedding took 0 ms
+2024-09-08 02:41:03: User spacebar added message 1282259381336932353 and embedding to the database!
+2024-09-08 02:41:03: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:41:04: replying to message reaction
+2024-09-08 02:41:04: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:41:04: bot_feedback: dm: false, sameChannel: false, feedbackChannel: , emoji: ✅
+2024-09-08 02:54:17: Authorizing user for sparkle management
+2024-09-08 02:54:17: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:54:17: User spacebar reacted to message 1282262712214093960 with a sparkle!
+2024-09-08 02:54:17: Loading message took 3 ms
+2024-09-08 02:54:18: User roles: 1281723163847163945
+2024-09-08 02:54:18: Message management roles: 1282258114837745740
+2024-09-08 02:54:18: User is authorized for message management: false
+2024-09-08 02:54:18: Saving message took 531 ms
+2024-09-08 02:54:18: Formatting embedding
+2024-09-08 02:54:18: Getting message ID
+2024-09-08 02:54:18: Preprocessing message
+2024-09-08 02:54:18: Preprocessing message took 1 ms
+2024-09-08 02:54:18: Embedding message content
+2024-09-08 02:54:18: Embedding message content took 32 ms
+2024-09-08 02:54:18: Formatting embedding took 34 ms
+2024-09-08 02:54:18: Saving embedding took 0 ms
+2024-09-08 02:54:18: User spacebar added message 1282262712214093960 and embedding to the database!
+2024-09-08 02:54:18: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:54:19: Extracted JSON array: [
+  "What is the current status of the system?",
+  "Is the system working properly?",
+  "Can you confirm if the system is functioning as expected?",
+  "Are there any issues with the system at the moment?",
+  "Is the system undergoing any tests?",
+  "What is the current state of the system's functionality?",
+  "How can I determine if the system is operational?",
+  "Is the system ready for use?",
+  "Is the system in a stable condition?",
+  "Are there any known bugs or problems with the system?"
+]
+2024-09-08 02:54:19: Potential questions: [
+  'What is the current status of the system?',
+  'Is the system working properly?',
+  'Can you confirm if the system is functioning as expected?',
+  'Are there any issues with the system at the moment?',
+  'Is the system undergoing any tests?',
+  "What is the current state of the system's functionality?",
+  'How can I determine if the system is operational?',
+  'Is the system ready for use?',
+  'Is the system in a stable condition?',
+  'Are there any known bugs or problems with the system?'
+]
+2024-09-08 02:54:19: Successfully created & saved potential questions
+2024-09-08 02:54:19: replying to message reaction
+2024-09-08 02:54:19: Loading configuration for Discord ID: 1281723163847163945
+2024-09-08 02:54:20: bot_feedback: dm: false, sameChannel: false, feedbackChannel: , emoji: ✅

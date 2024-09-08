@@ -7,6 +7,7 @@ import {
 import discordClient from '../../config/discordConfig.js'
 import { handleAddSparkle } from '../services/handleSparkle.js'
 import { managePotentialQuestions } from '../../utils/potentialQuestionsUtils.js'
+import { deletePotentialQuestions } from '../services/potentialQuestionService.js'
 
 // TODOLATER: decide if we want to delete the message or just remove the reaction
 // TODOLATER: add a cooldown to prevent spamming the database
@@ -42,6 +43,7 @@ export default (client: Client) => {
         return
       }
 
+      // await deletePotentialQuestions(reaction.message.id)
       await deleteSparkleMessage(reaction, user)
       const replyToRemoveSparkle = async (reaction) => {
         try {

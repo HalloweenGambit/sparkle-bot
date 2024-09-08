@@ -11,3 +11,97 @@
 2024-09-04 00:33:10: Platform node has already been set. Overwriting the platform with node.
 2024-09-04 00:33:42: No API key found
 2024-09-04 00:33:42: Failed to create potential questions
+2024-09-08 02:00:18: Platform node has already been set. Overwriting the platform with node.
+2024-09-08 02:00:50: No API key found
+2024-09-08 02:00:50: Failed to create potential questions
+2024-09-08 02:35:58: Error creating guild: PostgresError: duplicate key value violates unique constraint "servers_discord_id_unique"
+    at ErrorResponse (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/postgres/src/connection.js:474:6)
+    at Socket.data (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/postgres/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:190:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '23505',
+  detail: 'Key (discord_id)=(1281723163847163945) already exists.',
+  schema_name: 'public',
+  table_name: 'servers',
+  constraint_name: 'servers_discord_id_unique',
+  file: 'nbtinsert.c',
+  line: '664',
+  routine: '_bt_check_unique'
+}
+2024-09-08 02:36:47: No API key found
+2024-09-08 02:36:47: Failed to create potential questions
+2024-09-08 02:39:05: Error handling messageReactionRemove event: PostgresError: update or delete on table "messages" violates foreign key constraint "potential_questions_message_id_messages_discord_id_fk" on table "potential_questions"
+    at ErrorResponse (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/postgres/src/connection.js:474:6)
+    at Socket.data (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/postgres/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:190:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '23503',
+  detail: 'Key (discord_id)=(1282258821091295314) is still referenced from table "potential_questions".',
+  schema_name: 'public',
+  table_name: 'potential_questions',
+  constraint_name: 'potential_questions_message_id_messages_discord_id_fk',
+  file: 'ri_triggers.c',
+  line: '2609',
+  routine: 'ri_ReportViolation'
+}
+2024-09-08 02:39:12: Error saving message: PostgresError: duplicate key value violates unique constraint "messages_discord_id_unique"
+    at ErrorResponse (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/postgres/src/connection.js:474:6)
+    at Socket.data (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/postgres/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:190:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '23505',
+  detail: 'Key (discord_id)=(1282258821091295314) already exists.',
+  schema_name: 'public',
+  table_name: 'messages',
+  constraint_name: 'messages_discord_id_unique',
+  file: 'nbtinsert.c',
+  line: '664',
+  routine: '_bt_check_unique'
+}
+2024-09-08 02:39:12: Error handling addSparkle { error: 'Failed saving message. Please try again later.' }
+2024-09-08 02:40:57: Error handling messageReactionRemove event: PostgresError: update or delete on table "messages" violates foreign key constraint "potential_questions_message_id_messages_discord_id_fk" on table "potential_questions"
+    at ErrorResponse (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/postgres/src/connection.js:474:6)
+    at Socket.data (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/postgres/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:190:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '23503',
+  detail: 'Key (discord_id)=(1282258821091295314) is still referenced from table "potential_questions".',
+  schema_name: 'public',
+  table_name: 'potential_questions',
+  constraint_name: 'potential_questions_message_id_messages_discord_id_fk',
+  file: 'ri_triggers.c',
+  line: '2609',
+  routine: 'ri_ReportViolation'
+}
+2024-09-08 02:41:04: Error creating potential questions: GoogleGenerativeAIError: [400 Bad Request] API key not valid. Please pass a valid API key. [{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"API_KEY_INVALID","domain":"googleapis.com","metadata":{"service":"generativelanguage.googleapis.com"}}]
+    at makeRequest (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/@google/generative-ai/dist/index.mjs:210:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async generateContent (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/node_modules/@google/generative-ai/dist/index.mjs:534:22)
+    at async createPotentialQuestions (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/dist/bot/services/potentialQuestionService.js:30:21)
+    at async managePotentialQuestions (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/dist/utils/potentialQuestionsUtils.js:8:36)
+    at async Client.<anonymous> (file:///Users/gamb1t/Desktop/0xJariel/Code/projects/gemini-bot/dist/bot/eventListeners/messageReactions.js:19:13)
+2024-09-08 02:41:04: Failed to create potential questions

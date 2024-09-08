@@ -2,9 +2,10 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 import { loadConfigData } from './configService.js'
 import { preProcessQuestion } from './preProcessMessageContent.js'
 import embedMessageContent from './embedMessageContent.js'
-import { PotentialQuestions } from '../../db/schema.js'
+import { Messages, PotentialQuestions } from '../../db/schema.js'
 import dbClient from '../../config/dbConfig.js'
 import { Snowflake } from 'discord.js'
+import { eq } from 'drizzle-orm'
 
 const extractJsonArray = (text: string): string => {
   const match = text.match(/\[.*?\]/s)
@@ -21,6 +22,7 @@ export const createPotentialQuestions = async (
 ) => {
   try {
     const configData = await loadConfigData(guildId)
+    console.log(configData)
     const apiKey = configData?.api_key
 
     if (!apiKey) {
@@ -73,6 +75,15 @@ export const savePotentialQuestions = async (formattedQuestions: any[]) => {
     await db.insert(PotentialQuestions).values(formattedQuestions).returning()
   } catch (error) {
     console.error('Error saving potential questions:', error)
+  }
+}
+
+export const deletePotentialQuestions = async (messageId: Snowflake) => {
+  try {
+    const db = await dbClient
+    await db.delete(PotentialQuestions).where(eq(Messages.discordId, messageId))
+  } catch (error) {
+    console.error('Error deleting potential questions:', error)
   }
 }
 
